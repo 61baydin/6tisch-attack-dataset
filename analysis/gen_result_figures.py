@@ -6,7 +6,6 @@ python-docx Word report) side-by-side:
 
   feature_signature.{pdf,png}   per-attack Atk vs Nrm feature contrast
   placement_heatmap.{pdf,png}   F1 heatmap by (attack, placement)
-  vic_pdr_bars.{pdf,png}        Attacker / Victim / Bystander PDR
 """
 from pathlib import Path
 import matplotlib
@@ -23,7 +22,6 @@ def fig_feature_signature():
     """Atk vs Nrm bars for AtkPpm/Ctrl/Rank/Buf across 7 attacks."""
     attacks = ['Blackhole', 'Decreased\nRank', 'DIS\nFlooding', 'App\nFlooding',
                'Shared\nCell', '6P Cell\nExh.', 'TSCH\nDesync.']
-    # From damage_analysis (21-mote, Phase 1 chain)
     atk_ppm  = [3.47,   3.99,   0.00,   14.93,  0.00,   4.00,   0.00]
     nrm_ppm  = [3.30,   3.95,   3.99,   3.99,   3.99,   4.00,   4.00]
     atk_ctrl = [284.14, 346.40, 426.73, 341.27, 330.67, 511.13, 385.67]
@@ -77,22 +75,22 @@ def fig_placement_heatmap():
     placements = ['core', 'mid', 'edge']
 
     f1_21 = [
-        [0.649, 0.109, 0.062],
-        [0.969, 0.530, 0.097],
-        [0.761, 0.961, 0.977],
-        [0.254, 0.647, 0.410],
-        [0.646, 0.436, 0.000],
-        [0.749, 0.945, 0.543],
-        [0.895, 0.686, 0.349],
+        [0.735, 0.480, 0.239],
+        [0.999, 0.643, 0.714],
+        [0.982, 0.986, 0.940],
+        [0.788, 0.375, 0.382],
+        [0.596, 0.596, 0.491],
+        [0.995, 0.999, 0.998],
+        [0.794, 0.594, 0.783],
     ]
     f1_30 = [
-        [0.268, 0.026, 0.303],
-        [0.422, 0.813, 0.227],
-        [0.616, 0.590, 0.444],
-        [0.705, 0.362, 0.228],
-        [0.340, 0.429, 0.000],
-        [0.835, 0.900, 0.733],
-        [0.640, 0.523, 0.579],
+        [0.373, 0.606, 0.310],
+        [0.441, 0.535, 0.566],
+        [0.592, 0.826, 0.789],
+        [0.199, 0.370, 0.504],
+        [0.400, 0.197, 0.000],
+        [0.999, 0.905, 0.884],
+        [0.445, 0.386, 0.000],
     ]
 
     fig, axes = plt.subplots(1, 2, figsize=(13, 6))
@@ -122,50 +120,9 @@ def fig_placement_heatmap():
     print(f'Wrote {out_png.with_suffix(".pdf")} + .png')
 
 
-def fig_vic_pdr_bars():
-    """Per-source PDR: attacker / victim / bystander per attack."""
-    attacks = ['Baseline', 'Blackhole', 'Decreased\nRank', 'DIS\nFlooding',
-               'App\nFlooding', 'Shared\nCell', '6P Cell\nExh.', 'TSCH\nDesync.']
-    atk_pdr = [np.nan, 20.16, 20.40, 19.49, 19.82, 20.00, 20.28, 22.67]
-    vic_pdr = [np.nan, 8.32,  3.51,  8.19,  0.19,  0.00,  7.68,  0.00]
-    bys_pdr = [19.22,  30.25, 45.40, 24.35, 29.75, 26.87, 25.73, 26.34]
-
-    x = np.arange(len(attacks))
-    w = 0.27
-    fig, ax = plt.subplots(figsize=(13, 5.2))
-
-    def _bar(arr, offset, color, label):
-        heights = [v if not np.isnan(v) else 0 for v in arr]
-        rects = ax.bar(x + offset, heights, w, label=label, color=color,
-                       edgecolor='black', linewidth=0.5, alpha=0.85)
-        # Per-bar labels: 'n/a' for NaN (Baseline attacker/victim),
-        # '0.00' for true zeros so they remain visible.
-        labels = ['n/a' if np.isnan(v) else f'{v:.2f}' for v in arr]
-        ax.bar_label(rects, labels=labels, fontsize=8, padding=2,
-                     rotation=0)
-
-    _bar(atk_pdr, -w, '#d62728', 'Attacker PDR')
-    _bar(vic_pdr,  0,  '#ff7f0e', 'Victim PDR')
-    _bar(bys_pdr,  w,  '#1f77b4', 'Bystander PDR')
-    ax.set_xticks(x)
-    ax.set_xticklabels(attacks, fontsize=10)
-    ax.set_ylabel('Per-source PDR (%)', fontsize=11)
-    ax.set_title('Per-source PDR by class (21-mote main chain)', fontsize=12)
-    ax.legend(fontsize=10, loc='upper right')
-    ax.grid(True, axis='y', linestyle=':', alpha=0.5)
-    ax.set_ylim(0, 55)
-    plt.tight_layout()
-    out_png = OUT / 'vic_pdr_bars.png'
-    plt.savefig(out_png, dpi=140, bbox_inches='tight')
-    plt.savefig(out_png.with_suffix('.pdf'), bbox_inches='tight')
-    plt.close()
-    print(f'Wrote {out_png.with_suffix(".pdf")} + .png')
-
-
 def main():
     fig_feature_signature()
     fig_placement_heatmap()
-    fig_vic_pdr_bars()
 
 
 if __name__ == '__main__':

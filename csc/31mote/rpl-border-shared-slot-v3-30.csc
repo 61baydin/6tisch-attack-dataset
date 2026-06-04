@@ -746,7 +746,7 @@
   <plugin>
     org.contikios.cooja.plugins.ScriptRunner
     <plugin_config>
-      <script>TIMEOUT(1800000); /* 30 minutes — 1 hour = 3600000 ms */
+      <script>TIMEOUT(3600000); /* 60 min run; attack starts random in [20,25] min */
 log.log("Headless run start (shared-slot-v2)\n");
 while(true) { YIELD(); }</script>
       <active>true</active>

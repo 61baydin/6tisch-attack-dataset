@@ -24,7 +24,10 @@ from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
 
 SCALE = sys.argv[1] if len(sys.argv) > 1 else '21'
-SLUG = 'v2' if SCALE == '21' else 'v3-30'
+# New 84-log dataset (2026-06-03/04): filenames are
+# <attack>-n21|n31-<placement>-a{1,5}-w<W>.log. Old v2/v3-30-multirun naming
+# is superseded.
+NODES = '21' if SCALE == '21' else '31'
 ATTACKS = ['blackhole','decrease','dis','flooding','shared-slot',
            'slot-exhaustion','timekeep']
 DISPLAY = {'blackhole':'Blackhole','decrease':'Decreased Rank',
@@ -51,8 +54,8 @@ def main():
     files = []
     for atk in ATTACKS:
         for pl in ['core','mid','edge']:
-            # a5: filename has -{pl}-multirun-, NOT -{pl}-a1-multirun-
-            files += sorted(glob.glob(f'2026-05*_{atk}-{SLUG}-{pl}-multirun-*.log'))
+            # a5 cells of the new dataset
+            files += sorted(glob.glob(f'2026-06-0[34]_*_{atk}-n{NODES}-{pl}-a5-w*.log'))
     files = [f for f in files if not Path(f).name.startswith('cooja_')]
     print(f"Logs: {len(files)}", flush=True)
     rows = []

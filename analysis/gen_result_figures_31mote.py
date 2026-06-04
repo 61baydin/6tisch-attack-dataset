@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the 31-mote analogues of feature_signature and vic_pdr_bars
+"""Generate the 31-mote analogues of feature_signature
 so the paper has parity with the 21-mote main-chain figures."""
 from pathlib import Path
 import matplotlib
@@ -14,15 +14,14 @@ OUT.mkdir(parents=True, exist_ok=True)
 def fig_feature_signature_31():
     attacks = ['Blackhole', 'Decreased\nRank', 'DIS\nFlooding', 'App\nFlooding',
                'Shared\nCell', '6P Cell\nExh.', 'TSCH\nDesync.']
-    # From damage_analysis_summary_31mote.csv (42 runs pooled per attack family)
-    atk_ppm  = [3.92,   4.00,   0.01,   14.96,  0.00,   3.99,   0.00]
-    nrm_ppm  = [3.79,   3.95,   3.99,   3.99,   4.00,   3.97,   3.98]
-    atk_ctrl = [275.83, 332.06, 406.56, 352.22, 346.24, 502.59, 349.67]
-    nrm_ctrl = [255.22, 327.66, 352.06, 341.17, 336.57, 333.26, 329.40]
-    atk_rank = [1113,   671.75, 1028,   1040,   1010,   1013,   995.09]
-    nrm_rank = [1258,   1027,   1131,   1125,   1122,   1121,   1103]
-    atk_buf  = [13.53,  6.71,   5.12,   4.85,   3.43,   1.81,   4.48]
-    nrm_buf  = [15.13,  3.95,   4.02,   4.54,   3.89,   4.15,   4.39]
+    atk_ppm  = [3.74,    3.99,   4.00,   14.98,  0.00,   4.00,   4.00]
+    nrm_ppm  = [6.08,    8.13,   8.13,   9.31,   7.71,   8.13,   8.13]
+    atk_ctrl = [17.13,   15.55,  38.97,  16.11,  15.99,  23.59,  15.95]
+    nrm_ctrl = [14.84,   15.65,  19.97,  15.52,  15.52,  15.44,  15.44]
+    atk_rank = [1239.06, 763.11, 1066.67, 1095.11, 1052.44, 1080.89, 1052.44]
+    nrm_rank = [1232.10, 994.50, 1061.94, 1081.57, 1065.17, 1087.64, 1068.57]
+    atk_buf  = [7.64,    3.86,   3.37,   3.14,   2.97,   0.96,   3.60]
+    nrm_buf  = [11.15,   3.15,   3.22,   3.18,   3.11,   3.23,   3.06]
 
     fig, axes = plt.subplots(2, 2, figsize=(14, 8.4))
     x = np.arange(len(attacks))
@@ -59,42 +58,5 @@ def fig_feature_signature_31():
     print(f'Wrote {out_png.with_suffix(".pdf")} + .png')
 
 
-def fig_vic_pdr_bars_31():
-    attacks = ['Baseline', 'Blackhole', 'Decreased\nRank', 'DIS\nFlooding',
-               'App\nFlooding', 'Shared\nCell', '6P Cell\nExh.', 'TSCH\nDesync.']
-    atk_pdr = [np.nan, 25.23, 25.87, 25.60, 26.32, 25.56, 24.90, 25.37]
-    vic_pdr = [np.nan, 2.40,  0.00,  0.00,  0.00,  0.00,  0.00,  0.00]
-    bys_pdr = [13.17,  13.26, 14.53, 13.73, 13.26, 13.61, 13.73, 13.61]
-
-    x = np.arange(len(attacks))
-    w = 0.27
-    fig, ax = plt.subplots(figsize=(13, 5.2))
-
-    def _bar(arr, offset, color, label):
-        heights = [v if not np.isnan(v) else 0 for v in arr]
-        rects = ax.bar(x + offset, heights, w, label=label, color=color,
-                       edgecolor='black', linewidth=0.5, alpha=0.85)
-        labels = ['n/a' if np.isnan(v) else f'{v:.2f}' for v in arr]
-        ax.bar_label(rects, labels=labels, fontsize=8, padding=2, rotation=0)
-
-    _bar(atk_pdr, -w, '#d62728', 'Attacker PDR')
-    _bar(vic_pdr,  0,  '#ff7f0e', 'Victim PDR')
-    _bar(bys_pdr,  w,  '#1f77b4', 'Bystander PDR')
-    ax.set_xticks(x)
-    ax.set_xticklabels(attacks, fontsize=10)
-    ax.set_ylabel('Per-source PDR (%)', fontsize=11)
-    ax.set_title('Per-source PDR by class (31-mote scale chain)', fontsize=12)
-    ax.legend(fontsize=10, loc='upper right')
-    ax.grid(True, axis='y', linestyle=':', alpha=0.5)
-    ax.set_ylim(0, 32)
-    plt.tight_layout()
-    out_png = OUT / 'vic_pdr_bars_31mote.png'
-    plt.savefig(out_png, dpi=140, bbox_inches='tight')
-    plt.savefig(out_png.with_suffix('.pdf'), bbox_inches='tight')
-    plt.close()
-    print(f'Wrote {out_png.with_suffix(".pdf")} + .png')
-
-
 if __name__ == '__main__':
     fig_feature_signature_31()
-    fig_vic_pdr_bars_31()
