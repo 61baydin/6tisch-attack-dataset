@@ -7,9 +7,9 @@ and draws a unit-disk radio-range circle for the sink (illustrative only).
 
 Outputs (vector PDF for the IEEE paper, raster PNG for the Word report):
   paper/figures/topology_21mote.{pdf,png}
-  paper/figures/topology_30mote.{pdf,png}
+  paper/figures/topology_31mote.{pdf,png}
   paper/figures/topology_21mote_a5_placement.{pdf,png}
-  paper/figures/topology_30mote_a5_placement.{pdf,png}
+  paper/figures/topology_31mote_a5_placement.{pdf,png}
 """
 import math
 from pathlib import Path
@@ -169,7 +169,7 @@ def main():
     # 31-mote base topology (1 sink + 30 clients)
     draw_topology(POS_30, PLACE_30,
                    '31-mote topology: 1 sink + 30 clients (6x5 grid, 25 m spacing)',
-                   out_dir / 'topology_30mote.png')
+                   out_dir / 'topology_31mote.png')
 
     # 21-mote a5 placement attackers (one combined fig with 3 placements)
     fig, axes = plt.subplots(1, 3, figsize=(18, 5.5))
@@ -224,10 +224,10 @@ def main():
         ax.set_xlabel('x (m)')
         ax.set_ylabel('y (m)')
     plt.tight_layout()
-    plt.savefig(out_dir / 'topology_30mote_a5_placement.png', dpi=140, bbox_inches='tight')
-    plt.savefig(out_dir / 'topology_30mote_a5_placement.pdf', bbox_inches='tight')
+    plt.savefig(out_dir / 'topology_31mote_a5_placement.png', dpi=140, bbox_inches='tight')
+    plt.savefig(out_dir / 'topology_31mote_a5_placement.pdf', bbox_inches='tight')
     plt.close()
-    print(f"Wrote {out_dir / 'topology_30mote_a5_placement.pdf'} + .png")
+    print(f"Wrote {out_dir / 'topology_31mote_a5_placement.pdf'} + .png")
 
 
 if __name__ == '__main__':

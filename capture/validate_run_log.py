@@ -17,8 +17,11 @@ Checks:
      margin from the 60-min total run).
 
 Usage:
-  python3 validate_run_log.py <log_file> [<scale>]
+  python3 validate_run_log.py <log_file> [<scale>] [<mode>]
     <scale>: 21 (default) or 30
+    <mode>:  "baseline" relaxes checks 3-4 (no attacker exists) and instead
+             requires ZERO is_attacker=1 records; otherwise the attack-window
+             checks apply as normal.
 """
 import os
 import re
@@ -45,6 +48,7 @@ def main() -> int:
         return 2
     log = sys.argv[1]
     scale = int(sys.argv[2]) if len(sys.argv) > 2 else 21
+    mode = sys.argv[3] if len(sys.argv) > 3 else ''
     # scale 21 → 20 client motes; scale 30 → 30 client motes (sink excluded)
     n_motes = scale - 1
     expected_min_recs = int(EXPECTED_RECS_PER_MOTE * n_motes)
@@ -68,13 +72,24 @@ def main() -> int:
         print(f'BAD: {log} has {len(rows)} records (need >= {expected_min_recs})')
         return 1
     atk = [r for r in rows if r[16] == 1]
+    last_ts = max(r[0] for r in rows)
+    if mode == 'baseline':
+        # No attacker exists; the log must be fully benign. Skip attack-window
+        # checks and instead reject any stray is_attacker=1 record.
+        if atk:
+            print(f'BAD: {log} is baseline but has {len(atk)} is_attacker=1 records')
+            return 1
+        if last_ts < LAST_TS_MIN_S:
+            print(f'BAD: {log} run ended at {last_ts}s (< {LAST_TS_MIN_S}s — early termination)')
+            return 1
+        print(f'OK (baseline): {log} | {len(rows)} recs (0 atk) | last={last_ts}s')
+        return 0
     if not atk:
         print(f'BAD: {log} has zero is_attacker=1 records'); return 1
     first_atk_ts = min(r[0] for r in atk)
     if first_atk_ts < ATK_FIRST_LOW_S or first_atk_ts > ATK_FIRST_HIGH_S:
         print(f'BAD: {log} first attack at {first_atk_ts}s (outside [{ATK_FIRST_LOW_S},{ATK_FIRST_HIGH_S}]s)')
         return 1
-    last_ts = max(r[0] for r in rows)
     if last_ts < LAST_TS_MIN_S:
         print(f'BAD: {log} run ended at {last_ts}s (< {LAST_TS_MIN_S}s — early termination)')
         return 1

@@ -50,20 +50,35 @@ case "$SCALE" in
   *) echo "unknown scale: $SCALE (must be 21|30)"; exit 1 ;;
 esac
 
-# Sample attacker IDs from the pool deterministically (seed + worker id)
-ATTACKER_SET=$(python3 -c "
+# Baseline mode: a fully-benign run with ZERO attackers. Reuses the blackhole
+# base CSC (arbitrary) since gen_csc_variant with an empty attacker set marks
+# every mote as a normal client — no mote ever loads attack firmware.
+VALIDATE_MODE=""
+if [[ "$ATTACK" == "baseline" ]]; then
+  ATKCOUNT=0
+  ATTACKER_SET=""
+  VALIDATE_MODE="baseline"
+  BASE_CSC="examples/tsch/rpl-udp/rpl-border-blackhole-${CSC_VERSION}.csc"
+else
+  # Sample attacker IDs from the pool deterministically (seed + worker id)
+  ATTACKER_SET=$(python3 -c "
 import random
 random.seed($SEED + 1000*$WID)
 pool = [$(echo "$POOL" | tr ' ' ',')]
 print(' '.join(str(x) for x in sorted(random.sample(pool, $ATKCOUNT))))
 ")
-
-BASE_CSC="examples/tsch/rpl-udp/rpl-border-${ATTACK}-${CSC_VERSION}.csc"
+  BASE_CSC="examples/tsch/rpl-udp/rpl-border-${ATTACK}-${CSC_VERSION}.csc"
+fi
 [[ -f "$BASE_CSC" ]] || { echo "base CSC not found: $BASE_CSC"; exit 1; }
 
 STAMP="$(date +%Y-%m-%d_%H-%M-%S)"
-PLACEMENT_TAG="-${PLACEMENT}"
-ATKCOUNT_TAG="-a${ATKCOUNT}"
+if [[ "$ATTACK" == "baseline" ]]; then
+  PLACEMENT_TAG=""
+  ATKCOUNT_TAG=""
+else
+  PLACEMENT_TAG="-${PLACEMENT}"
+  ATKCOUNT_TAG="-a${ATKCOUNT}"
+fi
 TAG="${ATTACK}-n${TOTAL_NODES}${PLACEMENT_TAG}${ATKCOUNT_TAG}-w${WID}"
 COOJA_LOG="cooja_${STAMP}_${TAG}.log"
 RUN_LOG="${STAMP}_${TAG}.log"
@@ -155,7 +170,7 @@ if [[ -s "$REPO/$RUN_LOG" ]]; then
   echo "[w${WID}] captured $LINES rows -> $RUN_LOG"
   # Sanity-validate the log; on failure, delete and exit non-zero so the
   # dispatcher will requeue this spec.
-  if python3 "$REPO/validate_run_log.py" "$REPO/$RUN_LOG" "$SCALE"; then
+  if python3 "$REPO/validate_run_log.py" "$REPO/$RUN_LOG" "$SCALE" "$VALIDATE_MODE"; then
     sleep 3; exit 0
   else
     echo "[w${WID}] validation FAILED, deleting $RUN_LOG for retry"
