@@ -26,8 +26,8 @@ Seven attack families spanning five protocol planes of the IETF 6TiSCH stack:
 
 Two topology scales share the same **placement-stratified design**:
 7 attacks × 3 placements (core/mid/edge) × 2 attacker densities (1, 5) =
-**42 runs per scale, 84 runs in total, ~876k labelled records**
-(~364k @ 21-mote, ~512k @ 31-mote). Each run is a 60-minute headless Cooja
+**42 runs per scale, 84 runs in total, ~872k labelled records**
+(~362k @ 21-mote, ~510k @ 31-mote). Each run is a 60-minute headless Cooja
 simulation; attack onset is randomised in [20, 25] min; telemetry is emitted
 from the start (no warm-up suppression).
 
@@ -38,15 +38,15 @@ the seven families form a difficulty spectrum (Random Forest binary F1):
 
 | Attack | 21-mote | 31-mote | |
 |---|---|---|---|
-| DIS Flooding | 0.98 | 0.91 | overt — near-trivial |
+| DIS Flooding | 0.98 | 0.80 | overt — near-trivial |
 | 6P Cell Exhaustion | 0.93 | 0.89 | overt — near-trivial |
-| Application Flooding | 0.72 | 0.75 | stealth |
-| Blackhole | 0.49 | 0.54 | stealth |
-| TSCH Shared Cell | 0.53 | 0.41 | stealth |
-| Decreased Rank | 0.21 | 0.47 | stealth |
-| TSCH Desynchronization | 0.20 | 0.20 | stealth — hardest |
+| Application Flooding | 0.70 | 0.72 | stealth |
+| Blackhole | 0.48 | 0.45 | stealth |
+| Decreased Rank | 0.27 | 0.46 | stealth |
+| TSCH Desynchronization | 0.28 | 0.24 | stealth — hardest |
+| TSCH Shared Cell | 0.18 | 0.24 | stealth — hardest |
 
-Naive row-level k-fold inflates per-attack F1 by **up to +0.83** versus
+Naive row-level k-fold inflates per-attack F1 by **up to +0.93** versus
 group-aware evaluation: per-node identity leakage, not behavioural signal,
 dominates the naive scores. **Always evaluate with group key `(run, node)`.**
 
