@@ -1,0 +1,4 @@
+DEFINES+=APP_CONF_H=\"attacker-analyzer.h\"
+
+attacker-analyzer_src = attacker-analyzer.c
+

@@ -1,68 +1,69 @@
 # Reproducing the results
 
-All commands are run from the repository root.
+All commands are run from the repository root. Scripts use dataset-relative paths,
+so place (or symlink) the dataset under the expected layout first.
 
 ## 0. Dependencies
-
 ```bash
-python3 -m pip install --user numpy pandas scikit-learn>=1.0 scipy matplotlib xgboost lightgbm
-```
-Regenerating the dataset itself additionally needs Contiki-NG + Cooja and the
-`msp430-gcc` toolchain (and `net-tools` for `tunslip6`); see Section 3.
-
-## 1. Make the logs visible to the analysis scripts
-
-The analysis scripts glob the telemetry logs by name from the current
-directory. Flatten the four dataset folders into the working directory once:
-
-```bash
-ln -sf dataset/*/*.log .        # or: cp dataset/*/*.log .
+python3 -m pip install numpy pandas "scikit-learn>=1.3" scipy matplotlib xgboost lightgbm torch
+# pcap inspection (optional): wireshark / tshark
 ```
 
-## 2. Regenerate tables (F1, confusion, feature importance)
-
+## 1. Get the data
+All telemetry logs and CSVs (122 runs) ship in this repository under `data/`. The
+scripts read paths under `dataset_v3/`, so expose the in-repo data with one symlink:
 ```bash
-python3 analysis/eval_placement_a5.py 21     # Tables VI/VII + confusion (21-mote)
-python3 analysis/eval_placement_a5.py 31     # Tables VI/VII + confusion (31-mote)
-python3 analysis/analyze_full.py             # Tables IX/X/XI/XII (placement/scale/ablation)
-python3 analysis/analyze_new.py              # gate per-attack group-aware F1 summary
+ln -s data dataset_v3
 ```
-`eval_placement_a5.py` prints the binary F1 table (RF/LR/XGBoost/LightGBM,
-group-aware vs naive), the multi-class confusion matrix and classification
-report, and the RF feature importances; it also writes
-`confusion_matrix_xgboost{,_31mote}.{pdf,png}` and `binary_eval_a5{,_31mote}.csv`.
+This makes `dataset_v3/single/logs/*` and `dataset_v3/multiattack/logs/*` resolve.
+The pcaps are not needed for the detection/figure pipeline; for radio-level analysis,
+download them from Zenodo (README §6) into `data/single/pcaps/` and
+`data/multiattack/pcaps/`.
 
-## 3. Regenerate figures
-
+## 2. Regenerate the detection results
 ```bash
-python3 analysis/gen_topology_figures.py        # topology_{21,30}mote(+_a5_placement)
-python3 analysis/gen_figures_placement.py        # feature_signature (21-mote)
-python3 analysis/gen_result_figures_31mote.py    # feature_signature_31mote
-python3 -c "import sys; sys.path.insert(0,'analysis'); import gen_result_figures as g; g.fig_placement_heatmap()"   # placement_heatmap
-python3 analysis/gen_attack_diagrams.py          # attack mechanism diagrams (static)
-python3 analysis/gen_background_figures.py        # protocol-stack diagrams (static)
+# headline 17-model windowed benchmark (group-aware)  -> Fig. model_comparison
+python3 code/analysis/gen_model_compare_full.py
+# per-record per-attack difficulty spectrum (LOGO)     -> Table f1_main
+python3 code/analysis/analyze_canonical.py
+# per-placement F1                                      -> placement table/heatmap
+python3 code/analysis/analyze_placement.py
+# identity-leakage ablation                             -> Table identity_ablation
+python3 code/analysis/calc_identity.py
+# single-attacker a1 naive RF                           -> a1 heatmap
+python3 code/analysis/gen_a1_f1.py
+# concurrent multi-attack (binary + multi-class)        -> confusion_matrix_multiattack
+python3 code/analysis/gen_multiattack_eval.py
+python3 code/analysis/gen_multiattack_seedspread.py    # 3-seed mean±std
+# RF feature importance
+python3 code/analysis/gen_fi_new.py
 ```
-Outputs land in `paper/figures/` (or the script's configured output dir).
 
-## 4. Regenerate the dataset from scratch (optional)
+## 3. Regenerate the figures
+```bash
+python3 code/figures/gen_background_figures.py    # stack, slotframe, 6P handshake
+python3 code/figures/gen_topology_figures.py      # 21/31-mote topologies
+python3 code/figures/gen_attack_diagrams.py       # attack mechanism diagrams
+python3 code/figures/gen_result_figures.py        # feature_signature + placement heatmap
+python3 code/figures/gen_cm_new.py                # multi-class confusion (LR)
+python3 code/figures/gen_model_comparison.py      # 17-model comparison
+```
 
-The headless generation harness is in `capture/`:
+## 4. Regenerate the dataset from firmware (optional)
+The attack-client firmware sources are in `attacks/` (one directory per attack, plus
+the `border-router-*` pair and the `attacker-analyzer/` telemetry module), and the
+Cooja scenarios are in `csc/` (`rpl-border-<attack>-v2.csc`). Building them requires
+the Contiki-NG/4emac fork (`CONTIKI=../../../..`, `MAKE_MAC=MAKE_MAC_4EMAC`,
+`MAKE_ROUTING=MAKE_ROUTING_RPL_CLASSIC`; see the main repository); each attack-client
+Makefile pulls in `os/services/simple-energest` and the `attacker-analyzer` module.
 
-1. `sudo bash capture/setup_parallel_workers.sh` (one-time, NWORKERS namespaces).
-2. The dispatcher fans out the 84 runs across worker namespaces; each worker
-   builds a per-run variant CSC from the base scenarios in `csc/`, launches
-   Cooja headless, starts `tunslip6` + `udp_listener_ipv6.py`, captures the
-   telemetry, and validates it with `validate_run_log.py`:
-   ```bash
-   NWORKERS=6 sudo bash capture/dispatcher.sh        # full 84-run sweep
-   NWORKERS=6 sudo bash capture/dispatcher.sh dis    # single attack family
-   ```
-Cooja random seed is fixed (123456) in every base CSC, so a re-run reproduces
-the released logs deterministically (same attacker IDs per cell from master
-seed 42).
-
-## Evaluation caveat
-
-Always evaluate with the group key `(run_id, node_id)`. Naive row-level k-fold
-inflates per-attack F1 by up to +0.83 through per-node identity leakage; the
-`analyze_*` / `eval_placement*` scripts report both so the gap is visible.
+The capture harness then drives Cooja headless. It needs the built firmware and a
+`tunslip6` bridge (run by the user, requires sudo).
+```bash
+code/capture/setup_parallel_workers.sh     # parallel network namespaces
+code/capture/dispatcher.sh                 # single-attacker 84-run plan
+code/capture/dispatcher_multiattack.sh     # 36 concurrent runs (seeds 42,43,44)
+code/capture/udp_listener_ipv6.py          # capture telemetry -> .log
+code/capture/validate_run_log.py           # post-run validation
+```
+The Cooja radio seed is fixed (123456); the dispatcher seed selects attacker IDs.
