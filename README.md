@@ -1,13 +1,13 @@
-# A Multi-Layer 6TiSCH Attack Dataset and Leakage-Aware IDS Benchmark
+# 6TiSCHSet-2026 — A Multi-Layer 6TiSCH Attack Dataset and Leakage-Aware IDS Benchmark
 
-Companion artefact for the paper **"A Multi-Layer 6TiSCH Attack Dataset and
-Leakage-Aware Intrusion-Detection Benchmark"** (Aydın, Aydın, Jin, Görmüş, 2026).
+Companion artefact for the paper **"6TiSCHSet-2026: A Multi-Layer Attack Dataset and
+Leakage-Aware Intrusion-Detection Benchmark for IETF 6TiSCH Networks"** (Aydın, Aydın, Jin, Görmüş, 2026).
 
-This repository contains the **code** (capture/generation harness, ML and figure
-pipeline), the **firmware sources and Cooja scenarios**, the **documentation**
-(schema, run manifest), and the **labelled telemetry (`.log`) and clean `.csv` for all
-122 runs**. The per-run **radio captures** (`.pcap`, ~2.1 GB) are archived on Zenodo —
-see [Data availability](#data-availability).
+This repository is **self-contained**: it carries the **code** (capture/generation
+harness, ML and figure pipeline), the **firmware sources and Cooja scenarios**, the
+**documentation** (schema, run manifest), and the **full dataset for all 122 runs** —
+labelled telemetry (`.log`), per-run radio captures (`.pcap`), and clean `.csv`
+(~2.3 GB total).
 
 ---
 
@@ -66,14 +66,11 @@ the ML pipeline adds two derived features. Full definitions in
 │   ├── analysis/        group-aware ML / detection benchmark
 │   └── figures/         figure generators
 └── data/
-    ├── single/{logs,csv}/       all 86 single-attacker runs (.log + clean .csv)
-    ├── multiattack/{logs,csv}/  all 36 concurrent two-attacker runs
-    └── pcaps/                   sample/ pcaps + README.md (full ~2.1 GB set on Zenodo)
+    ├── single/{logs,pcaps,csv}/       all 86 single-attacker runs
+    └── multiattack/{logs,pcaps,csv}/  all 36 concurrent two-attacker runs
 ```
 
-The full `single/` and `multiattack/` chains (logs, pcaps, csv) live on Zenodo;
-`data/sample/` shows the exact file format so the pipeline can be tried without the
-full download.
+Each run's `.log`, `.pcap`, and `.csv` share the same stem (see [`schema.md`](schema.md)).
 
 ## 4. Evaluation protocol (important)
 
@@ -92,29 +89,24 @@ python3 -m pip install numpy pandas "scikit-learn>=1.3" scipy matplotlib xgboost
 ln -s data dataset_v3
 python3 code/analysis/gen_model_compare_full.py   # 17-model windowed benchmark
 ```
-The full ML/figure pipeline runs from the repository alone (the pcaps are not needed
-for detection; download them from Zenodo only for radio-level analysis).
+The full ML/figure pipeline runs from the repository alone (the pcaps are used only for
+radio-level analysis, not for the detection benchmark).
 
 See [`REPRODUCING.md`](REPRODUCING.md) for the full table/figure reproduction list and
 for regenerating the dataset from firmware with the capture harness.
 
 ## 6. Data availability
 
-The labelled telemetry (`.log`) and clean `.csv` for all 122 runs are in this
-repository under `data/`. The per-run **radio captures** (`.pcap`, ~2.1 GB) are too
-large for GitHub and are archived at:
-
-> **Zenodo DOI:** `10.5281/zenodo.XXXXXXX` *(to be assigned on publication)*
-
-The Zenodo archive (telemetry + pcaps + csv) is the citable, versioned dataset of
-record; this repository mirrors everything except the pcaps.
+The complete dataset for all 122 runs, labelled telemetry (`.log`), radio captures
+(`.pcap`), and clean `.csv` (~2.3 GB total), is in this repository under `data/`. No
+external download is required: clone the repository and the full pipeline runs.
 
 ## 7. Citation
 
 ```bibtex
-@article{aydin2026sixtisch,
-  title   = {A Multi-Layer 6TiSCH Attack Dataset and Leakage-Aware
-             Intrusion-Detection Benchmark},
+@article{aydin2026sixtischset,
+  title   = {{6TiSCHSet-2026}: A Multi-Layer Attack Dataset and Leakage-Aware
+             Intrusion-Detection Benchmark for IETF 6TiSCH Networks},
   author  = {Ayd{\i}n, Burak and Ayd{\i}n, Hakan and Jin, Yichao and G{\"o}rm{\"u}s, Sedat},
   journal = {(under review)},
   year    = {2026}

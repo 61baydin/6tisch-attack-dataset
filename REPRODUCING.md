@@ -10,15 +10,14 @@ python3 -m pip install numpy pandas "scikit-learn>=1.3" scipy matplotlib xgboost
 ```
 
 ## 1. Get the data
-All telemetry logs and CSVs (122 runs) ship in this repository under `data/`. The
-scripts read paths under `dataset_v3/`, so expose the in-repo data with one symlink:
+The full dataset (122 runs: logs, pcaps, csv) ships in this repository under `data/`.
+The scripts read paths under `dataset_v3/`, so expose the in-repo data with one symlink:
 ```bash
 ln -s data dataset_v3
 ```
-This makes `dataset_v3/single/logs/*` and `dataset_v3/multiattack/logs/*` resolve.
-The pcaps are not needed for the detection/figure pipeline; for radio-level analysis,
-download them from Zenodo (README §6) into `data/single/pcaps/` and
-`data/multiattack/pcaps/`.
+This makes `dataset_v3/single/logs/*` and `dataset_v3/multiattack/logs/*` resolve. The
+detection/figure pipeline uses the logs/csv; the pcaps are present for radio-level
+analysis (Wireshark/tshark).
 
 ## 2. Regenerate the detection results
 ```bash
