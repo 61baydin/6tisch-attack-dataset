@@ -1,7 +1,7 @@
 # 6TiSCHSet-2026: A Multi-Layer 6TiSCH Attack Dataset and Leakage-Aware IDS Benchmark
 
 Companion artefact for the paper **"6TiSCHSet-2026: A Multi-Layer Attack Dataset and
-Leakage-Aware Intrusion-Detection Benchmark for IETF 6TiSCH Networks"** (Aydin, Aydin, Jin, Gormus, 2026).
+Leakage-Aware Intrusion-Detection Benchmark for IETF 6TiSCH Networks"** (Burak Aydin, Hakan Aydin, Yichao Jin, Sedat Gormus, 2026).
 
 This repository is **self-contained**: it carries the **code** (capture/generation
 harness, ML and figure pipeline), the **firmware sources and Cooja scenarios**, the
