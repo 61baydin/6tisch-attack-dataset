@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Per-placement (core/mid/edge) ayrintili F1, yeni kanonik 20-sutun dataset.
-Her hucre tek kanonik log; kosu-ici grup-farkinda LOGO. 17 oznitelik
-(13 taban + forward_ratio + bcast_tx + rank_increase + d_app). LR ve RF.
+"""Per-placement (core/mid/edge) detailed F1, new canonical 20-column dataset.
+One canonical log per cell; per-run group-aware LOGO. 17 features
+(13 base + forward_ratio + bcast_tx + rank_increase + d_app). LR and RF.
 """
 import re,glob,warnings,collections
 from pathlib import Path
@@ -73,8 +73,8 @@ def f1_one(df,atype,model):
 def main():
     for model in ['LR','RF']:
         for scale in ['21','31']:
-            print(f"\n##### {model} grup-farkinda | {scale}-mote a5 | per-placement #####",flush=True)
-            print(f"{'Saldiri':15}{'core':>7}{'mid':>7}{'edge':>7}{'ORT':>7}",flush=True)
+            print(f"\n##### {model} group-aware | {scale}-mote a5 | per-placement #####",flush=True)
+            print(f"{'Attack':15}{'core':>7}{'mid':>7}{'edge':>7}{'AVG':>7}",flush=True)
             print('-'*43)
             allv=[]
             for atk in ATT:
@@ -89,7 +89,7 @@ def main():
                 if ok: allv.append(ort)
                 print(f"{DISP[atk]:15}{disp[0]:>7}{disp[1]:>7}{disp[2]:>7}{ort:>7.2f}",flush=True)
             print('-'*43)
-            print(f"{'GENEL':15}{'':>21}{np.mean(allv):>7.2f}",flush=True)
+            print(f"{'OVERALL':15}{'':>21}{np.mean(allv):>7.2f}",flush=True)
 
 if __name__=='__main__':
     main()

@@ -170,10 +170,10 @@ def detect_attack_row_based(df):
             n_jobs=-1, verbose=-1,
         )
     
-    # Cross Validation — both naive (row-level Stratified) and group-aware (per-node).
+    # Cross Validation - both naive (row-level Stratified) and group-aware (per-node).
     # Naive split places different timestamps of the same node in train+test, which
     # leaks per-node behaviour and inflates F1. Group-aware split keeps each node in
-    # exactly one fold so the model has to generalise to unseen nodes — this is the
+    # exactly one fold so the model has to generalise to unseen nodes - this is the
     # number that matters for the dataset-difficulty target (CLAUDE.md macro-F1 <= 0.90).
     print("\n" + "="*60)
     print("CROSS VALIDATION (5-Fold; reports BOTH naive and group-aware)")
@@ -193,7 +193,7 @@ def detect_attack_row_based(df):
         print(f"Group-aware CV grouping by node_id: {n_groups} unique groups.")
 
     # Pick the most appropriate group-aware CV:
-    #   - LOGO when the number of attacker groups is small (<= 30) — gives a
+    #   - LOGO when the number of attacker groups is small (<= 30) - gives a
     #     stable per-attacker F1 distribution rather than a noisy 5-fold mean.
     #   - StratifiedGroupKFold(5) for larger group counts where LOGO would be
     #     too expensive.
@@ -240,7 +240,7 @@ def detect_attack_row_based(df):
             print(f"  Naive CV Recall:    {cv_rec:.4f} ± {cv_rec_std:.4f}")
             print(f"  Naive CV F1-Score:  {cv_f1:.4f} ± {cv_f1_std:.4f}")
 
-            # Group-aware CV — the metric that matters for IDS generalisation.
+            # Group-aware CV - the metric that matters for IDS generalisation.
             # We need to distinguish two zero-F1 cases:
             #   (a) test fold had no attackers at all -> F1 truly undefined,
             #       exclude from the mean (uninformative).
@@ -351,11 +351,11 @@ def detect_attack_row_based(df):
         print("\nWARNING: No models successfully trained!")
         return None, None, None, None
     
-    # Print comparison table — naive vs group-aware F1 with 95% CI on the
+    # Print comparison table - naive vs group-aware F1 with 95% CI on the
     # group-aware F1. The CI is computed only over folds where the test set
     # had at least one attacker (others are uninformative for per-attacker
     # generalisation). The "Folds" column shows how many of the total CV
-    # folds that was — small n means the CI is wide.
+    # folds that was - small n means the CI is wide.
     print("\n" + "="*108)
     print("MODEL COMPARISON SUMMARY (naive CV vs group-aware CV with 95% CI)")
     print("="*108)

@@ -16,28 +16,29 @@
 #define LOG_MODULE "AttackerAnalyzer"
 #define LOG_LEVEL LOG_LEVEL_INFO
 
-#include "sys/rtimer.h" /* RTIMER_SECOND icin eklendi */
+#include "sys/rtimer.h" /* added for RTIMER_SECOND */
 
 /*
- * EMA (Exponential Moving Average) yontemi icin alfa degeri.
- * Kucuk alfa -> daha yumusak/stabil seri (gec tepki).
- * Buyuk alfa -> daha hizli tepki (daha gurultulu).
+ * Alpha value for the EMA (Exponential Moving Average) method.
+ * Small alpha -> smoother/more stable series (slower response).
+ * Large alpha -> faster response (noisier).
  */
 #ifndef ANALYZER_EMA_ALPHA
-#define ANALYZER_EMA_ALPHA 0.05f /* Daha stabil bir sonuc icin alfa kucultuldu */
+#define ANALYZER_EMA_ALPHA 0.05f /* alpha reduced for a more stable result */
 #endif
 
 /*
- * Warm-up: KULLANICI KARARI ile 0'a cekildi (eskiden 180s). Artik telemetri
- * yayini simulasyon basindan itibaren (faz-otelemesi sonrasi ~4-12s) baslar;
- * 3 dk bekleme yok. UYARI: 0-180s arasi TSCH-sync/DODAG-join gecis satirlari
- * is_attacker=0 olarak veri setine girer. Bu, CLAUDE.md'deki "garip baslangic
- * dagilimini normal diye ogretme" hard-constraint'ini bilerek geversiz kilar.
- * Geri almak icin bu degeri 180'e (veya istenen sn'ye) yukseltmek yeterli.
- * energest sayaclari yine ilk yayim oncesi sifirlanir (delta_tx/rx tutarli).
+ * Warm-up: set to 0 by user decision (previously 180s). Telemetry emission now
+ * starts from the beginning of the simulation (~4-12s after phase-offset);
+ * there is no 3 min wait. WARNING: the TSCH-sync/DODAG-join transition rows
+ * from 0-180s enter the dataset as is_attacker=0. This deliberately relaxes
+ * the "do not teach the weird startup distribution as normal" hard-constraint
+ * from CLAUDE.md. To revert, raise this value to 180 (or the desired seconds).
+ * The energest counters are still reset before the first emission
+ * (delta_tx/rx stay consistent).
  */
 #ifndef ANALYZER_WARMUP_SECONDS
-#define ANALYZER_WARMUP_SECONDS 0 /* warm-up kapatildi; hemen logla */
+#define ANALYZER_WARMUP_SECONDS 0 /* warm-up disabled; log immediately */
 #endif
 
 #if TSCH_TIME_SYNCH
@@ -89,8 +90,8 @@ static unsigned int app_packet_count = 0;
  * attack active windows; uip6.c reads them in forwarding decision.
  */
 uint8_t blackhole_drop_forwards = 0;
-/* Lokalizasyon sayaclari: uip6.c (forward) ve 4emac.c (broadcast) artirir,
- * her telemetri emit'inde asagida sifirlanir (per-interval). */
+/* Localization counters: incremented by uip6.c (forward) and 4emac.c
+ * (broadcast); reset below on each telemetry emit (per-interval). */
 unsigned long foure_fwd_in = 0;
 unsigned long foure_fwd_out = 0;
 unsigned long foure_bcast_tx = 0;
@@ -102,10 +103,10 @@ static uint64_t last_cpu = 0, last_lpm = 0, last_tx = 0, last_rx = 0;
 /* Drift calculation variables */
 static clock_time_t last_sync_time_ticks = 0;
 static int32_t last_sync_drift_value = 0;
-/* EMA icin stabil ortalama degerini tutan degisken */
+/* variable holding the stable average value for the EMA */
 static float ema_long_term_drift_ppm = 0.0f;
 
-/* Warm-up sonrasi ilk gercek yayimda energest baseline'larini sifirlamak icin bayrak */
+/* flag to reset the energest baselines on the first real emission after warm-up */
 static uint8_t energest_baselined = 0;
 
 
@@ -117,11 +118,11 @@ PROCESS_THREAD(attacker_analyzer_process, ev, data)
   PROCESS_PAUSE();
 
   /*
-   * Telemetri zamanlayicisi (ilk kurulum):
-   * - Warm-up: ilk ANALYZER_WARMUP_SECONDS sn boyunca yayin YOK; TSCH sync,
-   *   DODAG join ve parent secimi tamamlansin diye bekleriz.
-   * - Warm-up'tan sonra TEK SEFERLIK faz otelemeyi uygula (0..8sn) ki
-   *   tum dugumler ayni anda yayin yapmasin.
+   * Telemetry timer (initial setup):
+   * - Warm-up: NO emission during the first ANALYZER_WARMUP_SECONDS s; we wait
+   *   for TSCH sync, DODAG join and parent selection to complete.
+   * - After warm-up, apply a ONE-TIME phase offset (0..8s) so that not all
+   *   nodes emit at the same instant.
    */
   {
     clock_time_t base0 = (8 * CLOCK_SECOND);
@@ -135,9 +136,9 @@ PROCESS_THREAD(attacker_analyzer_process, ev, data)
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&timer));
 
     /*
-     * Warm-up bitiminde ilk uyandigimiz iterasyon: energest sayaclarini
-     * sifirla ki sonraki yayinin delta_tx/delta_rx degerleri sadece
-     * warm-up sonrasi pencereyi yansitsin. Bu iterasyonda yayim YAPMA.
+     * First iteration we wake up in after warm-up ends: reset the energest
+     * counters so that the delta_tx/delta_rx of the next emission reflect only
+     * the post-warm-up window. Do NOT emit in this iteration.
      */
     if(!energest_baselined) {
       energest_flush();
@@ -184,9 +185,9 @@ PROCESS_THREAD(attacker_analyzer_process, ev, data)
     int32_t anlik_drift = 0;
     int32_t correction_amount = 0;
     
-    /* Route table: toplam route sayısı (downward routes)
-     * STORING modda: her düğüm kendi route table'ını tutar
-     * NON_STORING modda: sadece root'ta route var (diğerlerinde 0) */
+    /* Route table: total number of routes (downward routes)
+     * In STORING mode: each node keeps its own route table
+     * In NON_STORING mode: only the root has routes (0 on the others) */
     uint8_t route_count = uip_ds6_route_num_routes();
 
 #if TSCH_TIME_SYNCH
@@ -209,7 +210,7 @@ PROCESS_THREAD(attacker_analyzer_process, ev, data)
         }
 
         if(uip_ipaddr_cmp(&last_parent_ip, parent_ip)) {
-            // Aynı parent, bir şey yapma
+            /* Same parent, do nothing */
         } else {
             parent_switch_count++;
             uip_ipaddr_copy(&last_parent_ip, parent_ip);
@@ -217,40 +218,21 @@ PROCESS_THREAD(attacker_analyzer_process, ev, data)
       }
     }
 
-    /* Drift hesaplaması şuan kullanılmıyor - devre dışı bırakıldı */
-    /*
-    anlik_drift = foure_rdc_get_last_packet_drift();
-    correction_amount = foure_scheduler_get_last_correction();
-    
-    clock_time_t current_ticks = clock_time();
-    if(anlik_drift != last_sync_drift_value) {
-        if(last_sync_time_ticks > 0) {
-          clock_time_t elapsed_ticks = current_ticks - last_sync_time_ticks;
-          if(elapsed_ticks >= CLOCK_SECOND) {
-            float elapsed_seconds = (float)elapsed_ticks / CLOCK_SECOND;
-            int32_t delta_drift = anlik_drift - last_sync_drift_value;
-            float instant_ppm = (((float)delta_drift * 1000000.0f) / RTIMER_SECOND) / elapsed_seconds;
-            ema_long_term_drift_ppm = (ANALYZER_EMA_ALPHA * (instant_ppm)) + ((1.0f - ANALYZER_EMA_ALPHA) * ema_long_term_drift_ppm);
-          }
-        }
-        last_sync_time_ticks = current_ticks;
-        last_sync_drift_value = anlik_drift;
-    }
-    */
+    /* Drift computation is currently unused - disabled */
 
 #endif
 
     /*
-     * PAKET BOYUTU NOTU: Energest metrikleri ve bazi anlik drift metrikleri,
-     * MTU limitini asmamak adina kaldirilmistir.
-     * ZAMAN DAMGASI: Analiz kolayligi icin her paketin basina saniye cinsinden zaman damgasi eklenmistir.
-     * APP_PACKET_COUNT: Application layer paket sayimi (flooding saldirisi tespiti icin)
-     * ROUTE_COUNT: Route table'daki toplam route sayısı (downward routes)
-     * DELTA_TX/DELTA_RX: Energest radyo gonderim/dinleme zaman farklari (ticks)
+     * PACKET SIZE NOTE: Energest metrics and some instantaneous drift metrics
+     * were removed to avoid exceeding the MTU limit.
+     * TIMESTAMP: for ease of analysis, a timestamp in seconds is prepended to each packet.
+     * APP_PACKET_COUNT: application layer packet count (for flooding attack detection)
+     * ROUTE_COUNT: total number of routes in the route table (downward routes)
+     * DELTA_TX/DELTA_RX: energest radio transmit/listen time deltas (ticks)
      */
-    /* Lokalizasyon oznitelikleri (per-interval):
-     * forward_ratio = 100*iletilen/iletilmesi-gereken (Blackhole; ileten-yoksa 100)
-     * bcast_tx      = bu pencerede gonderilen yayin cercevesi (Shared Cell) */
+    /* Localization attributes (per-interval):
+     * forward_ratio = 100*forwarded/should-be-forwarded (Blackhole; 100 if no forwarder)
+     * bcast_tx      = broadcast frames sent in this window (Shared Cell) */
     unsigned int forward_ratio = (foure_fwd_in > 0)
         ? (unsigned int)((100UL * foure_fwd_out) / foure_fwd_in) : 100;
     if(forward_ratio > 100) { forward_ratio = 100; }
@@ -274,13 +256,13 @@ PROCESS_THREAD(attacker_analyzer_process, ev, data)
             uip_udp_packet_sendto((struct uip_udp_conn *)udp_conn_ptr, buf, buflen, &dest_ipaddr, UIP_HTONS(udp_port));
         }
     }
-    /* per-interval lokalizasyon sayaclarini sifirla (sonraki pencere icin) */
+    /* reset per-interval localization counters (for the next window) */
     foure_fwd_in = 0; foure_fwd_out = 0; foure_bcast_tx = 0;
     /*
-     * Bir sonraki telemetri gonderimi icin dinamik aralik:
-     * - Jitter'i genislet: ±50% -> [0.5*base, 1.5*base) uniform
-     * - Bu genis aralik, yogun anlarda kuyruk ve paylasimli slot cakismalarini azaltir.
-     * - Gonderim sikligi artirildi (16 -> 8 saniye) buffer mekanizmasi sayesinde.
+     * Dynamic interval for the next telemetry emission:
+     * - Widen the jitter: +/-50% -> [0.5*base, 1.5*base) uniform
+     * - This wide range reduces queue and shared-slot collisions during busy moments.
+     * - Emission frequency increased (16 -> 8 seconds) thanks to the buffer mechanism.
      */
     {
       clock_time_t base = (8 * CLOCK_SECOND);
@@ -305,7 +287,7 @@ attacker_analyzer_init(int caller_type, void *conn, void *ipaddr, unsigned short
     is_attacker = p_is_attacker;
     attack_type = p_attack_type;
 
-    /* Statik degiskenleri sifirla */
+    /* Reset static variables */
     last_sync_time_ticks = 0;
     last_sync_drift_value = 0;
     ema_long_term_drift_ppm = 0.0f;

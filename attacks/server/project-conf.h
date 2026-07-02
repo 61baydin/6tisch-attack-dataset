@@ -58,7 +58,7 @@
 #define UIP_CONF_RECEIVE_WINDOW  60
 #endif
 
-#define RPL_CONF_OF_OCP  RPL_OCP_TSCH //eklendi
+#define RPL_CONF_OF_OCP  RPL_OCP_TSCH // added
 
 /*******************************************************/
 /******************* Configure TSCH ********************/
@@ -89,15 +89,15 @@
 #endif /* FOURE_CONF_DEFAULT_TIMESLOT_LENGTH */
 
 #ifndef UIP_CONF_MAX_ROUTES
-#define UIP_CONF_MAX_ROUTES          10 //eklendi default 50
+#define UIP_CONF_MAX_ROUTES          10 // added, default 50
 #endif
 
 #ifndef NBR_TABLE_CONF_MAX_NEIGHBORS
-#define NBR_TABLE_CONF_MAX_NEIGHBORS 7 //eklendi default 10
+#define NBR_TABLE_CONF_MAX_NEIGHBORS 7 // added, default 10
 #endif
 
 #ifndef UIP_FALLBACK_INTERFACE
-#define UIP_FALLBACK_INTERFACE 1  //eklendi tunslip dinleme için açıldı
+#define UIP_FALLBACK_INTERFACE 1  // added, enabled for tunslip listening
 #endif
 
 #define SLOT_CONF_FRAME_SIZE       21
@@ -107,7 +107,7 @@
 #define FOURE_CONF_MAX_SLOTS_PER_DESTINATION 10
 
 /*******************************************************/
-/************* RPL Root ve Non-Storing Ayarları ********/
+/************* RPL Root and Non-Storing Settings *******/
 /*******************************************************/
 #undef UIP_CONF_ROUTER
 #define UIP_CONF_ROUTER 1
@@ -132,15 +132,6 @@
 
 /* Logging */
 
-/* Logging */
-/*
-#define LOG_CONF_LEVEL_TCPIP                       LOG_LEVEL_ERR
-#define LOG_CONF_LEVEL_IPV6                        LOG_LEVEL_ERR
-#define LOG_CONF_LEVEL_6LOWPAN                     LOG_LEVEL_ERR
-#define LOG_CONF_LEVEL_MAC                         LOG_LEVEL_ERR
-#define LOG_CONF_LEVEL_FRAMER                      LOG_LEVEL_ERR
-#define LOG_CONF_LEVEL_4EMAC                       LOG_LEVEL_INFO
-*/
 #define LLSEC802154_CONF_ENABLED 0
 #define LINK_STATS_CONF_ENABLED 1
 

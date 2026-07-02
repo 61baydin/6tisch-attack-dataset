@@ -27,11 +27,11 @@ static struct simple_udp_connection udp_conn;
  * 500ms still contends for shared slots but leaves the network functional.
  */
 /*
- * Stealth v3: 500ms -> 2sn (4 kat azalma). Eski deger yarismayi
- * agir tutuyor, paylasilan slot kullanim oranini direk patlattigi
- * icin tx_slot_count / delta_tx feature'larinda net imza birakiyordu
- * (F1>0.97). 2sn'de slotlar icin yarisma surdurulur ama agdaki diger
- * dugumler de slotlari kullanabilir, ortusme alani buyur.
+ * Stealth v3: 500ms -> 2s (4x reduction). The old value kept contention
+ * heavy and directly spiked the shared-slot usage ratio, leaving a clear
+ * signature in the tx_slot_count / delta_tx features (F1>0.97). At 2s the
+ * contention for slots continues, but other nodes in the network can also
+ * use the slots, so the class-overlap area grows.
  */
 #ifndef SHARED_SLOT_ATTACK_INTERVAL
 #define SHARED_SLOT_ATTACK_INTERVAL (2 * CLOCK_SECOND)
@@ -39,8 +39,8 @@ static struct simple_udp_connection udp_conn;
 #define ATTACK_INTERVAL SHARED_SLOT_ATTACK_INTERVAL
 
 /*
- * Faz gecisi - 30-min headless run semasinda 3. dk'da atak baslar
- * (shared-slot routing-independent).
+ * Phase transition - in the 30-min headless run scheme the attack starts at
+ * minute 3 (shared-slot is routing-independent).
  */
 #define ATTACK_DELAY_MIN (20 * 60 * CLOCK_SECOND)  // 60-min run; attack start random in [20,25] min
 #define ATTACK_DELAY_MAX (25 * 60 * CLOCK_SECOND)
@@ -158,9 +158,9 @@ PROCESS_THREAD(shared_slot_attack_process, ev, data)
           packetbuf_set_datalen(sizeof(garbage));
           linkaddr_t broadcast_addr;
           linkaddr_copy(&broadcast_addr, &linkaddr_null);
-          /* Alici adresini ACIKCA broadcast (linkaddr_null) yap. Onceki
-           * surumde bu satir eksikti; broadcast yalnizca packetbuf_clear()'in
-           * adres alanini sifirlamasi sayesinde kazara calisiyordu. */
+          /* EXPLICITLY set the receiver address to broadcast (linkaddr_null).
+           * This line was missing in the previous version; broadcast worked
+           * only by accident because packetbuf_clear() zeroed the address field. */
           packetbuf_set_addr(PACKETBUF_ADDR_RECEIVER, &broadcast_addr);
           NETSTACK_MAC.send(jamming_packet_sent, NULL);
           /* Non-blocking: queue the jam frame and immediately continue so the

@@ -22,7 +22,7 @@ cd "$(dirname "$0")"
 NWORKERS=${NWORKERS:-4}
 FILTER_ATTACK="${1:-}"        # optional: filter to one attack family
 SEED_BASE=${SEED_BASE:-42}
-STAGGER_S=${STAGGER_S:-150}   # worker baslangiclari arasi gecikme (build-race onleme)
+STAGGER_S=${STAGGER_S:-150}   # delay between worker start-ups (prevents build races)
 
 ATTACKS=(decrease dis flooding shared-slot slot-exhaustion timekeep blackhole)
 PLACEMENTS=(core mid edge)
@@ -43,10 +43,10 @@ for a in "${ATTACKS[@]}"; do
   done
 done
 
-# 2 baseline kosusu (sifir saldirgan, her olcek icin) -- sadece tam sweep'te
+# 2 baseline runs (zero attackers, one per scale) - only in the full sweep
 if [[ -z "$FILTER_ATTACK" ]]; then
   for s in "${SCALES[@]}"; do
-    # spec: attack atkcount seed placement scale (baseline placement'i yok sayar)
+    # spec: attack atkcount seed placement scale (baseline ignores placement)
     RUNS+=("baseline 0 $SEED_BASE core $s")
   done
 fi
@@ -76,10 +76,10 @@ for w in $(seq 0 $((NWORKERS - 1))); do
   queue="${QUEUES[$w]:-}"
   [[ -z "$queue" ]] && continue
   (
-    # Build-race onleme: paylasimli build/cooja dizininde es-zamanli derleme
-    # cakismasini (Mote type creation failed: Bad return value) engellemek icin
-    # worker baslangiclarini kademelendir. Ilk worker firmware'i derler,
-    # digerleri ~2dk sonra baslayip up-to-date binary'yi yeniden kullanir.
+    # Build-race prevention: stagger worker start-ups to avoid a concurrent
+    # compile clash (Mote type creation failed: Bad return value) in the shared
+    # build/cooja directory. The first worker compiles the firmware; the others
+    # start ~2 min later and reuse the up-to-date binary.
     sleep $(( w * STAGGER_S ))
     n_local=0
     IFS='|' read -ra items <<< "$queue"

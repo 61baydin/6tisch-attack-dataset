@@ -5,9 +5,9 @@ Each telemetry record is 20 comma-separated integers (inside `b'...'` in the raw
 
 | # | Column | Meaning |
 |---|--------|---------|
-| 1 | `timestamp` | seconds since simulation start *(identifier — excluded from ML features)* |
-| 2 | `node_id` | mote ID *(identifier — excluded from ML features)* |
-| 3 | `parent_id` | RPL preferred-parent ID *(identifier — excluded from ML features)* |
+| 1 | `timestamp` | seconds since simulation start *(identifier, excluded from ML features)* |
+| 2 | `node_id` | mote ID *(identifier, excluded from ML features)* |
+| 3 | `parent_id` | RPL preferred-parent ID *(identifier, excluded from ML features)* |
 | 4 | `rank` | RPL rank (distance-to-root metric) |
 | 5 | `buf_occupancy` | TX-queue occupancy (% of capacity) |
 | 6 | `dio_sent` | cumulative DIO messages sent |

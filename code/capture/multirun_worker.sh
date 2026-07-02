@@ -52,7 +52,7 @@ esac
 
 # Baseline mode: a fully-benign run with ZERO attackers. Reuses the blackhole
 # base CSC (arbitrary) since gen_csc_variant with an empty attacker set marks
-# every mote as a normal client — no mote ever loads attack firmware.
+# every mote as a normal client - no mote ever loads attack firmware.
 VALIDATE_MODE=""
 if [[ "$ATTACK" == "baseline" ]]; then
   ATKCOUNT=0
@@ -120,7 +120,7 @@ for s in $(seq 1 120); do
   sleep 1
 done
 if [[ "$port_up" -ne 1 ]]; then
-  echo "[w${WID}] port 60001 never opened — Cooja failed to start"
+  echo "[w${WID}] port 60001 never opened - Cooja failed to start"
   kill "$COOJA_PID" 2>/dev/null || true
   pkill -9 -f "$CSC_KEY" 2>/dev/null || true
   exit 1
@@ -130,7 +130,7 @@ fi
 # inside the namespace as root (dispatcher did `ip netns exec`), so no external
 # keeper is needed. An external keeper's blind 1s retry loop races with Cooja
 # startup and systematically fails to connect ("Invalid argument"); launching
-# tunslip6 here — after the port is up — is what the working manual test does.
+# tunslip6 here - after the port is up - is what the working manual test does.
 # tunslip6 needs net-tools (ifconfig/netstat) to configure tun0. We track the
 # exact PID because every worker's tunslip6 cmdline is identical, so a
 # pkill-by-name would cross namespaces and kill siblings.
@@ -144,7 +144,7 @@ for s in $(seq 1 30); do
   sleep 1
 done
 if ! ip link show tun0 >/dev/null 2>&1; then
-  echo "[w${WID}] tun0 missing — tunslip6 failed to connect/configure (see tunslip_w${WID}.log)"
+  echo "[w${WID}] tun0 missing - tunslip6 failed to connect/configure (see tunslip_w${WID}.log)"
   kill "$TUNSLIP_PID" 2>/dev/null || true
   kill "$COOJA_PID" 2>/dev/null || true
   pkill -9 -f "$CSC_KEY" 2>/dev/null || true

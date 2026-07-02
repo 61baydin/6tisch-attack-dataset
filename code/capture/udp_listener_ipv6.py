@@ -2,12 +2,12 @@ import socket
 import sys
 from datetime import datetime
 
-# --- Ayarlar ---
-UDP_IP = '::'         # Tüm IPv6 adreslerinden dinle
-UDP_PORT = 5678       # Dinlenecek UDP portu
-# --- Bitiş ---
+# --- Settings ---
+UDP_IP = '::'         # listen on all IPv6 addresses
+UDP_PORT = 5678       # UDP port to listen on
+# --- End ---
 
-# Log dosyasını oluştur ve stdout'u yönlendir
+# Create the log file and redirect stdout.
 # Optional argv[1] = explicit log filename (used by parallel workers to avoid
 # timestamp collisions). Default: timestamp-based filename in cwd.
 # Optional argv[2] = run metadata string (whitespace-separated key=val pairs,
@@ -28,12 +28,12 @@ if metadata:
     log_file.flush()
 
 def print_and_log(message):
-    """Hem orijinal konsola hem de log dosyasına yazar."""
-    print(message)                  # Bu, dosyaya yazar
-    original_stdout.write(message + '\n') # Bu, konsola yazar
-    log_file.flush()                      # Dosyaya hemen yazılmasını garantiler
+    """Write to both the original console and the log file."""
+    print(message)                  # this writes to the file
+    original_stdout.write(message + '\n') # this writes to the console
+    log_file.flush()                      # ensure it is written to the file immediately
 
-# Soketi oluştur
+# Create the socket
 sock = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
 sock.bind((UDP_IP, UDP_PORT))
 
@@ -43,13 +43,13 @@ print_and_log(f"Listening on UDP port {UDP_PORT} (IPv6)...")
 try:
     while True:
         data, addr = sock.recvfrom(1024)
-        # Gelen veriyi ve adresi formatla
+        # Format the received data and address
         log_message = f"Received from {addr}: {data}"
         print_and_log(log_message)
 except KeyboardInterrupt:
     print_and_log("\nListener stopped by user.")
 finally:
-    # Betik durduğunda dosyayı kapat
+    # Close the file when the script stops
     log_file.close()
-    sys.stdout = original_stdout # stdout'u eski haline getir
-    sock.close() 
+    sys.stdout = original_stdout # restore stdout
+    sock.close()

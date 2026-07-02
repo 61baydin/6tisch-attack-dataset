@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Yeni 20-sutun dataset (2026-06-14/15) icin bastan analiz.
-- Kanonik log secimi: her hucre icin EN GEC 20-sutun logu (flooding 18-sutun
-  ve eski bozuk-bcast shared loglari elenir).
-- Oznitelikler: 13 taban + forward_ratio + bcast_tx + (turetilmis) rank_increase.
-- Etiketler: v[18]=is_attacker, v[19]=attack_type (20-sutun sema).
-- Saldiri-basina ikili F1: pooled placements, a5, grup-farkinda LOGO + naif.
+"""Fresh analysis for the new 20-column dataset (2026-06-14/15).
+- Canonical log selection: for each cell, the LATEST 20-column log (the
+  18-column flooding and the old broken-bcast shared logs are discarded).
+- Features: 13 base + forward_ratio + bcast_tx + (derived) rank_increase.
+- Labels: v[18]=is_attacker, v[19]=attack_type (20-column schema).
+- Per-attack binary F1: pooled placements, a5, group-aware LOGO + naive.
 """
 import re,glob,warnings,collections
 from pathlib import Path
@@ -60,7 +60,7 @@ def load_attack(attack, scale, ac='5'):
                 if arr: pr=arr[-1]
             if pr is not None: inc[idx]=rk-pr
     df['rank_increase']=pd.Series(inc,index=df.index).fillna(0)
-    # Delta: app_packet_count hizi (flooding'i cozer) -- kosu-ici, node-basina fark
+    # Delta: app_packet_count rate (resolves flooding) - per-run, per-node diff
     df['d_app']=df.groupby(['run_id','node_id'])['app_packet_count'].diff().fillna(0).clip(lower=0)
     return df
 
@@ -86,23 +86,23 @@ def binF1(df, atype, feats):
 
 def main():
     FEAT_FULL=BASE+NEW+['rank_increase','d_app']
-    print("=== YENI DATASET ANALIZ (a5, pooled, kanonik 20-sutun) ===")
-    print("Oznitelik: 13 taban + forward_ratio + bcast_tx + rank_increase + d_app (17)")
+    print("=== NEW DATASET ANALYSIS (a5, pooled, canonical 20-column) ===")
+    print("Features: 13 base + forward_ratio + bcast_tx + rank_increase + d_app (17)")
     for scale in ['21','31']:
         print(f"\n##### {scale}-mote a5 #####")
-        print(f"{'Saldiri':15}{'LR grup':>9}{'RF grup':>9}{'LR naif':>9}{'RF naif':>9}",flush=True)
+        print(f"{'Attack':15}{'LR grp':>9}{'RF grp':>9}{'LR naive':>9}{'RF naive':>9}",flush=True)
         print('-'*51)
         gs={'LR':[],'RF':[]}
         for atk in ATT:
             df=load_attack(atk,scale,'5')
-            if df is None: print(f"{DISP[atk]:15}{'(log yok)':>9}",flush=True); continue
+            if df is None: print(f"{DISP[atk]:15}{'(no log)':>9}",flush=True); continue
             r=binF1(df,ATYPE[atk],FEAT_FULL)
-            if r is None: print(f"{DISP[atk]:15}{'(yetersiz)':>9}",flush=True); continue
+            if r is None: print(f"{DISP[atk]:15}{'(insufficient)':>9}",flush=True); continue
             print(f"{DISP[atk]:15}{r['LR'][0]:>9.2f}{r['RF'][0]:>9.2f}{r['LR'][1]:>9.2f}{r['RF'][1]:>9.2f}",flush=True)
             gs['LR'].append(r['LR'][0]); gs['RF'].append(r['RF'][0])
         if gs['LR']:
             print('-'*51)
-            print(f"{'ORTALAMA':15}{np.mean(gs['LR']):>9.2f}{np.mean(gs['RF']):>9.2f}",flush=True)
+            print(f"{'AVERAGE':15}{np.mean(gs['LR']):>9.2f}{np.mean(gs['RF']):>9.2f}",flush=True)
 
 if __name__=='__main__':
     main()

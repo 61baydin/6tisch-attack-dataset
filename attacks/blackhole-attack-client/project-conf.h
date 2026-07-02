@@ -79,7 +79,7 @@
 #define SIXTOP_SERIAL_COMMANDS_ENABLE 1
 
 /*******************************************************/
-/************* RPL Ayarları (Sadece Router) ************/
+/************* RPL settings (router only) **************/
 /*******************************************************/
 #undef UIP_CONF_ROUTER
 #define UIP_CONF_ROUTER 1
@@ -90,7 +90,7 @@
 
 #if WITH_NON_STORING
 #undef RPL_NS_CONF_LINK_NUM
-#define RPL_NS_CONF_LINK_NUM 0  // Client'lar için 0 (root'ta 40)
+#define RPL_NS_CONF_LINK_NUM 0  // 0 for clients (40 at the root)
 #undef UIP_CONF_MAX_ROUTES
 #define UIP_CONF_MAX_ROUTES 0
 #undef RPL_CONF_MOP

@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""Coklu-saldiri CSC: iki tek-saldiri base CSC'sini birlestirir.
-Sonuc CSC'de 3 saldiri-ilgili motetype: normal(#2) + attackA(#3) + attackB(#4).
-attackA dugumleri -> #3, attackB dugumleri -> #4, geri kalan client -> #2, sink(#1) korunur.
-RadioLogger pcap enjekte edilir (PCAP_PATH env veya stem'den turetilir).
+"""Multi-attack CSC: merges two single-attack base CSCs.
+The resulting CSC has 3 attack-related motetypes: normal(#2) + attackA(#3) + attackB(#4).
+attackA nodes -> #3, attackB nodes -> #4, remaining clients -> #2, sink(#1) preserved.
+A RadioLogger pcap is injected (PCAP_PATH env var, or derived from the stem).
 
-Kullanim:
+Usage:
   python3 gen_multiattack_csc.py <baseA.csc> <baseB.csc> <out.csc> --a 7,9 --b 14,16
 """
 import os, re, sys
 
 def motetype_block(content, ident):
-    """exp5438#<ident> iceren <motetype>...</motetype> blogunu (metin, span) dondurur."""
+    """Return the <motetype>...</motetype> block containing exp5438#<ident> as (text, span)."""
     for m in re.finditer(r'<motetype>.*?</motetype>', content, re.DOTALL):
         if f'<identifier>{ident}</identifier>' in m.group(0):
             return m.group(0), m.span()
@@ -31,19 +31,19 @@ def main():
     with open(baseA) as f: content = f.read()
     with open(baseB) as f: bcontent = f.read()
 
-    # attackB'nin #3 motetype'ini al, #4 olarak yeniden numarala
+    # Take attackB's #3 motetype and renumber it as #4
     bblk, _ = motetype_block(bcontent, 'exp5438#3')
     if not bblk:
-        sys.stderr.write("HATA: attackB CSC'sinde exp5438#3 motetype yok\n"); return 1
+        sys.stderr.write("ERROR: attackB CSC has no exp5438#3 motetype\n"); return 1
     bblk4 = bblk.replace('exp5438#3', 'exp5438#4')
 
-    # attackA CSC'sindeki #3 blogunun bittigi yere #4 blogunu ekle
+    # Insert the #4 block right after where attackA's #3 block ends
     ablk, span = motetype_block(content, 'exp5438#3')
     if not ablk:
-        sys.stderr.write("HATA: attackA CSC'sinde exp5438#3 motetype yok\n"); return 1
+        sys.stderr.write("ERROR: attackA CSC has no exp5438#3 motetype\n"); return 1
     content = content[:span[1]] + "\n" + bblk4 + content[span[1]:]
 
-    # Mote atamasi: sink(1)->#1 korunur; aids->#3, bids->#4, digerleri->#2
+    # Mote assignment: sink(1)->#1 preserved; aids->#3, bids->#4, others->#2
     pat = re.compile(
         r'(<id>(\d+)</id>\s*</interface_config>\s*<motetype_identifier>)exp5438#\d+(</motetype_identifier>)')
     def repl(m):
@@ -71,7 +71,7 @@ def main():
         content = content.replace('</simconf>', rl + '</simconf>')
 
     with open(out, 'w') as f: f.write(content)
-    print(f"wrote {out}: A(#3)={sorted(aids)} B(#4)={sorted(bids)} ({n} mote atandi)")
+    print(f"wrote {out}: A(#3)={sorted(aids)} B(#4)={sorted(bids)} ({n} motes assigned)")
     return 0
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Yeni dataset RF Gini oznitelik onemi, saldiri-basina ikili, 21-mote a5,
-17 oznitelik (yeni forward_ratio/bcast_tx + turetilmis rank_increase/d_app dahil)."""
+"""New dataset RF Gini feature importance, per-attack binary, 21-mote a5,
+17 features (including new forward_ratio/bcast_tx + derived rank_increase/d_app)."""
 import re,glob,warnings,collections
 from pathlib import Path
 import numpy as np, pandas as pd
@@ -46,7 +46,7 @@ for atk in ATT:
     df['d_app']=df.groupby(['run_id','node_id'])['app_packet_count'].diff().fillna(0).clip(lower=0)
     X=df[FEAT].values.astype(float)
     y=((df.attack_type.values==ATYPE[atk])&(df.is_attacker.values==1)).astype(int)
-    if len(set(y))<2: print(f'{DISP[atk]}: yetersiz'); continue
+    if len(set(y))<2: print(f'{DISP[atk]}: insufficient'); continue
     rf=RandomForestClassifier(n_estimators=100,max_depth=10,class_weight='balanced',n_jobs=-1,random_state=42)
     rf.fit(X,y); imp=rf.feature_importances_*100
     top=sorted(zip(FEAT,imp),key=lambda x:-x[1])[:3]

@@ -8,7 +8,8 @@ COOJA.testlog
 keeper_w*.log
 tunslip_w*.log
 
-# Locally regenerated figures (see REPRODUCING.md)
-figures/
+# Locally regenerated figure OUTPUTS at repo root (see REPRODUCING.md).
+# Anchored to root so it does NOT match code/figures/ (the generator scripts).
+/figures/
 *.aux
 *.out

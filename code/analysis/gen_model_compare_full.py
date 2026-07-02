@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Detayli model karsilastirmasi (YENI veri, 21-mote a5, 17 oznitelik).
-Nokta modelleri: LR, RF, Decision Tree, kNN.  Sekans modelleri: 1D-CNN, LSTM.
-Grup-farkinda = StratifiedGroupKFold k=5 (grup=dugum); naif = StratifiedKFold k=5.
-DL icin LOGO pratik degil; tum modeller ayni pencere/fold ustunde adil kiyas.
-Cikti: saldiri-basina GRUP F1 tablosu + ortalama naif/grup."""
+"""Detailed model comparison (NEW data, 21-mote a5, 17 features).
+Point models: LR, RF, Decision Tree, kNN.  Sequence models: 1D-CNN, LSTM.
+Group-aware = StratifiedGroupKFold k=5 (group=node); naive = StratifiedKFold k=5.
+LOGO is impractical for DL; all models are compared fairly on the same windows/folds.
+Output: per-attack GROUP F1 table + average naive/group."""
 import re,glob,warnings,collections
 from pathlib import Path
 import numpy as np, pandas as pd
@@ -43,7 +43,7 @@ def canon(scale,a,pl):
     fs=[f for f in glob.glob(f'dataset_v3/single/logs/*_{a}-n{scale}-{pl}-a5-w*.log') if 'cooja' not in f and parse(f)]
     return sorted(fs)[-1] if fs else None
 def load_run(scale,a,pl):
-    """TEK kosu: turetilmis ozellikler KOSU-ICI hesaplanir."""
+    """SINGLE run: derived features are computed PER-RUN."""
     f=canon(scale,a,pl)
     if not f: return None
     df=pd.DataFrame(parse(f),columns=COLS).sort_values(['node_id','timestamp']).reset_index(drop=True)
@@ -60,7 +60,7 @@ def load_run(scale,a,pl):
     df['d_app']=df.groupby('node_id')['app_packet_count'].diff().fillna(0).clip(lower=0)
     return df
 def windows(a,atype):
-    """21+31 mote, a5, 6 kosu/atak. Grup = kosu|dugum (kosu-bilincli)."""
+    """21+31 mote, a5, 6 runs/attack. Group = run|node (run-aware)."""
     Xs,ys,gs=[],[],[]
     for scale in ['21','31']:
         for pl in ['core','mid','edge']:
@@ -161,11 +161,11 @@ for a in ATT:
         if not np.isnan(gr[k]): GRP[k].append(gr[k])
         if not np.isnan(na[k]): NAI[k].append(na[k])
     print('done',a,flush=True)
-print("\n### SALDIRI-BASINA GRUP-FARKINDA F1 (StratifiedGroupKFold k=5) ###")
-print("Saldiri    "+''.join(f"{k:>9}" for k in KEYS))
+print("\n### PER-ATTACK GROUP-AWARE F1 (StratifiedGroupKFold k=5) ###")
+print("Attack     "+''.join(f"{k:>9}" for k in KEYS))
 for a in ATT:
     if a in PERATK: print(f"{DISP[a]:11}"+''.join(f"{PERATK[a][k]:>9.2f}" for k in KEYS))
-print("\n### ORTALAMA ###")
-print("Model        Naif    Grup    Fark")
+print("\n### AVERAGE ###")
+print("Model        Naive   Group   Diff")
 for k in KEYS:
     n=np.mean(NAI[k]); gg=np.mean(GRP[k]); print(f"{k:11}{n:>7.2f}{gg:>8.2f}{n-gg:>+8.2f}")

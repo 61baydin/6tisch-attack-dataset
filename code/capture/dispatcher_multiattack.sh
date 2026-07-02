@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
-# Coklu-saldiri dispatcher: 6 kombo x 2 olcek x 3 tohum = 36 kosu.
-# Her kosu: 2x attackA (core) + 2x attackB (edge) = 4 saldirgan, es-zamanli.
+# Multi-attack dispatcher: 6 combos x 2 scales x 3 seeds = 36 runs.
+# Each run: 2x attackA (core) + 2x attackB (edge) = 4 attackers, concurrent.
 #
-# On kosul (sudo): setup_parallel_workers.sh ile namespace'ler + TUM saldiri
-# firmware'lerinin derli olmasi (yarisi onlemek icin asagidaki pre-build).
-# Calistirma:  sudo NWORKERS=8 bash dispatcher_multiattack.sh
+# Prerequisites (sudo): namespaces via setup_parallel_workers.sh + ALL attack
+# firmwares pre-built (pre-build below to prevent build races).
+# Run:  sudo NWORKERS=8 bash dispatcher_multiattack.sh
 set -euo pipefail
 cd "$(dirname "$0")"
 NWORKERS=${NWORKERS:-8}
 STAGGER_S=${STAGGER_S:-150}
 SEEDS=(42 43 44)
 SCALES=(21 30)
-# kombolar: "attackA attackB" -> A core'a, B edge'e yerlesir.
-# KURAL: konuma-duyarli saldiri (blackhole/decrease: cocuk/trafik gerekir) HEP A (core);
-# yayin-tabanli saldiri (dis/flooding/shared/timekeep: her yerde calisir) B (edge).
+# combos: "attackA attackB" -> A placed at core, B placed at edge.
+# RULE: location-sensitive attacks (blackhole/decrease: need children/traffic) are ALWAYS A (core);
+# broadcast-based attacks (dis/flooding/shared/timekeep: work anywhere) are B (edge).
 COMBOS=(
-  "blackhole dis"            # veri@core + kontrol@edge
-  "blackhole timekeep"       # veri@core + MAC-zaman@edge
-  "decrease flooding"        # yonlendirme@core + uygulama@edge
-  "decrease dis"             # yonlendirme@core + kontrol@edge
-  "shared-slot timekeep"     # MAC@core + MAC@edge (ikisi de saglam)
-  "flooding shared-slot"     # uygulama@core + MAC@edge (ikisi de saglam)
+  "blackhole dis"            # data@core + control@edge
+  "blackhole timekeep"       # data@core + MAC-time@edge
+  "decrease flooding"        # routing@core + application@edge
+  "decrease dis"             # routing@core + control@edge
+  "shared-slot timekeep"     # MAC@core + MAC@edge (both robust)
+  "flooding shared-slot"     # application@core + MAC@edge (both robust)
 )
 
 RUNS=()
@@ -32,7 +32,7 @@ for c in "${COMBOS[@]}"; do
   done
 done
 TOTAL=${#RUNS[@]}
-echo "[multi] toplam kosu: $TOTAL | worker: $NWORKERS"
+echo "[multi] total runs: $TOTAL | workers: $NWORKERS"
 
 declare -A QUEUES
 for i in "${!RUNS[@]}"; do QUEUES[$((i % NWORKERS))]+="${RUNS[$i]}|"; done
@@ -61,10 +61,10 @@ for w in $(seq 0 $((NWORKERS - 1))); do
       done
       (( attempt > MAX_ATTEMPTS )) && echo "[w${w}] ABANDONED: $item" | tee -a dispatcher_logs/multi_abandoned.log
     done
-    echo "[w${w}] bitti ($nl spec)"
+    echo "[w${w}] done ($nl specs)"
   ) &
   PIDS+=($!)
 done
-echo "[multi] ${#PIDS[@]} worker basladi"
+echo "[multi] ${#PIDS[@]} workers started"
 for pid in "${PIDS[@]}"; do wait "$pid"; done
-echo "[multi] BITTI. multi log: $(ls 2026-*_multi-*-w[0-9].log 2>/dev/null | grep -v cooja | wc -l) | pcap: $(ls pcaps/2026-*_multi-*.pcap 2>/dev/null | wc -l)"
+echo "[multi] DONE. multi logs: $(ls 2026-*_multi-*-w[0-9].log 2>/dev/null | grep -v cooja | wc -l) | pcap: $(ls pcaps/2026-*_multi-*.pcap 2>/dev/null | wc -l)"

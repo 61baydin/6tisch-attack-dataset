@@ -35,10 +35,10 @@
  * fingerprints in the telemetry.
  */
 /*
- * Stealth v4 (geri donus): 4 -> 8. v3'teki offset=4 RPL rank
- * hysteresis'inin (~32-128) altinda kaldigindan hicbir komsu parent
- * degistirmiyordu - saldiri kozmetik kalmisti. 8 v2 seviyesi: gercek
- * cocuk cekimi olusturur. v1'in 32'si "maksimum agresif" idi; 8 sinir.
+ * Stealth v4 (revert): 4 -> 8. In v3 offset=4 stayed below the RPL rank
+ * hysteresis (~32-128), so no neighbour switched parent - the attack was
+ * merely cosmetic. Level 8 (v2 level) creates real child attraction. v1's
+ * 32 was "maximum aggressive"; 8 is the borderline.
  */
 #ifndef DECREASE_RANK_OFFSET
 #define DECREASE_RANK_OFFSET 8
@@ -86,20 +86,20 @@ PROCESS_THREAD(udp_client_process, ev, data)
   printf("Phase 2: Decrease rank attack with telemetry\n");
   printf("==============================================\n");
 
-  /* Manuel olarak fd00::5 adresini ekle */
+  /* Manually add the fd00::5 address */
   uint8_t jrc_addr[16] = JRC_IP_ADDR;
   memcpy(jrc_ip_addr.u8, jrc_addr, 16);
 
-  /* UDP baglantisini baslat */
+  /* Start the UDP connection */
   simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL,
                       UDP_SERVER_PORT, udp_rx_callback);
   
   foure_timesynch_init(0);
   
-  /* Ilk fazda etiket: ataksiz (0, ATTACK_TYPE_NONE) */
+  /* First phase label: no attack (0, ATTACK_TYPE_NONE) */
   attacker_analyzer_init(0, &udp_conn, (void *)&jrc_ip_addr, (unsigned short)UDP_SERVER_PORT, 0, ATTACK_TYPE_NONE);
   
-  /* Normal fazda basla */
+  /* Start in the normal phase */
   start_time = clock_time();
   in_attack_phase = 0;
   phase1_duration = ATTACK_DELAY_MIN + (random_rand() % (ATTACK_DELAY_MAX - ATTACK_DELAY_MIN));
@@ -135,7 +135,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
         LOG_INFO("DRANK: Attack enabled in RPL OF, DIO triggered\n");
       }
       
-      /* Etiketi saldiri olarak guncelle: 1, ATTACK_TYPE_DECREASE_RANK */
+      /* Update the label to attack: 1, ATTACK_TYPE_DECREASE_RANK */
       attacker_analyzer_set_attack_mode(1, ATTACK_TYPE_DECREASE_RANK);
     }
 
@@ -170,7 +170,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
         }
       }
 
-      /* Jitter ekle */
+      /* Add jitter */
       etimer_set(&periodic_timer, NORMAL_SEND_INTERVAL - CLOCK_SECOND + (clock_time_t)(random_rand() % (2 * CLOCK_SECOND)));
     }
   }

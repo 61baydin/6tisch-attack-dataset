@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""a1 (tek-saldirgan) naif satir-duzeyi RF F1, saldiri x yerlesim x olcek.
-dataset_v3/single/logs a1 koslarindan; StratifiedKFold k=5 (grup yok = sizinti).
-Cikti: gen_a1_heatmap.py'ye yapistirmaya hazir f1_21 / f1_31 literalleri."""
+"""a1 (single-attacker) naive row-level RF F1, attack x placement x scale.
+From dataset_v3/single/logs a1 runs; StratifiedKFold k=5 (no group = leakage).
+Output: f1_21 / f1_31 literals ready to paste into gen_a1_heatmap.py."""
 import re,glob,warnings,collections
 from pathlib import Path
 import numpy as np, pandas as pd

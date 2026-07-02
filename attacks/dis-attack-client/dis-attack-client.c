@@ -21,29 +21,31 @@ static uip_ipaddr_t jrc_ip_addr;
 static struct simple_udp_connection udp_conn;
 
 /*
- * v4: GERCEK DIS flood. [60s,120s] aralik literatur acisindan flood degildi
- * (normal join-sonrasi DIS ~0; aralik DIO Trickle'in Imin=2^12ms~4s'den cok
- * yavasti, komsu Trickle tamamen toparlaniyordu). Aralik Imin civarina/altina
- * cekildi: jitter'li [2s,6s]. Bu, komsularin DIO Trickle timer'ini Imin'e
- * pinler -> gercek DIO firtinasi + enerji tuketimi imzasi.
- * NOT: dis_sent feature'i bu yuzden guclu bir imza birakir (beklenen, dogru
- * davranis). Non-trivial siniflandirma stealth'i artik aralik dusurmekten
- * DEGIL, kosu-basi rastgele saldirgan kimligi + on/off pencerelerinden gelir.
+ * v4: REAL DIS flood. The [60s,120s] interval was not a flood in the
+ * literature sense (normal post-join DIS ~0; the interval was much slower
+ * than the DIO Trickle Imin=2^12ms~4s, so neighbour Trickle fully recovered).
+ * The interval was pulled down to around/below Imin: jittered [2s,6s]. This
+ * pins the neighbours' DIO Trickle timer to Imin -> a real DIO storm plus an
+ * energy-consumption signature.
+ * NOTE: the dis_sent feature therefore leaves a strong signature (expected,
+ * correct behaviour). Non-trivial classification stealth now comes NOT from
+ * lowering the interval, but from a per-run random attacker identity plus
+ * on/off windows.
  */
 #define ATTACK_MIN_INTERVAL (2 * CLOCK_SECOND)
 #define ATTACK_MAX_INTERVAL (6 * CLOCK_SECOND)
-/* Stabilizasyon bekleme: gercek flood'da parent/rank dalgalanmasinda durmak
- * flood'u baltalar (flood'un kendisi bu dalgalanmayi yaratir). 0 = devre disi;
- * mantik dursa bile en fazla tek bir DIS atlanir. */
+/* Stabilization hold: in a real flood, pausing on parent/rank fluctuation
+ * undermines the flood (the flood itself creates that fluctuation). 0 =
+ * disabled; even if the logic stops, at most a single DIS is skipped. */
 #define STABILITY_HOLDOFF   (0)
-/* Saldiri moduna gecince ilk DIS oncesi kisa yerlesme (eski 120s flood'un
- * ilk ~2 dk'sini yiyordu). */
+/* Short settle before the first DIS when entering attack mode (the old 120s
+ * flood consumed roughly its first ~2 min). */
 #define ATTACK_INITIAL_HOLDOFF (5 * CLOCK_SECOND)
 
 /*
- * Faz gecisi icin sure: 30-min headless run semasinda 3. dk sonunda
- * (attacker-analyzer warmup'i bittiginde) atak fazi acilir. DIS saldirisi
- * routing-independent oldugu icin DODAG katilim faz suresine ihtiyac yok.
+ * Phase-transition timing: in the 30-min headless run scheme the attack phase
+ * opens at the end of minute 3 (when the attacker-analyzer warmup ends). Since
+ * the DIS attack is routing-independent, no DODAG join phase duration is needed.
  */
 #define ATTACK_DELAY_MIN (20 * 60 * CLOCK_SECOND)  // 60-min run; attack start random in [20,25] min
 #define ATTACK_DELAY_MAX (25 * 60 * CLOCK_SECOND)
@@ -74,33 +76,33 @@ PROCESS_THREAD(hybrid_client_process, ev, data)
     static struct etimer app_send_timer;
     static unsigned count = 0;
     uip_ipaddr_t dest_ipaddr;
-    /* Rota stabilitesi izleme icin yerel durum */
+    /* Local state for route-stability monitoring */
     static uip_ipaddr_t last_parent_ip_local;
     static uint16_t last_rank_local = 0;
     static clock_time_t holdoff_until = 0;
 
     PROCESS_BEGIN();
 
-    /* --- Normal calisma icin baslangic --- */
+    /* --- Initialization for normal operation --- */
     uint8_t jrc_addr[16] = JRC_IP_ADDR;
     memcpy(jrc_ip_addr.u8, jrc_addr, 16);
     simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL,
                         UDP_SERVER_PORT, udp_rx_callback);
     foure_timesynch_init(0);
 
-    /* Rota stabilitesi izleme baslangic durumu */
+    /* Initial state for route-stability monitoring */
     uip_create_unspecified(&last_parent_ip_local);
 
-    /* Attacker analyzer'i baslat: Ilk fazda etiket ataksiz (0, ATTACK_TYPE_NONE) */
+    /* Start the attacker analyzer: first-phase label is no attack (0, ATTACK_TYPE_NONE) */
     attacker_analyzer_init(0, &udp_conn, (void *)&jrc_ip_addr, (unsigned short)UDP_SERVER_PORT, 0, ATTACK_TYPE_NONE);
 
-    LOG_INFO("Dugum normal modda basliyor. 15 dakika sonra DIS saldirisi baslayacak.\n");
+    LOG_INFO("Node starting in normal mode. DIS attack will begin in 15 minutes.\n");
     clock_time_t attack_delay = ATTACK_DELAY_MIN + (random_rand() % (ATTACK_DELAY_MAX - ATTACK_DELAY_MIN));
     LOG_INFO("Attack delay drawn: %lu sec (uniform [20,25] min)\n", (unsigned long)(attack_delay / CLOCK_SECOND));
     etimer_set(&attack_delay_timer, attack_delay);
     etimer_set(&periodic_timer, random_rand() % NORMAL_SEND_INTERVAL);
 
-    /* --- Normal Faz Dongusu (ilk 15 dakika) --- */
+    /* --- Normal Phase Loop (first 15 minutes) --- */
     while(!etimer_expired(&attack_delay_timer)) {
         PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
 
@@ -117,7 +119,7 @@ PROCESS_THREAD(hybrid_client_process, ev, data)
             /* Update packet count for analyzer */
             attacker_analyzer_set_app_packet_count(count);
         } else {
-            LOG_INFO("Normal mod: Henuz erisilebilir degil\n");
+            LOG_INFO("Normal mode: Not reachable yet\n");
         }
 
         /* Add some jitter */
@@ -125,11 +127,11 @@ PROCESS_THREAD(hybrid_client_process, ev, data)
           - CLOCK_SECOND + (random_rand() % (2 * CLOCK_SECOND)));
     }
 
-    /* --- Saldiri Faz Dongusu --- */
-    LOG_INFO("Saldiri fazi basladi. DIS mesajlari periyodik olarak gonderilecek.\n");
-    /* Etiketi saldiri olarak guncelle: 1, ATTACK_TYPE_DIS */
+    /* --- Attack Phase Loop --- */
+    LOG_INFO("Attack phase started. DIS messages will be sent periodically.\n");
+    /* Update the label to attack: 1, ATTACK_TYPE_DIS */
     attacker_analyzer_set_attack_mode(1, ATTACK_TYPE_DIS);
-    /* Ilk gonderim oncesi BEKLEME: kisa yerlesme (ATTACK_INITIAL_HOLDOFF), uzerine [ATTACK_MIN, ATTACK_MAX) rastgele */
+    /* WAIT before first send: short settle (ATTACK_INITIAL_HOLDOFF), plus a random [ATTACK_MIN, ATTACK_MAX) */
     {
       clock_time_t delta = (ATTACK_MAX_INTERVAL > ATTACK_MIN_INTERVAL) ? (ATTACK_MAX_INTERVAL - ATTACK_MIN_INTERVAL) : 0;
       clock_time_t off = (delta > 0) ? (clock_time_t)(random_rand() % delta) : 0;
@@ -144,7 +146,7 @@ PROCESS_THREAD(hybrid_client_process, ev, data)
 
         /* --- DIS attack branch --- */
         if(etimer_expired(&periodic_timer)) {
-          /* --- Rota/Senkron stabilitesi kontrolu --- */
+          /* --- Route/sync stability check --- */
           int can_send = 1;
           clock_time_t now = clock_time();
           if(now < holdoff_until) {
@@ -162,11 +164,11 @@ PROCESS_THREAD(hybrid_client_process, ev, data)
                 uip_ipaddr_copy(&last_parent_ip_local, p);
                 holdoff_until = now + STABILITY_HOLDOFF;
                 can_send = 0;
-                LOG_INFO("DIS atlandi: yeni parent, stabilizasyon bekleniyor.\n");
+                LOG_INFO("DIS skipped: new parent, waiting for stabilization.\n");
               } else if((last_rank_local != 0) && (rank_now > last_rank_local ? (rank_now - last_rank_local) : (last_rank_local - rank_now)) >= 256) {
                 holdoff_until = now + STABILITY_HOLDOFF;
                 can_send = 0;
-                LOG_INFO("DIS atlandi: rank dalgalanmasi, stabilizasyon bekleniyor.\n");
+                LOG_INFO("DIS skipped: rank fluctuation, waiting for stabilization.\n");
               }
               last_rank_local = rank_now;
             }

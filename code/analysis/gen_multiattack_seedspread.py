@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Coklu-saldiri: seed-basina (42,43,44) ikili tespit F1 ve cok-sinifli makro-F1,
-ardindan 3 seed uzerinden ortalama +/- std. Grup-farkinda (StratifiedGroupKFold k=5,
-grup=run|node), sinif-dengeli LR. Ayrica 36-kosu havuzlanmis tek deger de yazilir."""
+"""Multi-attack: per-seed (42,43,44) binary detection F1 and multi-class macro-F1,
+then mean +/- std over 3 seeds. Group-aware (StratifiedGroupKFold k=5,
+group=run|node), class-balanced LR. Also prints the single 36-run pooled value."""
 import re, glob, warnings, collections
 from pathlib import Path
 import numpy as np, pandas as pd
@@ -47,13 +47,13 @@ def evaluate(df):
     X=StandardScaler().fit_transform(df[FEAT].values.astype(float))
     g=(df.run_id.astype(str)+'|'+df.node_id.astype(str)).values
     cv=StratifiedGroupKFold(5,shuffle=True,random_state=42)
-    # ikili
+    # binary
     yb=df.is_attacker.values.astype(int); ypb=np.empty_like(yb)
     for tr,te in cv.split(X,yb,g):
         m=LogisticRegression(max_iter=1000,class_weight='balanced',random_state=42)
         m.fit(X[tr],yb[tr]); ypb[te]=m.predict(X[te])
     binF1=f1_score(yb,ypb,zero_division=0)
-    # cok-sinifli
+    # multi-class
     ym=df.attack_type.values; ypm=np.empty_like(ym)
     for tr,te in cv.split(X,ym,g):
         m=LogisticRegression(max_iter=1000,class_weight='balanced',random_state=42)
@@ -61,16 +61,16 @@ def evaluate(df):
     labels=sorted(set(ym)); macro=f1_score(ym,ypm,labels=labels,average='macro')
     return binF1,macro
 allf=[f for f in glob.glob('dataset_v3/multiattack/logs/*.log') if 'cooja' not in f]
-print(f"toplam multiattack log: {len(allf)}")
+print(f"total multiattack logs: {len(allf)}")
 bins=[];macros=[]
 for s in ['s42','s43','s44']:
     sf=[f for f in allf if f'-{s}-' in f]
     df=build(sf); b,m=evaluate(df)
     bins.append(b);macros.append(m)
-    print(f"  seed {s[1:]}: {len(sf)} kosu | ikili F1={b:.3f} | makro-F1={m:.3f}")
-print(f"\n3-seed ORTALAMA +/- STD:")
-print(f"  ikili tespit F1 = {np.mean(bins):.3f} +/- {np.std(bins):.3f}")
-print(f"  cok-sinifli makro-F1 = {np.mean(macros):.3f} +/- {np.std(macros):.3f}")
-# havuzlanmis (referans)
+    print(f"  seed {s[1:]}: {len(sf)} runs | binary F1={b:.3f} | macro-F1={m:.3f}")
+print(f"\n3-seed AVERAGE +/- STD:")
+print(f"  binary detection F1 = {np.mean(bins):.3f} +/- {np.std(bins):.3f}")
+print(f"  multi-class macro-F1 = {np.mean(macros):.3f} +/- {np.std(macros):.3f}")
+# pooled (reference)
 b,m=evaluate(build(allf))
-print(f"\n36-kosu havuzlanmis (referans): ikili={b:.3f} makro={m:.3f}")
+print(f"\n36-run pooled (reference): binary={b:.3f} macro={m:.3f}")

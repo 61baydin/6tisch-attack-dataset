@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Coklu-saldiri (es-zamanli iki saldiri) tespit analizi, dataset_v3/multiattack.
-36 kosu havuzlanir; grup-farkinda (StratifiedGroupKFold k=5, grup=run|node).
-(a) ikili saldirgan tespiti F1; (b) cok-sinifli attack_type F1 + confusion.
-Boylece ayni agda iki saldiri es-zamanli iken model her ikisini ayirabiliyor mu gorulur.
-Cikti: konsol tablosu + paper/figures/confusion_matrix_multiattack.{pdf,png}
+"""Multi-attack (two simultaneous attacks) detection analysis, dataset_v3/multiattack.
+36 runs pooled; group-aware (StratifiedGroupKFold k=5, group=run|node).
+(a) binary attacker detection F1; (b) multi-class attack_type F1 + confusion.
+This shows whether the model can separate both attacks when two run simultaneously in the same network.
+Output: console table + paper/figures/confusion_matrix_multiattack.{pdf,png}
 """
 import re, glob, warnings, collections
 from pathlib import Path
@@ -38,7 +38,7 @@ for fn in sorted(glob.glob('dataset_v3/multiattack/logs/*.log')):
     for v in parse(fn): rows.append(v+[rid])
 df=pd.DataFrame(rows,columns=COLS+['run_id'])
 df=df[df.parent_id!=0].sort_values(['run_id','node_id','timestamp']).reset_index(drop=True)
-# turetilmis (kosu-ici)
+# derived (per-run)
 inc=np.full(len(df),np.nan)
 for rid,g in df.groupby('run_id'):
     lut=collections.defaultdict(list)
@@ -55,16 +55,16 @@ X=StandardScaler().fit_transform(df[FEAT].values.astype(float))
 g=(df.run_id.astype(str)+'|'+df.node_id.astype(str)).values
 cv=StratifiedGroupKFold(5,shuffle=True,random_state=42)
 
-# (a) ikili saldirgan tespiti
+# (a) binary attacker detection
 yb=df.is_attacker.values.astype(int)
 ypb=np.empty_like(yb)
 for tr,te in cv.split(X,yb,g):
     m=LogisticRegression(max_iter=1000,class_weight='balanced',random_state=42)
     m.fit(X[tr],yb[tr]); ypb[te]=m.predict(X[te])
-print("### COKLU-SALDIRI (36 kosu, grup-farkinda) ###")
-print(f"Ikili saldirgan tespiti (is_attacker) F1 = {f1_score(yb,ypb,zero_division=0):.3f}")
+print("### MULTI-ATTACK (36 runs, group-aware) ###")
+print(f"Binary attacker detection (is_attacker) F1 = {f1_score(yb,ypb,zero_division=0):.3f}")
 
-# (b) cok-sinifli attack_type
+# (b) multi-class attack_type
 ym=df.attack_type.values
 ypm=np.empty_like(ym)
 for tr,te in cv.split(X,ym,g):
@@ -72,7 +72,7 @@ for tr,te in cv.split(X,ym,g):
     m.fit(X[tr],ym[tr]); ypm[te]=m.predict(X[te])
 labels=sorted(set(ym)); names=[FAM[i] for i in labels]
 macro=f1_score(ym,ypm,labels=labels,average='macro')
-print(f"Cok-sinifli attack_type makro-F1 = {macro:.3f}  (siniflar: {names})")
+print(f"Multi-class attack_type macro-F1 = {macro:.3f}  (classes: {names})")
 for lb in labels:
     f=f1_score((ym==lb).astype(int),(ypm==lb).astype(int),zero_division=0)
     print(f"  {FAM[lb]:10}: F1={f:.2f}  (n={int((ym==lb).sum())})")

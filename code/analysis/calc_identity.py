@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Yeni dataset kimlik ablasyonu: RF, base(17) vs +kimlik (node_id,parent_id,np_pair),
-grup(LOGO) vs naif(SKF), saldiri-basina, 21-mote a5 pooled."""
+"""New dataset identity ablation: RF, base(17) vs +identity (node_id,parent_id,np_pair),
+group(LOGO) vs naive(SKF), per-attack, 21-mote a5 pooled."""
 import re,glob,warnings,collections
 from pathlib import Path
 import numpy as np, pandas as pd
@@ -65,7 +65,7 @@ def evalset(df,feats,atype):
     for tr,te in StratifiedKFold(5,shuffle=True,random_state=42).split(X,y):
         m=rf(); m.fit(X[tr],y[tr]); fn.append(f1_score(y[te],m.predict(X[te]),zero_division=0))
     return (float(np.mean(fg)) if fg else 0.0), float(np.mean(fn))
-print("Saldiri & base_grup & base_naif & +id_grup & +id_naif")
+print("Attack & base_grp & base_naive & +id_grp & +id_naive")
 bg=[];bn=[];ig=[];ino=[]
 for a in ATT:
     df=load(a)
@@ -74,4 +74,4 @@ for a in ATT:
     if g1 is None: continue
     bg.append(g1);bn.append(n1);ig.append(g2);ino.append(n2)
     print(f"{DISP[a]:20} & {g1:.2f} & {n1:.2f} && {g2:.2f} & {n2:.2f} \\\\")
-print(f"Ortalama & {np.mean(bg):.2f} & {np.mean(bn):.2f} && {np.mean(ig):.2f} & {np.mean(ino):.2f}")
+print(f"Average & {np.mean(bg):.2f} & {np.mean(bn):.2f} && {np.mean(ig):.2f} & {np.mean(ino):.2f}")

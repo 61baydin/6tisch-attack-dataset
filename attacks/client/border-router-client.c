@@ -45,12 +45,10 @@ PROCESS_THREAD(udp_client_process, ev, data)
   static struct etimer periodic_timer;
   static unsigned count;
   uip_ipaddr_t dest_ipaddr;
-  
-  //uint8_t buf[100]; // 
 
   PROCESS_BEGIN();
 
-  /* Manuel olarak fd00::5 adresini ekle */
+  /* Manually add the fd00::5 address */
   uint8_t jrc_addr[16] = JRC_IP_ADDR;  //
   memcpy(jrc_ip_addr.u8, jrc_addr, 16);
 

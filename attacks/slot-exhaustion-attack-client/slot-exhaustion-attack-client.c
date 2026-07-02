@@ -38,11 +38,11 @@
 #define NORMAL_SEND_INTERVAL   (15 * CLOCK_SECOND)
 
 /*
- * Stealth v4 (geri donus): 30s/1cell -> 10s/2cells.
- * v3'teki 30s/1cell ~50 cell talep / 25 dk uretiyordu - schedule
- * (~32 cell) doyurmak icin yeterli ama zar zor; saldiri kozmetiksel
- * sinirdaydi. 10s/2cells = 300 cell / 25 dk: gercekten exhaust eder.
- * v2'nin 5s/2cells (600 cell) seviyesinden hafif ama gercek atak.
+ * Stealth v4 (revert): 30s/1cell -> 10s/2cells.
+ * v3's 30s/1cell produced ~50 cell requests / 25 min - just barely enough
+ * to saturate the schedule (~32 cells); the attack was on the cosmetic
+ * borderline. 10s/2cells = 300 cells / 25 min: it truly exhausts.
+ * A milder but real attack compared to v2's 5s/2cells (600 cells) level.
  */
 #ifndef SLOT_REQUEST_INTERVAL_S
 #define SLOT_REQUEST_INTERVAL_S 10
@@ -140,20 +140,20 @@ PROCESS_THREAD(udp_client_process, ev, data)
   printf("Phase 2: Aggressive slot requests every 2 seconds\n");
   printf("==============================================\n");
 
-  /* Manuel olarak fd00::5 adresini ekle */
+  /* Manually add the fd00::5 address */
   uint8_t jrc_addr[16] = JRC_IP_ADDR;
   memcpy(jrc_ip_addr.u8, jrc_addr, 16);
 
-  /* UDP baglantisini baslat */
+  /* Start the UDP connection */
   simple_udp_register(&udp_conn, UDP_CLIENT_PORT, NULL,
                       UDP_SERVER_PORT, udp_rx_callback);
   
   foure_timesynch_init(0);
   
-  /* Ilk fazda etiket: ataksiz (0, ATTACK_TYPE_NONE) */
+  /* Label in the first phase: no attack (0, ATTACK_TYPE_NONE) */
   attacker_analyzer_init(0, &udp_conn, (void *)&jrc_ip_addr, (unsigned short)UDP_SERVER_PORT, 0, ATTACK_TYPE_NONE);
-  
-  /* Normal fazda basla */
+
+  /* Start in the normal phase */
   start_time = clock_time();
   phase1_duration = ATTACK_DELAY_MIN + (random_rand() % (ATTACK_DELAY_MAX - ATTACK_DELAY_MIN));
   LOG_INFO("Attack delay drawn: %lu sec (uniform [20,25] min)\n", (unsigned long)(phase1_duration / CLOCK_SECOND));
@@ -177,7 +177,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
       printf("Network bandwidth will be exhausted!\n");
       printf("==============================================\n");
       LOG_INFO("SLOTATTACK: Switching to SLOT EXHAUSTION attack mode\n");
-      /* Etiketi saldiri olarak guncelle: 1, ATTACK_TYPE_SLOT_EXHAUSTION */
+      /* Update the label to attack: 1, ATTACK_TYPE_SLOT_EXHAUSTION */
       attacker_analyzer_set_attack_mode(1, ATTACK_TYPE_SLOT_EXHAUSTION);
     }
 
@@ -201,7 +201,7 @@ PROCESS_THREAD(udp_client_process, ev, data)
         attacker_analyzer_set_app_packet_count(count);
       }
 
-      /* Jitter ekle */
+      /* Add jitter */
       etimer_set(&periodic_timer, NORMAL_SEND_INTERVAL - CLOCK_SECOND + (clock_time_t)(random_rand() % (2 * CLOCK_SECOND)));
     }
   }

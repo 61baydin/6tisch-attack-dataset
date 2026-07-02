@@ -1,11 +1,11 @@
-# 6TiSCHSet-2026 — A Multi-Layer 6TiSCH Attack Dataset and Leakage-Aware IDS Benchmark
+# 6TiSCHSet-2026: A Multi-Layer 6TiSCH Attack Dataset and Leakage-Aware IDS Benchmark
 
 Companion artefact for the paper **"6TiSCHSet-2026: A Multi-Layer Attack Dataset and
-Leakage-Aware Intrusion-Detection Benchmark for IETF 6TiSCH Networks"** (Aydın, Aydın, Jin, Görmüş, 2026).
+Leakage-Aware Intrusion-Detection Benchmark for IETF 6TiSCH Networks"** (Aydin, Aydin, Jin, Gormus, 2026).
 
 This repository is **self-contained**: it carries the **code** (capture/generation
 harness, ML and figure pipeline), the **firmware sources and Cooja scenarios**, the
-**documentation** (schema, run manifest), and the **full dataset for all 122 runs** —
+**documentation** (schema, run manifest), and the **full dataset for all 122 runs**:
 labelled telemetry (`.log`), per-run radio captures (`.pcap`), and clean `.csv`
 (~2.3 GB total).
 
@@ -25,7 +25,7 @@ concurrent two-attacker combinations:
 | MAC (TSCH) | TSCH Shared Cell Contention | 5 |
 | MAC (6P) | 6P Cell Allocation Exhaustion | 6 |
 | MAC (TSCH) | TSCH Desynchronization | 7 |
-| — | benign (NONE) | 0 |
+| n/a | benign (NONE) | 0 |
 
 **122 Cooja runs, ~1.21 M labelled records** (Contiki-NG + custom `4emac` MAC,
 emulated `exp5438` motes):
@@ -107,8 +107,8 @@ external download is required: clone the repository and the full pipeline runs.
 @article{aydin2026sixtischset,
   title   = {{6TiSCHSet-2026}: A Multi-Layer Attack Dataset and Leakage-Aware
              Intrusion-Detection Benchmark for IETF 6TiSCH Networks},
-  author  = {Ayd{\i}n, Burak and Ayd{\i}n, Hakan and Jin, Yichao and G{\"o}rm{\"u}s, Sedat},
-  journal = {(under review)},
+  author  = {Aydin, Burak and Aydin, Hakan and Jin, Yichao and Gormus, Sedat},
+  journal = {IEEE Access (submitted)},
   year    = {2026}
 }
 ```
@@ -117,5 +117,5 @@ external download is required: clone the repository and the full pipeline runs.
 
 Code: **MIT** ([`LICENSE`](LICENSE)). Data: **CC-BY-4.0**
 ([`DATA-LICENSE.md`](DATA-LICENSE.md)). See [`ETHICS.md`](ETHICS.md) for responsible-use
-terms — the repository includes working attack firmware and is released **for defensive
+terms: the repository includes working attack firmware and is released **for defensive
 intrusion-detection research only**.

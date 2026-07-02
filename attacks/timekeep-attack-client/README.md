@@ -1,40 +1,15 @@
-# Timekeep Slot Attack Client
+# TSCH Desynchronization attack client
 
-## Açıklama
+Contiki-NG / 4emac firmware for the **TSCH Desynchronization** attack (`attack_type = 7`) in the
+6TiSCHSet-2026 dataset. On a compromised mote it injects Enhanced Beacons with a corrupted channel-hopping IE to break time sync. The exact parameters, onset
+timing, and the telemetry it produces are documented in the paper and the top-level
+`README.md`.
 
-Bu client, TIMEKEEP slot'larına saldıran bir attack client'ıdır. TIMEKEEP slot'ları zaman senkronizasyonu için kullanılan özel slot'lardır ve EB (Enhanced Beacon) mesajları bu slot'larda gönderilir.
-
-## Saldırı Mekanizması
-
-- **Hedef:** `SLOT_TYPE_TIMEKEEP` slot'ları
-- **Yöntem:** Sürekli EB (Enhanced Beacon) mesajları göndererek TIMEKEEP slot'larını meşgul etmek
-- **Etki:** 
-  - Zaman senkronizasyonunu bozar
-  - Yeni node'ların ağa katılımını engeller
-  - TIMEKEEP slot'larında çarpışmalar oluşturur
-
-## Çalışma Prensibi
-
-1. **Normal Faz (30 dakika):** Normal UDP paketleri gönderir
-2. **Saldırı Fazı:** Her 500ms'de bir EB mesajı gönderir
-3. **EB Mesajları:** `SLOT_TYPE_TIMEKEEP` slot'larına gönderilir
-4. **Etki:** TIMEKEEP slot'ları meşgul olur, zaman senkronizasyonu bozulur
-
-## Derleme
-
+## Build
 ```bash
 cd examples/tsch/rpl-udp/timekeep-attack-client
 make TARGET=exp5438
 ```
-
-## Kullanım
-
-Cooja simülasyonunda bu client'ı kullanarak TIMEKEEP slot saldırısı yapabilirsiniz.
-
-## Notlar
-
-- EB mesajları broadcast olarak gönderilir
-- TIMEKEEP slot'ları hard slot'lardır (sabit)
-- Saldırı zaman senkronizasyonunu bozabilir
-- Yeni node'ların ağa katılımı engellenebilir
-
+Requires the Contiki-NG / 4emac fork (`MAKE_MAC = MAKE_MAC_4EMAC`,
+`MAKE_ROUTING = MAKE_ROUTING_RPL_CLASSIC`); the Makefile pulls in
+`os/services/simple-energest` and the `attacker-analyzer` telemetry module.

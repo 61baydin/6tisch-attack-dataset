@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Coklu-saldiri worker: ayni ag'da IKI farkli saldiri tipi es-zamanli.
-# attackA dugumleri core havuzdan, attackB dugumleri edge havuzdan (uzamsal ayrim).
-# Her tip 2 saldirgan (toplam 4). Cikti log+pcap KENDI-KENDINI ACIKLAYAN isimle.
+# Multi-attack worker: TWO different attack types concurrently in the same network.
+# attackA nodes from the core pool, attackB nodes from the edge pool (spatial separation).
+# 2 attackers per type (4 total). Output log+pcap use SELF-DESCRIBING names.
 #
-# Calistirma (dispatcher namespace icine sudo'lar):
+# Run (dispatcher runs it with sudo inside the namespace):
 #   sudo ip netns exec cooja_w0 bash multirun_multiattack.sh 0 blackhole dis 42 31
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -15,11 +15,11 @@ ATTACK_A="${2:?attackA name}"
 ATTACK_B="${3:?attackB name}"
 SEED="${4:?seed}"
 SCALE="${5:-31}"
-NPER=2   # tip basina saldirgan sayisi
+NPER=2   # attackers per type
 
-# attack adi -> attack_type id (attacker-analyzer.h)
+# attack name -> attack_type id (attacker-analyzer.h)
 declare -A ATYPE=([blackhole]=1 [decrease]=2 [dis]=3 [flooding]=4 [shared-slot]=5 [slot-exhaustion]=6 [timekeep]=7)
-TA="${ATYPE[$ATTACK_A]:?bilinmeyen attackA}"; TB="${ATYPE[$ATTACK_B]:?bilinmeyen attackB}"
+TA="${ATYPE[$ATTACK_A]:?unknown attackA}"; TB="${ATYPE[$ATTACK_B]:?unknown attackB}"
 
 case "$SCALE" in
   21) CORE="2 3 4 5 7 8"; EDGE="14 15 16 17 18 19 20 21"; CSC_VERSION="v3";    TOTAL_NODES=21 ;;
@@ -27,7 +27,7 @@ case "$SCALE" in
   *) echo "scale 21|31"; exit 1 ;;
 esac
 
-# attackA core havuzdan, attackB edge havuzdan (deterministik, tohum+worker)
+# attackA from core pool, attackB from edge pool (deterministic, seed+worker)
 ASET=$(python3 -c "
 import random; random.seed($SEED+1000*$WID)
 print(','.join(str(x) for x in sorted(random.sample([$(echo $CORE|tr ' ' ,)], $NPER))))")
@@ -37,7 +37,7 @@ print(','.join(str(x) for x in sorted(random.sample([$(echo $EDGE|tr ' ' ,)], $N
 
 BASE_A="examples/tsch/rpl-udp/rpl-border-${ATTACK_A}-${CSC_VERSION}.csc"
 BASE_B="examples/tsch/rpl-udp/rpl-border-${ATTACK_B}-${CSC_VERSION}.csc"
-[[ -f "$BASE_A" && -f "$BASE_B" ]] || { echo "base CSC eksik: $BASE_A / $BASE_B"; exit 1; }
+[[ -f "$BASE_A" && -f "$BASE_B" ]] || { echo "base CSC missing: $BASE_A / $BASE_B"; exit 1; }
 
 STAMP="$(date +%Y-%m-%d_%H-%M-%S)"
 TAG="multi-${ATTACK_A}+${ATTACK_B}-n${TOTAL_NODES}-s${SEED}-w${WID}"
@@ -62,12 +62,12 @@ COOJA_PID=$!
 
 port_up=0
 for s in $(seq 1 120); do ss -tln 2>/dev/null | grep -q ':60001 ' && { port_up=1; break; }; sleep 1; done
-[[ "$port_up" -ne 1 ]] && { echo "[w${WID}] port 60001 acilmadi"; kill "$COOJA_PID" 2>/dev/null||true; pkill -9 -f "$CSC_KEY" 2>/dev/null||true; exit 1; }
+[[ "$port_up" -ne 1 ]] && { echo "[w${WID}] port 60001 did not open"; kill "$COOJA_PID" 2>/dev/null||true; pkill -9 -f "$CSC_KEY" 2>/dev/null||true; exit 1; }
 
 "$REPO/tools/tunslip6" -a 127.0.0.1 -p 60001 fd00::5/64 > "$REPO/tunslip_w${WID}.log" 2>&1 &
 TUNSLIP_PID=$!
 for s in $(seq 1 30); do ip link show tun0 >/dev/null 2>&1 && break; sleep 1; done
-ip link show tun0 >/dev/null 2>&1 || { echo "[w${WID}] tun0 yok"; kill "$TUNSLIP_PID" "$COOJA_PID" 2>/dev/null||true; pkill -9 -f "$CSC_KEY" 2>/dev/null||true; exit 1; }
+ip link show tun0 >/dev/null 2>&1 || { echo "[w${WID}] tun0 missing"; kill "$TUNSLIP_PID" "$COOJA_PID" 2>/dev/null||true; pkill -9 -f "$CSC_KEY" 2>/dev/null||true; exit 1; }
 
 META="scenario=multiattack attackA=${ATTACK_A}(#3) attackB=${ATTACK_B}(#4) nodes=${TOTAL_NODES} seed=${SEED} worker=${WID} attackers_A=${ASET} attackers_B=${BSET}"
 python3 -u udp_listener_ipv6.py "$REPO/$RUN_LOG" "$META" >/dev/null 2>&1 &
@@ -79,7 +79,7 @@ kill "$TUNSLIP_PID" "$LISTENER_PID" 2>/dev/null || true
 sleep 2
 rm -f "$VARIANT_CSC"
 
-# Dogrulama: log dolu VE HER IKI saldiri tipi de etiketli satir uretmis olmali
+# Validation: log must be non-empty AND BOTH attack types must have produced labelled rows
 if [[ -s "$REPO/$RUN_LOG" ]]; then
   okboth=$(python3 -c "
 import re
@@ -97,7 +97,7 @@ print('OK' if (n>2000 and a>0 and b>0) else f'BAD n={n} A={a} B={b}')
 ")
   echo "[w${WID}] $okboth -> $RUN_LOG"
   if [[ "$okboth" == OK ]]; then sleep 3; exit 0
-  else echo "[w${WID}] validation FAILED (iki saldiri tipi de gerekli), siliniyor"; rm -f "$REPO/$RUN_LOG" "$PCAP_PATH"; sleep 3; exit 1; fi
+  else echo "[w${WID}] validation FAILED (both attack types required), deleting"; rm -f "$REPO/$RUN_LOG" "$PCAP_PATH"; sleep 3; exit 1; fi
 else
-  echo "[w${WID}] log bos"; rm -f "$REPO/$RUN_LOG" "$PCAP_PATH"; sleep 3; exit 1
+  echo "[w${WID}] log empty"; rm -f "$REPO/$RUN_LOG" "$PCAP_PATH"; sleep 3; exit 1
 fi

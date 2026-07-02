@@ -12,9 +12,9 @@
 #define ATTACK_TYPE_FLOODING 4
 #define ATTACK_TYPE_SHARED_SLOT 5 
 #define ATTACK_TYPE_SLOT_EXHAUSTION 6
-/* ATTACK_TYPE_TIMEKEEP: tarihsel ad. Gercekte kanal-atlama-sirasi (channel
- * hopping sequence) IE'sini bozan EB-poisoning saldirisidir, ASN/zaman-sync
- * IE'si degil. Yayinda "channel-hopping-sequence EB poisoning" denmeli. */
+/* ATTACK_TYPE_TIMEKEEP: historical name. It is actually an EB-poisoning attack
+ * that corrupts the channel-hopping-sequence IE, not the ASN/time-sync IE. In
+ * the paper it should be called "channel-hopping-sequence EB poisoning". */
 #define ATTACK_TYPE_TIMEKEEP 7
 
 void attacker_analyzer_init(int caller_type, void *conn, void *ipaddr, unsigned short port, int is_attacker, int attack_type);
@@ -29,16 +29,16 @@ void attacker_analyzer_set_app_packet_count(unsigned int packet_count);
  * controls the per-packet drop probability (0-100). The hook is in
  * uip_process() forwarding branch.
  *
- * Bu blackhole'un literatür-uyumlu klasik davranisidir: saldirgan paketleri
- * sessizce dusurur (forward etmez). Ucu route_count yuksek + delta_tx dusuk
- * imzasi yaratir, telemetri-bazli tespit mumkun olur.
+ * This is the classic, literature-consistent blackhole behaviour: the attacker
+ * silently drops packets (does not forward them). It produces a high
+ * route_count + low delta_tx signature, making telemetry-based detection feasible.
  */
 extern uint8_t blackhole_drop_forwards;
 extern uint8_t blackhole_drop_prob_percent;
 
-/* Saldirgan-dugum lokalizasyonu icin per-interval sayaclar (analyzer her emit'te sifirlar):
- *  foure_fwd_in/out -> forward_ratio (Blackhole): iletilmesi-gereken vs gercekten-iletilen
- *  foure_bcast_tx   -> bcast_tx (Shared Cell): gonderilen yayin cercevesi sayisi */
+/* Per-interval counters for attacker-node localization (analyzer resets on every emit):
+ *  foure_fwd_in/out -> forward_ratio (Blackhole): should-be-forwarded vs actually-forwarded
+ *  foure_bcast_tx   -> bcast_tx (Shared Cell): number of broadcast frames sent */
 extern unsigned long foure_fwd_in;
 extern unsigned long foure_fwd_out;
 extern unsigned long foure_bcast_tx;

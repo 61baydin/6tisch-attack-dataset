@@ -26,7 +26,6 @@ uip_ipaddr_t jrc_ip_addr;
 PROCESS_THREAD(border_router_process, ev, data)
 {
   static struct uip_udp_conn *client_conn = NULL;
-  //uint8_t buf[100]; // 100 byte channel parametres request
   static struct etimer neighbor_duration_timer;
   /* Sink-side cumulative app-packet rx counter; serialised into telemetry
    * column 16 (app_packet_count) so the host listener captures it without
@@ -34,7 +33,7 @@ PROCESS_THREAD(border_router_process, ev, data)
   static unsigned int app_rx_count = 0;
   PROCESS_BEGIN();
 
-  /* Manuel olarak fd00::5 adresini ekle */
+  /* Manually add the fd00::5 address */
   uint8_t jrc_addr[16] = JRC_IP_ADDR;
   memcpy(jrc_ip_addr.u8, jrc_addr, 16);
 

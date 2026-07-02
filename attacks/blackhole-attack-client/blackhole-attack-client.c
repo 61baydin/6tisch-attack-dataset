@@ -25,22 +25,22 @@ static uip_ipaddr_t jrc_ip_addr;
 static struct simple_udp_connection udp_conn;
 
 /*
- * Phase transition: 3 dk warm-up (attacker-analyzer'da etiketsiz) +
- * 2 dk DODAG katilim faz. Bu sureden sonra atak modu acilir; attacker-analyzer
- * etiketleri 1 / ATTACK_TYPE_BLACKHOLE'a geciyor.
+ * Phase transition: 3 min warm-up (unlabelled in attacker-analyzer) +
+ * 2 min DODAG join phase. After this time attack mode is enabled; the
+ * attacker-analyzer labels switch to 1 / ATTACK_TYPE_BLACKHOLE.
  */
 #define ATTACK_DELAY_MIN (20 * 60 * CLOCK_SECOND)  // 60-min run; attack start random in [20,25] min
 #define ATTACK_DELAY_MAX (25 * 60 * CLOCK_SECOND)
 
 /*
- * Stealth knob'lari: trivially classifiable veriseti uretmemek icin.
- * - DROP_PROB_PERCENT: her drop tick'inde route'u dusurme olasiligi (yuzde).
- *   100 = klasik agresif; <100 ile drop sirasi seyrekleştirilir.
- * - Drop araligi sabit 12s yerine [DROP_INTERVAL_MIN, DROP_INTERVAL_MAX) saniye
- *   arasinda rastgele -> route_count ve dis_sent feature'larinda zaman damgasi
- *   bazli pattern olusumunu kirmaya yardim eder.
- * - On/off pencereleri: atakci aktif/pasif arasinda donen periyotlar yasiyor;
- *   pasif pencerede etiket=1 kalir ama hicbir route dusurulmez.
+ * Stealth knobs: to avoid producing a trivially classifiable dataset.
+ * - DROP_PROB_PERCENT: probability (percent) of dropping a route on each
+ *   drop tick. 100 = classic aggressive; <100 thins out the drop sequence.
+ * - Drop interval is random in [DROP_INTERVAL_MIN, DROP_INTERVAL_MAX) seconds
+ *   instead of a fixed 12s -> helps break timestamp-based pattern formation
+ *   in the route_count and dis_sent features.
+ * - On/off windows: the attacker cycles between active and passive periods;
+ *   in a passive window the label stays 1 but no route is dropped.
  */
 #ifndef BLACKHOLE_DROP_PROB_PERCENT
 #define BLACKHOLE_DROP_PROB_PERCENT 60
@@ -161,27 +161,27 @@ PROCESS_THREAD(blackhole_attack_process, ev, data) {
   LOG_INFO("Real blackhole active: silent forwarding drops via uip6 hook (probabilistic, on/off windows).\n");
 
   /*
-   * v5 davranisi: gercek blackhole.
-   * Onceki versiyon (v2-v4) uip_ds6_route_rm() ile routing tablosundan child
-   * entry siliyordu — kurban DAO yenileyip rota yeniden kuruyordu, saldirgan
-   * kendi telemetrisinde anomali birakmiyordu (delta_tx attacker=1638 vs
-   * normal=1351 gibi tersine yuksek deger).
+   * v5 behaviour: real blackhole.
+   * The previous version (v2-v4) removed the child entry from the routing
+   * table via uip_ds6_route_rm() - the victim would refresh its DAO and
+   * rebuild the route, and the attacker left no anomaly in its own telemetry
+   * (delta_tx attacker=1638 vs normal=1351, i.e. an inverted, higher value).
    *
-   * v5 yaklasimi: uip6.c forwarding kararinda blackhole_drop_forwards flag'i
-   * kontrol edilir. Aktif pencerede flag=1 olunca, forward edilmesi gereken
-   * paketler (kendi paketleri degil) %BLACKHOLE_DROP_PROB_PERCENT olasilikla
-   * sessizce dusurulur. Telemetri etkisi:
-   *   - tx_slot_count, delta_tx attacker'da DUSER (forward edilmiyor)
-   *   - route_count yuksek kalir (route silmek yok, sadece kullanmamak)
-   *   - "yuksek route_count + dusuk delta_tx" anomalous kombinasyon ML icin
-   *     net imza saglar.
+   * v5 approach: the blackhole_drop_forwards flag is checked in the uip6.c
+   * forwarding decision. When flag=1 during an active window, packets that
+   * should be forwarded (not the node's own packets) are silently dropped
+   * with probability BLACKHOLE_DROP_PROB_PERCENT percent. Telemetry effect:
+   *   - tx_slot_count, delta_tx DROP at the attacker (nothing is forwarded)
+   *   - route_count stays high (routes are not removed, just not used)
+   *   - the "high route_count + low delta_tx" anomalous combination provides
+   *     a clear signature for the ML model.
    */
   blackhole_drop_prob_percent = BLACKHOLE_DROP_PROB_PERCENT;
 
   static struct etimer window_toggle_timer;
   static uint8_t attack_window_active = 1;
 
-  /* Aktif pencerede basla — forwarding drop hook'u acik */
+  /* Start in an active window - forwarding drop hook is on */
   blackhole_drop_forwards = 1;
   etimer_set(&window_toggle_timer,
              random_interval_seconds(BLACKHOLE_ACTIVE_WINDOW_MIN_S,
