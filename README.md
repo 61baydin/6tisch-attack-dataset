@@ -57,7 +57,8 @@ the ML pipeline adds two derived features. Full definitions in
 ├── LICENSE              code license (MIT)
 ├── DATA-LICENSE.md      data license (CC-BY-4.0)
 ├── attacks/             attack-client firmware sources (one dir per attack)
-│   ├── *-attack-client/  the seven attack implementations (.c/.h/Makefile)
+│   ├── <attack>-attack-client/  six attack implementations (.c/.h/Makefile);
+│   │                     the seventh is flooding-client/
 │   ├── client/           regular node firmware; server/  sink/border-router
 │   └── attacker-analyzer/ telemetry module that emits the labelled records
 ├── csc/                 Cooja scenario files (rpl-border-<attack>-v2.csc)
