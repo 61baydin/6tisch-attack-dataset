@@ -44,10 +44,8 @@ shares the firmware, topology, attacker-selection rule and analysis protocol wit
 `radio_seed` column of `manifest.csv` identifies the seed of every run.
 
 Every run ships **three files with a shared stem**: raw telemetry `.log`, radio
-capture `.pcap`, and a clean header-prefixed `.csv`. The one exception is the
-`multiseed/` chain, whose 1.4 GB of radio captures are distributed through the
-archived deposit rather than through this repository; its `.log` and `.csv` files
-are here in full.
+capture `.pcap`, and a clean header-prefixed `.csv`. This holds for all three
+chains, so the replication corpus can be re-analysed at the radio level as well.
 
 Two cells of the replication corpus behave differently from the rest and are kept
 deliberately: `flooding-n21-core-a5-s9173` starts its attack at 2438 s instead of
@@ -87,7 +85,7 @@ the ML pipeline adds two derived features. Full definitions in
 └── data/
     ├── single/{logs,pcaps,csv}/       all 86 single-attacker runs
     ├── multiattack/{logs,pcaps,csv}/  all 36 concurrent two-attacker runs
-    └── multiseed/{logs,csv}/          84 three-seed replication runs (pcaps in the archive)
+    └── multiseed/{logs,pcaps,csv}/    84 three-seed replication runs
 ```
 
 Each run's `.log`, `.pcap`, and `.csv` share the same stem (see [`schema.md`](schema.md)).
