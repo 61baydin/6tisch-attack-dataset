@@ -44,3 +44,18 @@ warm-up/onset). In `multiattack/` runs a single log contains more than one
 
 The `.log`, `.pcap`, and `.csv` of a run share the same stem; the `.log` opens with a
 `# run_metadata:` line documenting the scenario.
+
+## Manifest columns
+
+`manifest.csv` indexes every run. Alongside the scenario descriptors it carries
+two seed columns that are easy to confuse:
+
+| Column | Meaning |
+|---|---|
+| `seed` | attacker-selection seed; decides *which* motes attack in a cell |
+| `radio_seed` | Cooja `<randomseed>`; decides the radio realisation of the run |
+
+The `single/` and `multiattack/` chains use `radio_seed = 123456` throughout. The
+`multiseed/` chain repeats the 42 five-attacker placement cells at
+`radio_seed = 7331` and `9173`, giving three replicas per cell when combined with
+the published chain.

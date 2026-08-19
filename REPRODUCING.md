@@ -66,3 +66,52 @@ code/capture/udp_listener_ipv6.py          # capture telemetry -> .log
 code/capture/validate_run_log.py           # post-run validation
 ```
 The Cooja radio seed is fixed (123456); the dispatcher seed selects attacker IDs.
+
+## 6. Revision analyses (added in the resubmission)
+
+All of these run on the released data and need no new simulation.
+
+```bash
+# window-length sweep (W = 4, 8, 16, 32, 64) and per-fold scores
+python3 code/analysis/eval_window_sweep.py --w 16 --models all --resource --out sweep_w16
+python3 code/analysis/eval_window_sweep.py --w 4,8,32,64 --models deep --out sweep_rest
+
+# Friedman + Nemenyi over the per-fold scores  -> critical_difference figure
+python3 code/analysis/stats_tests.py sweep_w16_perfold.csv
+
+# grouping-key audit: (run,node) vs node vs run
+python3 code/analysis/eval_loro.py
+
+# detection delay from attack onset
+python3 code/analysis/eval_time_to_detect.py
+
+# hyperparameter robustness of the model ranking
+python3 code/analysis/eval_hparam_robustness.py
+
+# three-seed replication: per-cell distributions, CIs, placement/scale tests
+python3 code/analysis/eval_multiseed.py
+
+# confusion matrices, English labels and enlarged fonts
+python3 code/analysis/gen_cm_lr_en.py
+```
+
+Outputs are written next to the working directory and a copy of every result
+table is kept in `results/` for reference.
+
+### Regenerating the replication corpus
+
+The `multiseed/` chain was produced with the same harness as `single/`, with the
+Cooja radio seed overridden per run:
+
+```bash
+NWORKERS=8 STAGGER_S=90 ATKCOUNTS="5" SCALES="21 30" \
+  RADIO_SEEDS="7331 9173" WITH_BASELINE=0 \
+  bash code/capture/dispatcher.sh
+```
+
+`RADIO_SEEDS` rewrites `<randomseed>` in each generated scenario file and tags the
+run name with `-s<seed>`, so the replication runs never collide with the published
+single-seed chain. `SKIP_EXISTING=1` (the default) makes the dispatcher resumable
+after an interruption, and `KEEP_INVALID=1` retains a run whose attack window
+falls outside the validator's expected interval, which is how the two atypical
+cells noted in the README were preserved.

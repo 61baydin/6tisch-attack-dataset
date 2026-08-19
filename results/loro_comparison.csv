@@ -1,0 +1,883 @@
+attack,model,protocol,fold,f1,n_test,n_test_attacker
+blackhole,LR,"LOGO(run,node)",10,0.6750788643533123,369,210
+blackhole,LR,"LOGO(run,node)",13,0.7610619469026549,448,280
+blackhole,LR,"LOGO(run,node)",14,0.7962962962962964,428,260
+blackhole,LR,"LOGO(run,node)",17,0.8069164265129684,370,207
+blackhole,LR,"LOGO(run,node)",18,0.7533333333333333,337,187
+blackhole,LR,"LOGO(run,node)",24,0.0,227,77
+blackhole,LR,"LOGO(run,node)",25,0.8587257617728532,273,206
+blackhole,LR,"LOGO(run,node)",28,0.14864864864864866,192,137
+blackhole,LR,"LOGO(run,node)",29,0.8266666666666667,207,44
+blackhole,LR,"LOGO(run,node)",31,0.6023391812865497,277,239
+blackhole,LR,"LOGO(run,node)",40,0.8602150537634409,347,212
+blackhole,LR,"LOGO(run,node)",42,0.4338983050847458,371,231
+blackhole,LR,"LOGO(run,node)",43,0.7960526315789472,300,183
+blackhole,LR,"LOGO(run,node)",56,0.8974854932301741,447,284
+blackhole,LR,"LOGO(run,node)",59,0.7713625866050808,401,266
+blackhole,LR,"LOGO(run,node)",60,0.9048723897911833,387,236
+blackhole,LR,"LOGO(run,node)",70,0.2513089005235602,307,167
+blackhole,LR,"LOGO(run,node)",81,0.8535980148883374,409,231
+blackhole,LR,"LOGO(run,node)",84,0.6893203883495146,431,270
+blackhole,LR,"LOGO(run,node)",89,0.9411764705882353,305,162
+blackhole,LR,"LOGO(run,node)",103,0.9142857142857143,273,209
+blackhole,LR,"LOGO(run,node)",105,0.7721518987341772,158,97
+blackhole,LR,"LOGO(run,node)",106,0.3377777777777778,276,187
+blackhole,LR,"LOGO(run,node)",108,0.32954545454545453,214,147
+blackhole,LR,"LOGO(run,node)",110,0.759124087591241,141,85
+blackhole,LR,"LOGO(run,node)",122,0.7101827676240209,304,247
+blackhole,LR,"LOGO(run,node)",123,0.6847826086956522,377,242
+blackhole,LR,"LOGO(run,node)",126,0.7153652392947103,396,255
+blackhole,LR,"LOGO(run,node)",128,0.8442211055276382,302,230
+blackhole,LR,"LOGO(run,node)",132,0.39436619718309857,228,56
+blackhole,LR,LONO(node id),0,0.3531827515400411,2289,377
+blackhole,LR,LONO(node id),1,0.490566037735849,2625,511
+blackhole,LR,LONO(node id),2,0.5786163522012578,2651,530
+blackhole,LR,LONO(node id),4,0.5858585858585859,2257,284
+blackhole,LR,LONO(node id),5,0.280561122244489,2161,207
+blackhole,LR,LONO(node id),6,0.3543543543543543,2059,187
+blackhole,LR,LONO(node id),7,0.503125,2334,428
+blackhole,LR,LONO(node id),8,0.5085714285714285,2151,448
+blackhole,LR,LONO(node id),10,0.47114474929044464,1864,478
+blackhole,LR,LONO(node id),11,0.525231719876416,1892,425
+blackhole,LR,LONO(node id),12,0.0,1519,77
+blackhole,LR,LONO(node id),13,0.33582887700534764,1697,206
+blackhole,LR,LONO(node id),14,0.39554317548746515,1793,255
+blackhole,LR,LONO(node id),16,0.4383233532934132,1424,367
+blackhole,LR,LONO(node id),17,0.13441955193482688,1330,44
+blackhole,LR,LONO(node id),18,0.38420107719928187,1042,239
+blackhole,LR,LONO(node id),19,0.04753820033955857,1453,56
+blackhole,LR,LONO(node id),20,0.6555555555555556,485,209
+blackhole,LR,LONO(node id),22,0.5,382,97
+blackhole,LR,LONO(node id),23,0.3377777777777778,483,187
+blackhole,LR,LONO(node id),25,0.33027522935779813,372,147
+blackhole,LR,LONO(node id),27,0.759124087591241,180,85
+blackhole,LR,LORO(run),0,0.3879365079365079,5942,1144
+blackhole,LR,LORO(run),1,0.18035303146584805,6862,703
+blackhole,LR,LORO(run),2,0.4056114669106435,6819,1176
+blackhole,LR,LORO(run),3,0.47905138339920955,5425,1066
+blackhole,LR,LORO(run),4,0.1775499190501889,9123,725
+blackhole,LR,LORO(run),5,0.2574447646493756,8239,1030
+blackhole,LR,naive StratifiedKFold,0,0.4279520530476919,8482,1168
+blackhole,LR,naive StratifiedKFold,1,0.40657928553071193,8482,1169
+blackhole,LR,naive StratifiedKFold,2,0.4192968950474725,8482,1169
+blackhole,LR,naive StratifiedKFold,3,0.3968831168831169,8482,1169
+blackhole,LR,naive StratifiedKFold,4,0.42464358452138495,8482,1169
+blackhole,RF,"LOGO(run,node)",10,0.046511627906976744,369,210
+blackhole,RF,"LOGO(run,node)",13,0.8663967611336032,448,280
+blackhole,RF,"LOGO(run,node)",14,0.6279683377308707,428,260
+blackhole,RF,"LOGO(run,node)",17,0.6381578947368421,370,207
+blackhole,RF,"LOGO(run,node)",18,0.4734693877551021,337,187
+blackhole,RF,"LOGO(run,node)",24,0.0,227,77
+blackhole,RF,"LOGO(run,node)",25,0.6535947712418301,273,206
+blackhole,RF,"LOGO(run,node)",28,0.1103448275862069,192,137
+blackhole,RF,"LOGO(run,node)",29,0.0,207,44
+blackhole,RF,"LOGO(run,node)",31,0.43278688524590164,277,239
+blackhole,RF,"LOGO(run,node)",40,0.6708463949843261,347,212
+blackhole,RF,"LOGO(run,node)",42,0.4338983050847458,371,231
+blackhole,RF,"LOGO(run,node)",43,0.48760330578512395,300,183
+blackhole,RF,"LOGO(run,node)",56,0.4812834224598931,447,284
+blackhole,RF,"LOGO(run,node)",59,0.635897435897436,401,266
+blackhole,RF,"LOGO(run,node)",60,0.7591623036649214,387,236
+blackhole,RF,"LOGO(run,node)",70,0.23280423280423285,307,167
+blackhole,RF,"LOGO(run,node)",81,0.8062015503875969,409,231
+blackhole,RF,"LOGO(run,node)",84,0.9944134078212291,431,270
+blackhole,RF,"LOGO(run,node)",89,0.4716981132075471,305,162
+blackhole,RF,"LOGO(run,node)",103,0.5124555160142349,273,209
+blackhole,RF,"LOGO(run,node)",105,0.9948186528497409,158,97
+blackhole,RF,"LOGO(run,node)",106,0.5503875968992249,276,187
+blackhole,RF,"LOGO(run,node)",108,0.0,214,147
+blackhole,RF,"LOGO(run,node)",110,0.15217391304347827,141,85
+blackhole,RF,"LOGO(run,node)",122,0.9466950959488273,304,247
+blackhole,RF,"LOGO(run,node)",123,0.3310344827586207,377,242
+blackhole,RF,"LOGO(run,node)",126,0.8435374149659863,396,255
+blackhole,RF,"LOGO(run,node)",128,0.9662921348314606,302,230
+blackhole,RF,"LOGO(run,node)",132,0.37681159420289856,228,56
+blackhole,RF,LONO(node id),0,0.11970074812967581,2289,377
+blackhole,RF,LONO(node id),1,0.7201528175740209,2625,511
+blackhole,RF,LONO(node id),2,0.6600458365164248,2651,530
+blackhole,RF,LONO(node id),4,0.2275600505689001,2257,284
+blackhole,RF,LONO(node id),5,0.23013048635824437,2161,207
+blackhole,RF,LONO(node id),6,0.2663656884875847,2059,187
+blackhole,RF,LONO(node id),7,0.4055299539170507,2334,428
+blackhole,RF,LONO(node id),8,0.3827450980392157,2151,448
+blackhole,RF,LONO(node id),10,0.4856909239574816,1864,478
+blackhole,RF,LONO(node id),11,0.29806598407281,1892,425
+blackhole,RF,LONO(node id),12,0.0,1519,77
+blackhole,RF,LONO(node id),13,0.2120890774125132,1697,206
+blackhole,RF,LONO(node id),14,0.31871083258728733,1793,255
+blackhole,RF,LONO(node id),16,0.5043859649122807,1424,367
+blackhole,RF,LONO(node id),17,0.0,1330,44
+blackhole,RF,LONO(node id),18,0.27848101265822783,1042,239
+blackhole,RF,LONO(node id),19,0.09454545454545454,1453,56
+blackhole,RF,LONO(node id),20,0.7272727272727273,485,209
+blackhole,RF,LONO(node id),22,0.695970695970696,382,97
+blackhole,RF,LONO(node id),23,0.4734693877551021,483,187
+blackhole,RF,LONO(node id),25,0.0,372,147
+blackhole,RF,LONO(node id),27,0.15217391304347827,180,85
+blackhole,RF,LORO(run),0,0.2463576158940397,5942,1144
+blackhole,RF,LORO(run),1,0.1952591402169546,6862,703
+blackhole,RF,LORO(run),2,0.23191489361702128,6819,1176
+blackhole,RF,LORO(run),3,0.4353428439944777,5425,1066
+blackhole,RF,LORO(run),4,0.1096938775510204,9123,725
+blackhole,RF,LORO(run),5,0.2994715208455666,8239,1030
+blackhole,RF,naive StratifiedKFold,0,0.7537361923326836,8482,1168
+blackhole,RF,naive StratifiedKFold,1,0.7602492620531321,8482,1169
+blackhole,RF,naive StratifiedKFold,2,0.7662251655629139,8482,1169
+blackhole,RF,naive StratifiedKFold,3,0.7676835400603419,8482,1169
+blackhole,RF,naive StratifiedKFold,4,0.7857142857142858,8482,1169
+decrease,LR,"LOGO(run,node)",10,0.9502762430939227,453,285
+decrease,LR,"LOGO(run,node)",13,0.7717842323651452,444,279
+decrease,LR,"LOGO(run,node)",14,0.795355587808418,448,276
+decrease,LR,"LOGO(run,node)",17,0.994475138121547,443,273
+decrease,LR,"LOGO(run,node)",18,1.0,435,287
+decrease,LR,"LOGO(run,node)",24,0.7799564270152505,422,280
+decrease,LR,"LOGO(run,node)",25,0.9946332737030412,365,280
+decrease,LR,"LOGO(run,node)",28,0.9945155393053016,401,272
+decrease,LR,"LOGO(run,node)",29,1.0,429,282
+decrease,LR,"LOGO(run,node)",31,1.0,399,277
+decrease,LR,"LOGO(run,node)",40,0.9982046678635548,425,279
+decrease,LR,"LOGO(run,node)",42,1.0,361,279
+decrease,LR,"LOGO(run,node)",43,1.0,439,278
+decrease,LR,"LOGO(run,node)",56,0.9206963249516441,440,279
+decrease,LR,"LOGO(run,node)",59,1.0,441,277
+decrease,LR,"LOGO(run,node)",60,1.0,420,285
+decrease,LR,"LOGO(run,node)",70,0.6570048309178744,433,278
+decrease,LR,"LOGO(run,node)",81,0.0,450,286
+decrease,LR,"LOGO(run,node)",84,0.7832167832167832,441,276
+decrease,LR,"LOGO(run,node)",89,0.9981851179673321,416,276
+decrease,LR,"LOGO(run,node)",103,1.0,406,278
+decrease,LR,"LOGO(run,node)",105,1.0,398,276
+decrease,LR,"LOGO(run,node)",106,1.0,405,272
+decrease,LR,"LOGO(run,node)",108,1.0,416,280
+decrease,LR,"LOGO(run,node)",110,0.9947089947089947,425,283
+decrease,LR,"LOGO(run,node)",122,1.0,421,273
+decrease,LR,"LOGO(run,node)",123,1.0,296,168
+decrease,LR,"LOGO(run,node)",126,1.0,413,285
+decrease,LR,"LOGO(run,node)",128,1.0,434,287
+decrease,LR,"LOGO(run,node)",132,1.0,403,278
+decrease,LR,LONO(node id),0,0.8112449799196787,2620,563
+decrease,LR,LONO(node id),1,0.3265067290813341,2699,565
+decrease,LR,LONO(node id),2,0.3650472334682861,2665,552
+decrease,LR,LONO(node id),4,0.9122807017543859,2517,279
+decrease,LR,LONO(node id),5,0.9926470588235294,2559,273
+decrease,LR,LONO(node id),6,1.0,2542,287
+decrease,LR,LONO(node id),7,0.9990950226244344,2628,553
+decrease,LR,LONO(node id),8,0.9991126885536824,2478,564
+decrease,LR,LONO(node id),10,1.0,2359,552
+decrease,LR,LONO(node id),11,0.9988801791713325,2438,446
+decrease,LR,LONO(node id),12,0.7702407002188183,2433,280
+decrease,LR,LONO(node id),13,0.9946332737030412,2474,280
+decrease,LR,LONO(node id),14,1.0,2485,285
+decrease,LR,LONO(node id),16,0.9964349376114081,2495,559
+decrease,LR,LONO(node id),17,1.0,2432,282
+decrease,LR,LONO(node id),18,1.0,2410,277
+decrease,LR,LONO(node id),19,1.0,2264,278
+decrease,LR,LONO(node id),20,1.0,1213,278
+decrease,LR,LONO(node id),22,1.0,1242,276
+decrease,LR,LONO(node id),23,0.998165137614679,1139,272
+decrease,LR,LONO(node id),25,0.9964412811387899,1184,280
+decrease,LR,LONO(node id),27,0.9947089947089947,1245,283
+decrease,LR,LORO(run),0,0.8919008264462809,8388,1400
+decrease,LR,LORO(run),1,0.7141331434674263,8393,1391
+decrease,LR,LORO(run),2,0.757068350260774,8445,1392
+decrease,LR,LORO(run),3,0.39181916038751347,12463,1401
+decrease,LR,LORO(run),4,0.8753586228881097,12425,1389
+decrease,LR,LORO(run),5,0.6868848097898377,12183,1291
+decrease,LR,naive StratifiedKFold,0,0.8564631245043616,12460,1653
+decrease,LR,naive StratifiedKFold,1,0.8530954879328435,12460,1653
+decrease,LR,naive StratifiedKFold,2,0.853932584269663,12459,1652
+decrease,LR,naive StratifiedKFold,3,0.8568432092291558,12459,1653
+decrease,LR,naive StratifiedKFold,4,0.8610598470867388,12459,1653
+decrease,RF,"LOGO(run,node)",10,0.9345794392523363,453,285
+decrease,RF,"LOGO(run,node)",13,1.0,444,279
+decrease,RF,"LOGO(run,node)",14,1.0,448,276
+decrease,RF,"LOGO(run,node)",17,1.0,443,273
+decrease,RF,"LOGO(run,node)",18,1.0,435,287
+decrease,RF,"LOGO(run,node)",24,1.0,422,280
+decrease,RF,"LOGO(run,node)",25,1.0,365,280
+decrease,RF,"LOGO(run,node)",28,1.0,401,272
+decrease,RF,"LOGO(run,node)",29,1.0,429,282
+decrease,RF,"LOGO(run,node)",31,1.0,399,277
+decrease,RF,"LOGO(run,node)",40,0.9982046678635548,425,279
+decrease,RF,"LOGO(run,node)",42,0.9491525423728813,361,279
+decrease,RF,"LOGO(run,node)",43,1.0,439,278
+decrease,RF,"LOGO(run,node)",56,1.0,440,279
+decrease,RF,"LOGO(run,node)",59,1.0,441,277
+decrease,RF,"LOGO(run,node)",60,1.0,420,285
+decrease,RF,"LOGO(run,node)",70,1.0,433,278
+decrease,RF,"LOGO(run,node)",81,1.0,450,286
+decrease,RF,"LOGO(run,node)",84,1.0,441,276
+decrease,RF,"LOGO(run,node)",89,1.0,416,276
+decrease,RF,"LOGO(run,node)",103,1.0,406,278
+decrease,RF,"LOGO(run,node)",105,1.0,398,276
+decrease,RF,"LOGO(run,node)",106,1.0,405,272
+decrease,RF,"LOGO(run,node)",108,0.998211091234347,416,280
+decrease,RF,"LOGO(run,node)",110,0.9982300884955753,425,283
+decrease,RF,"LOGO(run,node)",122,1.0,421,273
+decrease,RF,"LOGO(run,node)",123,1.0,296,168
+decrease,RF,"LOGO(run,node)",126,1.0,413,285
+decrease,RF,"LOGO(run,node)",128,1.0,434,287
+decrease,RF,"LOGO(run,node)",132,1.0,403,278
+decrease,RF,LONO(node id),0,0.6690307328605201,2620,563
+decrease,RF,LONO(node id),1,1.0,2699,565
+decrease,RF,LONO(node id),2,1.0,2665,552
+decrease,RF,LONO(node id),4,1.0,2517,279
+decrease,RF,LONO(node id),5,1.0,2559,273
+decrease,RF,LONO(node id),6,1.0,2542,287
+decrease,RF,LONO(node id),7,1.0,2628,553
+decrease,RF,LONO(node id),8,0.9991126885536824,2478,564
+decrease,RF,LONO(node id),10,0.9749303621169916,2359,552
+decrease,RF,LONO(node id),11,1.0,2438,446
+decrease,RF,LONO(node id),12,1.0,2433,280
+decrease,RF,LONO(node id),13,1.0,2474,280
+decrease,RF,LONO(node id),14,1.0,2485,285
+decrease,RF,LONO(node id),16,1.0,2495,559
+decrease,RF,LONO(node id),17,1.0,2432,282
+decrease,RF,LONO(node id),18,1.0,2410,277
+decrease,RF,LONO(node id),19,1.0,2264,278
+decrease,RF,LONO(node id),20,1.0,1213,278
+decrease,RF,LONO(node id),22,1.0,1242,276
+decrease,RF,LONO(node id),23,1.0,1139,272
+decrease,RF,LONO(node id),25,0.998211091234347,1184,280
+decrease,RF,LONO(node id),27,0.9982300884955753,1245,283
+decrease,RF,LORO(run),0,0.8686868686868687,8388,1400
+decrease,RF,LORO(run),1,1.0,8393,1391
+decrease,RF,LORO(run),2,0.7158671586715868,8445,1392
+decrease,RF,LORO(run),3,1.0,12463,1401
+decrease,RF,LORO(run),4,0.9992795389048991,12425,1389
+decrease,RF,LORO(run),5,1.0,12183,1291
+decrease,RF,naive StratifiedKFold,0,1.0,12460,1653
+decrease,RF,naive StratifiedKFold,1,0.999697428139183,12460,1653
+decrease,RF,naive StratifiedKFold,2,1.0,12459,1652
+decrease,RF,naive StratifiedKFold,3,1.0,12459,1653
+decrease,RF,naive StratifiedKFold,4,0.999697428139183,12459,1653
+dis,LR,"LOGO(run,node)",10,0.989247311827957,455,282
+dis,LR,"LOGO(run,node)",13,0.9910873440285205,456,283
+dis,LR,"LOGO(run,node)",14,0.9910554561717353,444,282
+dis,LR,"LOGO(run,node)",17,0.9909255898366606,444,278
+dis,LR,"LOGO(run,node)",18,0.9909584086799277,438,278
+dis,LR,"LOGO(run,node)",24,0.9910554561717353,400,281
+dis,LR,"LOGO(run,node)",25,0.9945750452079565,397,278
+dis,LR,"LOGO(run,node)",26,0.9947460595446586,420,287
+dis,LR,"LOGO(run,node)",29,0.992831541218638,408,281
+dis,LR,"LOGO(run,node)",32,0.982725527831094,410,265
+dis,LR,"LOGO(run,node)",40,0.9908925318761385,438,277
+dis,LR,"LOGO(run,node)",42,0.9928571428571429,348,282
+dis,LR,"LOGO(run,node)",43,0.989247311827957,429,280
+dis,LR,"LOGO(run,node)",56,0.9868667917448405,431,270
+dis,LR,"LOGO(run,node)",59,0.9963636363636363,421,276
+dis,LR,"LOGO(run,node)",70,0.9799635701275046,441,280
+dis,LR,"LOGO(run,node)",84,0.9911504424778761,441,285
+dis,LR,"LOGO(run,node)",85,0.9795918367346939,440,275
+dis,LR,"LOGO(run,node)",87,0.9908925318761385,427,277
+dis,LR,"LOGO(run,node)",89,0.9929078014184397,455,283
+dis,LR,"LOGO(run,node)",103,0.9853479853479854,399,277
+dis,LR,"LOGO(run,node)",104,0.9893617021276596,413,285
+dis,LR,"LOGO(run,node)",105,0.9928571428571429,424,282
+dis,LR,"LOGO(run,node)",110,0.9928825622775801,427,283
+dis,LR,"LOGO(run,node)",112,0.9945155393053016,409,275
+dis,LR,"LOGO(run,node)",122,0.9871086556169428,430,275
+dis,LR,"LOGO(run,node)",123,0.9929824561403509,395,287
+dis,LR,"LOGO(run,node)",124,0.9866666666666666,347,190
+dis,LR,"LOGO(run,node)",131,0.9875222816399286,401,284
+dis,LR,"LOGO(run,node)",132,0.9875666074600354,372,284
+dis,LR,LONO(node id),0,0.9828054298642533,2655,562
+dis,LR,LONO(node id),1,0.9488054607508531,2720,283
+dis,LR,LONO(node id),2,0.9876106194690265,2676,567
+dis,LR,LONO(node id),3,0.9833641404805915,2656,275
+dis,LR,LONO(node id),4,0.9868667917448405,2544,270
+dis,LR,LONO(node id),5,0.9722966934763182,2580,555
+dis,LR,LONO(node id),6,0.9873873873873874,2635,278
+dis,LR,LONO(node id),7,0.9946236559139785,2591,559
+dis,LR,LONO(node id),8,0.9766606822262119,2522,277
+dis,LR,LONO(node id),10,0.9900452488687783,2404,557
+dis,LR,LONO(node id),11,0.9876325088339223,2376,567
+dis,LR,LONO(node id),12,0.9861259338313768,2317,471
+dis,LR,LONO(node id),13,0.9892086330935251,2470,278
+dis,LR,LONO(node id),14,0.9861111111111112,2478,287
+dis,LR,LONO(node id),17,0.9892857142857142,2493,281
+dis,LR,LONO(node id),18,0.9857651245551601,2418,284
+dis,LR,LONO(node id),19,0.9834254143646408,2383,549
+dis,LR,LONO(node id),20,0.9835466179159049,1214,277
+dis,LR,LONO(node id),21,0.9876106194690266,1251,285
+dis,LR,LONO(node id),22,0.9928571428571429,1190,282
+dis,LR,LONO(node id),27,0.9928825622775801,1241,283
+dis,LR,LONO(node id),28,0.9945155393053016,1222,275
+dis,LR,LORO(run),0,0.9870503597122302,8504,1403
+dis,LR,LORO(run),1,0.9891618497109826,8417,1392
+dis,LR,LORO(run),2,0.9798705966930266,8389,1385
+dis,LR,LORO(run),3,0.9802371541501976,12413,1400
+dis,LR,LORO(run),4,0.9863799283154122,12280,1402
+dis,LR,LORO(run),5,0.9828440716736561,12403,1320
+dis,LR,naive StratifiedKFold,0,0.9881925522252497,12482,1661
+dis,LR,naive StratifiedKFold,1,0.9843089921544961,12481,1660
+dis,LR,naive StratifiedKFold,2,0.987303506650544,12481,1660
+dis,LR,naive StratifiedKFold,3,0.986069049061175,12481,1660
+dis,LR,naive StratifiedKFold,4,0.9852097796559008,12481,1661
+dis,RF,"LOGO(run,node)",10,0.989247311827957,455,282
+dis,RF,"LOGO(run,node)",13,0.9838420107719928,456,283
+dis,RF,"LOGO(run,node)",14,0.9928571428571429,444,282
+dis,RF,"LOGO(run,node)",17,0.9909255898366606,444,278
+dis,RF,"LOGO(run,node)",18,0.9927536231884058,438,278
+dis,RF,"LOGO(run,node)",24,0.992831541218638,400,281
+dis,RF,"LOGO(run,node)",25,0.9927536231884058,397,278
+dis,RF,"LOGO(run,node)",26,0.9929824561403509,420,287
+dis,RF,"LOGO(run,node)",29,0.9910233393177738,408,281
+dis,RF,"LOGO(run,node)",32,0.9846743295019157,410,265
+dis,RF,"LOGO(run,node)",40,0.9908925318761385,438,277
+dis,RF,"LOGO(run,node)",42,0.9910554561717353,348,282
+dis,RF,"LOGO(run,node)",43,0.9909909909909909,429,280
+dis,RF,"LOGO(run,node)",56,0.9868667917448405,431,270
+dis,RF,"LOGO(run,node)",59,0.9927007299270074,421,276
+dis,RF,"LOGO(run,node)",70,0.9873417721518987,441,280
+dis,RF,"LOGO(run,node)",84,0.9911504424778761,441,285
+dis,RF,"LOGO(run,node)",85,0.9833641404805915,440,275
+dis,RF,"LOGO(run,node)",87,0.9890510948905109,427,277
+dis,RF,"LOGO(run,node)",89,0.9928825622775801,455,283
+dis,RF,"LOGO(run,node)",103,0.9797421731123389,399,277
+dis,RF,"LOGO(run,node)",104,0.9893617021276596,413,285
+dis,RF,"LOGO(run,node)",105,0.9928571428571429,424,282
+dis,RF,"LOGO(run,node)",110,0.9910873440285205,427,283
+dis,RF,"LOGO(run,node)",112,0.9889705882352942,409,275
+dis,RF,"LOGO(run,node)",122,0.9833641404805915,430,275
+dis,RF,"LOGO(run,node)",123,0.9929824561403509,395,287
+dis,RF,"LOGO(run,node)",124,0.983957219251337,347,190
+dis,RF,"LOGO(run,node)",131,0.9893238434163701,401,284
+dis,RF,"LOGO(run,node)",132,0.9946902654867256,372,284
+dis,RF,LONO(node id),0,0.9864986498649865,2655,562
+dis,RF,LONO(node id),1,0.9583333333333334,2720,283
+dis,RF,LONO(node id),2,0.9919999999999999,2676,567
+dis,RF,LONO(node id),3,0.9871086556169428,2656,275
+dis,RF,LONO(node id),4,0.9849624060150376,2544,270
+dis,RF,LONO(node id),5,0.9881710646041856,2580,555
+dis,RF,LONO(node id),6,0.9891696750902527,2635,278
+dis,RF,LONO(node id),7,0.9946043165467625,2591,559
+dis,RF,LONO(node id),8,0.9908925318761385,2522,277
+dis,RF,LONO(node id),10,0.986351228389445,2404,557
+dis,RF,LONO(node id),11,0.9919999999999999,2376,567
+dis,RF,LONO(node id),12,0.9892933618843682,2317,471
+dis,RF,LONO(node id),13,0.990990990990991,2470,278
+dis,RF,LONO(node id),14,0.9912739965095986,2478,287
+dis,RF,LONO(node id),17,0.9892086330935252,2493,281
+dis,RF,LONO(node id),18,0.9893238434163701,2418,284
+dis,RF,LONO(node id),19,0.9880184331797235,2383,549
+dis,RF,LONO(node id),20,0.9816176470588236,1214,277
+dis,RF,LONO(node id),21,0.9893617021276596,1251,285
+dis,RF,LONO(node id),22,0.9928571428571429,1190,282
+dis,RF,LONO(node id),27,0.9910873440285205,1241,283
+dis,RF,LONO(node id),28,0.9871086556169428,1222,275
+dis,RF,LORO(run),0,0.9844484629294756,8504,1403
+dis,RF,LORO(run),1,0.9898403483309144,8417,1392
+dis,RF,LORO(run),2,0.9890670553935861,8389,1385
+dis,RF,LORO(run),3,0.9866954332973751,12413,1400
+dis,RF,LORO(run),4,0.9852464915437209,12280,1402
+dis,RF,LORO(run),5,0.9552349241583427,12403,1320
+dis,RF,naive StratifiedKFold,0,0.9924219460442558,12482,1661
+dis,RF,naive StratifiedKFold,1,0.9908980582524273,12481,1660
+dis,RF,naive StratifiedKFold,2,0.9936344346771748,12481,1660
+dis,RF,naive StratifiedKFold,3,0.9921068609593199,12481,1660
+dis,RF,naive StratifiedKFold,4,0.9908925318761383,12481,1661
+flooding,LR,"LOGO(run,node)",10,1.0,445,276
+flooding,LR,"LOGO(run,node)",13,1.0,453,286
+flooding,LR,"LOGO(run,node)",14,1.0,451,289
+flooding,LR,"LOGO(run,node)",17,0.9981785063752276,446,275
+flooding,LR,"LOGO(run,node)",18,1.0,443,280
+flooding,LR,"LOGO(run,node)",24,0.9982547993019197,388,287
+flooding,LR,"LOGO(run,node)",25,1.0,381,276
+flooding,LR,"LOGO(run,node)",28,0.998211091234347,380,280
+flooding,LR,"LOGO(run,node)",29,1.0,404,277
+flooding,LR,"LOGO(run,node)",31,1.0,395,237
+flooding,LR,"LOGO(run,node)",40,1.0,450,283
+flooding,LR,"LOGO(run,node)",42,1.0,422,287
+flooding,LR,"LOGO(run,node)",43,1.0,433,283
+flooding,LR,"LOGO(run,node)",56,1.0,443,279
+flooding,LR,"LOGO(run,node)",59,0.998211091234347,423,280
+flooding,LR,"LOGO(run,node)",60,1.0,443,281
+flooding,LR,"LOGO(run,node)",70,1.0,447,288
+flooding,LR,"LOGO(run,node)",81,1.0,447,276
+flooding,LR,"LOGO(run,node)",84,1.0,448,280
+flooding,LR,"LOGO(run,node)",89,0.9981785063752276,443,275
+flooding,LR,"LOGO(run,node)",103,0.9982300884955753,382,282
+flooding,LR,"LOGO(run,node)",105,1.0,350,281
+flooding,LR,"LOGO(run,node)",106,0.9946524064171123,402,281
+flooding,LR,"LOGO(run,node)",108,0.9965156794425087,387,287
+flooding,LR,"LOGO(run,node)",110,0.996309963099631,381,272
+flooding,LR,"LOGO(run,node)",122,1.0,429,280
+flooding,LR,"LOGO(run,node)",123,1.0,367,285
+flooding,LR,"LOGO(run,node)",126,0.9981916817359855,399,277
+flooding,LR,"LOGO(run,node)",128,0.9981981981981982,423,278
+flooding,LR,"LOGO(run,node)",132,1.0,383,275
+flooding,LR,LONO(node id),0,1.0,2620,564
+flooding,LR,LONO(node id),1,1.0,2697,562
+flooding,LR,LONO(node id),2,1.0,2701,569
+flooding,LR,LONO(node id),4,1.0,2514,279
+flooding,LR,LONO(node id),5,0.9981785063752276,2555,275
+flooding,LR,LONO(node id),6,1.0,2634,280
+flooding,LR,LONO(node id),7,0.9981949458483754,2625,555
+flooding,LR,LONO(node id),8,1.0,2544,564
+flooding,LR,LONO(node id),10,0.9991189427312775,2531,567
+flooding,LR,LONO(node id),11,0.9991204925241866,2475,568
+flooding,LR,LONO(node id),12,0.9982547993019197,2264,287
+flooding,LR,LONO(node id),13,1.0,2417,276
+flooding,LR,LONO(node id),14,0.9963898916967509,2477,277
+flooding,LR,LONO(node id),16,0.9982046678635548,2400,558
+flooding,LR,LONO(node id),17,0.9964028776978416,2401,277
+flooding,LR,LONO(node id),18,0.9978947368421053,2413,237
+flooding,LR,LONO(node id),19,1.0,2362,275
+flooding,LR,LONO(node id),20,0.9982300884955753,1214,282
+flooding,LR,LONO(node id),22,0.9982238010657194,1204,281
+flooding,LR,LONO(node id),23,0.9946524064171123,1197,281
+flooding,LR,LONO(node id),25,0.9965156794425087,1194,287
+flooding,LR,LONO(node id),27,0.9926470588235294,1160,272
+flooding,LR,LORO(run),0,0.9992882562277581,8565,1406
+flooding,LR,LORO(run),1,0.9992625368731564,8323,1357
+flooding,LR,LORO(run),2,0.9992912827781716,8475,1412
+flooding,LR,LORO(run),3,0.9971489665003564,12357,1400
+flooding,LR,LORO(run),4,0.994306049822064,12247,1403
+flooding,LR,LORO(run),5,0.9985663082437276,12314,1395
+flooding,LR,naive StratifiedKFold,0,0.9982100238663484,12457,1675
+flooding,LR,naive StratifiedKFold,1,0.9991042102120036,12456,1674
+flooding,LR,naive StratifiedKFold,2,0.997610513739546,12456,1674
+flooding,LR,naive StratifiedKFold,3,0.998805256869773,12456,1675
+flooding,LR,naive StratifiedKFold,4,0.997020262216925,12456,1675
+flooding,RF,"LOGO(run,node)",10,1.0,445,276
+flooding,RF,"LOGO(run,node)",13,1.0,453,286
+flooding,RF,"LOGO(run,node)",14,1.0,451,289
+flooding,RF,"LOGO(run,node)",17,1.0,446,275
+flooding,RF,"LOGO(run,node)",18,1.0,443,280
+flooding,RF,"LOGO(run,node)",24,0.9982547993019197,388,287
+flooding,RF,"LOGO(run,node)",25,1.0,381,276
+flooding,RF,"LOGO(run,node)",28,1.0,380,280
+flooding,RF,"LOGO(run,node)",29,1.0,404,277
+flooding,RF,"LOGO(run,node)",31,1.0,395,237
+flooding,RF,"LOGO(run,node)",40,1.0,450,283
+flooding,RF,"LOGO(run,node)",42,1.0,422,287
+flooding,RF,"LOGO(run,node)",43,1.0,433,283
+flooding,RF,"LOGO(run,node)",56,1.0,443,279
+flooding,RF,"LOGO(run,node)",59,0.998211091234347,423,280
+flooding,RF,"LOGO(run,node)",60,1.0,443,281
+flooding,RF,"LOGO(run,node)",70,1.0,447,288
+flooding,RF,"LOGO(run,node)",81,1.0,447,276
+flooding,RF,"LOGO(run,node)",84,1.0,448,280
+flooding,RF,"LOGO(run,node)",89,1.0,443,275
+flooding,RF,"LOGO(run,node)",103,1.0,382,282
+flooding,RF,"LOGO(run,node)",105,1.0,350,281
+flooding,RF,"LOGO(run,node)",106,0.9982174688057042,402,281
+flooding,RF,"LOGO(run,node)",108,1.0,387,287
+flooding,RF,"LOGO(run,node)",110,0.998158379373849,381,272
+flooding,RF,"LOGO(run,node)",122,1.0,429,280
+flooding,RF,"LOGO(run,node)",123,1.0,367,285
+flooding,RF,"LOGO(run,node)",126,0.9981916817359855,399,277
+flooding,RF,"LOGO(run,node)",128,1.0,423,278
+flooding,RF,"LOGO(run,node)",132,1.0,383,275
+flooding,RF,LONO(node id),0,1.0,2620,564
+flooding,RF,LONO(node id),1,1.0,2697,562
+flooding,RF,LONO(node id),2,1.0,2701,569
+flooding,RF,LONO(node id),4,1.0,2514,279
+flooding,RF,LONO(node id),5,1.0,2555,275
+flooding,RF,LONO(node id),6,1.0,2634,280
+flooding,RF,LONO(node id),7,1.0,2625,555
+flooding,RF,LONO(node id),8,0.9991142604074402,2544,564
+flooding,RF,LONO(node id),10,1.0,2531,567
+flooding,RF,LONO(node id),11,1.0,2475,568
+flooding,RF,LONO(node id),12,0.9982547993019197,2264,287
+flooding,RF,LONO(node id),13,1.0,2417,276
+flooding,RF,LONO(node id),14,0.9963898916967509,2477,277
+flooding,RF,LONO(node id),16,1.0,2400,558
+flooding,RF,LONO(node id),17,1.0,2401,277
+flooding,RF,LONO(node id),18,0.9978947368421053,2413,237
+flooding,RF,LONO(node id),19,1.0,2362,275
+flooding,RF,LONO(node id),20,1.0,1214,282
+flooding,RF,LONO(node id),22,1.0,1204,281
+flooding,RF,LONO(node id),23,0.9982174688057042,1197,281
+flooding,RF,LONO(node id),25,1.0,1194,287
+flooding,RF,LONO(node id),27,0.998158379373849,1160,272
+flooding,RF,LORO(run),0,1.0,8565,1406
+flooding,RF,LORO(run),1,0.9992630803242447,8323,1357
+flooding,RF,LORO(run),2,0.9996460176991151,8475,1412
+flooding,RF,LORO(run),3,1.0,12357,1400
+flooding,RF,LORO(run),4,0.9985744832501782,12247,1403
+flooding,RF,LORO(run),5,0.9996414485478665,12314,1395
+flooding,RF,naive StratifiedKFold,0,0.9991042102120036,12457,1675
+flooding,RF,naive StratifiedKFold,1,0.9994029850746269,12456,1674
+flooding,RF,naive StratifiedKFold,2,1.0,12456,1674
+flooding,RF,naive StratifiedKFold,3,0.9997014034040012,12456,1675
+flooding,RF,naive StratifiedKFold,4,0.9997014034040012,12456,1675
+shared-slot,LR,"LOGO(run,node)",10,0.01904761904761905,397,104
+shared-slot,LR,"LOGO(run,node)",13,0.34523809523809523,372,100
+shared-slot,LR,"LOGO(run,node)",14,0.020833333333333332,383,87
+shared-slot,LR,"LOGO(run,node)",17,0.24545454545454545,366,53
+shared-slot,LR,"LOGO(run,node)",18,0.18930041152263374,295,24
+shared-slot,LR,"LOGO(run,node)",24,0.0,392,102
+shared-slot,LR,"LOGO(run,node)",25,0.128,332,103
+shared-slot,LR,"LOGO(run,node)",26,0.0,410,103
+shared-slot,LR,"LOGO(run,node)",29,0.163265306122449,378,88
+shared-slot,LR,"LOGO(run,node)",32,0.0,399,108
+shared-slot,LR,"LOGO(run,node)",40,0.8143322475570032,400,145
+shared-slot,LR,"LOGO(run,node)",42,0.08383233532934131,359,109
+shared-slot,LR,"LOGO(run,node)",43,0.6175115207373272,382,83
+shared-slot,LR,"LOGO(run,node)",56,0.0611353711790393,409,28
+shared-slot,LR,"LOGO(run,node)",59,0.5606469002695418,410,212
+shared-slot,LR,"LOGO(run,node)",70,0.0,444,284
+shared-slot,LR,"LOGO(run,node)",84,0.5140186915887851,426,120
+shared-slot,LR,"LOGO(run,node)",85,0.449438202247191,419,78
+shared-slot,LR,"LOGO(run,node)",87,0.5555555555555556,377,111
+shared-slot,LR,"LOGO(run,node)",89,0.14545454545454545,398,23
+shared-slot,LR,"LOGO(run,node)",103,0.8924949290060852,406,271
+shared-slot,LR,"LOGO(run,node)",104,0.0,328,61
+shared-slot,LR,"LOGO(run,node)",105,0.625,349,107
+shared-slot,LR,"LOGO(run,node)",110,0.0,351,28
+shared-slot,LR,"LOGO(run,node)",112,0.0,347,100
+shared-slot,LR,"LOGO(run,node)",122,0.7191919191919192,382,179
+shared-slot,LR,"LOGO(run,node)",123,0.6970954356846473,386,107
+shared-slot,LR,"LOGO(run,node)",124,0.1068702290076336,311,101
+shared-slot,LR,"LOGO(run,node)",131,0.6590909090909092,388,105
+shared-slot,LR,"LOGO(run,node)",132,0.7999999999999999,356,192
+shared-slot,LR,LONO(node id),0,0.0,2584,388
+shared-slot,LR,LONO(node id),1,0.06918744971842318,2617,100
+shared-slot,LR,LONO(node id),2,0.20648967551622419,2540,207
+shared-slot,LR,LONO(node id),3,0.22040816326530613,2615,78
+shared-slot,LR,LONO(node id),4,0.008138351983723296,2376,28
+shared-slot,LR,LONO(node id),5,0.10246107483676545,2471,164
+shared-slot,LR,LONO(node id),6,0.023821853961677887,2478,24
+shared-slot,LR,LONO(node id),7,0.2951096121416526,2448,235
+shared-slot,LR,LONO(node id),8,0.13870776526378187,2267,145
+shared-slot,LR,LONO(node id),10,0.2662162162162162,2260,288
+shared-slot,LR,LONO(node id),11,0.24227234753550544,2318,190
+shared-slot,LR,LONO(node id),12,0.01888772298006296,2155,203
+shared-slot,LR,LONO(node id),13,0.03188405797101449,2204,103
+shared-slot,LR,LONO(node id),14,0.0,2290,103
+shared-slot,LR,LONO(node id),17,0.025764895330112718,2369,88
+shared-slot,LR,LONO(node id),18,0.16307403936269918,2247,105
+shared-slot,LR,LONO(node id),19,0.3648915187376726,2131,300
+shared-slot,LR,LONO(node id),20,0.6392572944297081,1170,271
+shared-slot,LR,LONO(node id),21,0.0,1103,61
+shared-slot,LR,LONO(node id),22,0.4830917874396135,1134,107
+shared-slot,LR,LONO(node id),27,0.0,1142,28
+shared-slot,LR,LONO(node id),28,0.010582010582010581,1120,100
+shared-slot,LR,LORO(run),0,0.035885933995514256,6857,368
+shared-slot,LR,LORO(run),1,0.0006990562740300594,8299,504
+shared-slot,LR,LORO(run),2,0.09437086092715233,8158,577
+shared-slot,LR,LORO(run),3,0.010333247222939811,11643,616
+shared-slot,LR,LORO(run),4,0.08383233532934134,11997,567
+shared-slot,LR,LORO(run),5,0.08336366945759009,12034,684
+shared-slot,LR,naive StratifiedKFold,0,0.16527987897125565,11798,663
+shared-slot,LR,naive StratifiedKFold,1,0.1645762067654884,11798,663
+shared-slot,LR,naive StratifiedKFold,2,0.16334430036771821,11798,664
+shared-slot,LR,naive StratifiedKFold,3,0.17146167213747826,11797,663
+shared-slot,LR,naive StratifiedKFold,4,0.1583217890362161,11797,663
+shared-slot,RF,"LOGO(run,node)",10,0.0,397,104
+shared-slot,RF,"LOGO(run,node)",13,0.19819819819819817,372,100
+shared-slot,RF,"LOGO(run,node)",14,0.5499999999999999,383,87
+shared-slot,RF,"LOGO(run,node)",17,0.6904761904761905,366,53
+shared-slot,RF,"LOGO(run,node)",18,0.2222222222222222,295,24
+shared-slot,RF,"LOGO(run,node)",24,0.7058823529411764,392,102
+shared-slot,RF,"LOGO(run,node)",25,0.5793103448275861,332,103
+shared-slot,RF,"LOGO(run,node)",26,0.38095238095238093,410,103
+shared-slot,RF,"LOGO(run,node)",29,0.7651006711409395,378,88
+shared-slot,RF,"LOGO(run,node)",32,0.0,399,108
+shared-slot,RF,"LOGO(run,node)",40,0.609090909090909,400,145
+shared-slot,RF,"LOGO(run,node)",42,0.3829787234042553,359,109
+shared-slot,RF,"LOGO(run,node)",43,0.7194244604316548,382,83
+shared-slot,RF,"LOGO(run,node)",56,0.0,409,28
+shared-slot,RF,"LOGO(run,node)",59,0.4332129963898917,410,212
+shared-slot,RF,"LOGO(run,node)",70,0.03460207612456747,444,284
+shared-slot,RF,"LOGO(run,node)",84,0.19402985074626863,426,120
+shared-slot,RF,"LOGO(run,node)",85,0.0,419,78
+shared-slot,RF,"LOGO(run,node)",87,0.6931818181818182,377,111
+shared-slot,RF,"LOGO(run,node)",89,0.7419354838709677,398,23
+shared-slot,RF,"LOGO(run,node)",103,0.0,406,271
+shared-slot,RF,"LOGO(run,node)",104,0.9572649572649572,328,61
+shared-slot,RF,"LOGO(run,node)",105,0.44444444444444436,349,107
+shared-slot,RF,"LOGO(run,node)",110,0.7272727272727273,351,28
+shared-slot,RF,"LOGO(run,node)",112,0.0,347,100
+shared-slot,RF,"LOGO(run,node)",122,0.7986798679867987,382,179
+shared-slot,RF,"LOGO(run,node)",123,0.7167630057803469,386,107
+shared-slot,RF,"LOGO(run,node)",124,0.0196078431372549,311,101
+shared-slot,RF,"LOGO(run,node)",131,0.19199999999999998,388,105
+shared-slot,RF,"LOGO(run,node)",132,0.03076923076923077,356,192
+shared-slot,RF,LONO(node id),0,0.0,2584,388
+shared-slot,RF,LONO(node id),1,0.2586750788643533,2617,100
+shared-slot,RF,LONO(node id),2,0.35714285714285715,2540,207
+shared-slot,RF,LONO(node id),3,0.06299212598425198,2615,78
+shared-slot,RF,LONO(node id),4,0.005780346820809249,2376,28
+shared-slot,RF,LONO(node id),5,0.18713450292397663,2471,164
+shared-slot,RF,LONO(node id),6,0.03424657534246575,2478,24
+shared-slot,RF,LONO(node id),7,0.3353293413173653,2448,235
+shared-slot,RF,LONO(node id),8,0.26515151515151514,2267,145
+shared-slot,RF,LONO(node id),10,0.4444444444444445,2260,288
+shared-slot,RF,LONO(node id),11,0.2530755711775044,2318,190
+shared-slot,RF,LONO(node id),12,0.3333333333333333,2155,203
+shared-slot,RF,LONO(node id),13,0.26692456479690524,2204,103
+shared-slot,RF,LONO(node id),14,0.08470588235294119,2290,103
+shared-slot,RF,LONO(node id),17,0.3378016085790885,2369,88
+shared-slot,RF,LONO(node id),18,0.0611764705882353,2247,105
+shared-slot,RF,LONO(node id),19,0.07929515418502203,2131,300
+shared-slot,RF,LONO(node id),20,0.0,1170,271
+shared-slot,RF,LONO(node id),21,0.43621399176954734,1103,61
+shared-slot,RF,LONO(node id),22,0.22535211267605634,1134,107
+shared-slot,RF,LONO(node id),27,0.23008849557522126,1142,28
+shared-slot,RF,LONO(node id),28,0.0,1120,100
+shared-slot,RF,LORO(run),0,0.04226542688081149,6857,368
+shared-slot,RF,LORO(run),1,0.1440598690364827,8299,504
+shared-slot,RF,LORO(run),2,0.19757085020242915,8158,577
+shared-slot,RF,LORO(run),3,0.01952171791117618,11643,616
+shared-slot,RF,LORO(run),4,0.04423748544819558,11997,567
+shared-slot,RF,LORO(run),5,0.11436950146627568,12034,684
+shared-slot,RF,naive StratifiedKFold,0,0.6269652215340639,11798,663
+shared-slot,RF,naive StratifiedKFold,1,0.608816705336427,11798,663
+shared-slot,RF,naive StratifiedKFold,2,0.6346899224806201,11798,664
+shared-slot,RF,naive StratifiedKFold,3,0.6449704142011835,11797,663
+shared-slot,RF,naive StratifiedKFold,4,0.6353965183752418,11797,663
+slot-exhaustion,LR,"LOGO(run,node)",10,0.9982300884955753,449,283
+slot-exhaustion,LR,"LOGO(run,node)",13,0.9982425307557118,460,285
+slot-exhaustion,LR,"LOGO(run,node)",14,0.9982174688057042,447,281
+slot-exhaustion,LR,"LOGO(run,node)",17,0.9981851179673321,438,276
+slot-exhaustion,LR,"LOGO(run,node)",18,0.996415770609319,429,280
+slot-exhaustion,LR,"LOGO(run,node)",24,1.0,399,268
+slot-exhaustion,LR,"LOGO(run,node)",25,0.9982300884955753,332,283
+slot-exhaustion,LR,"LOGO(run,node)",28,0.994475138121547,366,273
+slot-exhaustion,LR,"LOGO(run,node)",29,0.998165137614679,415,273
+slot-exhaustion,LR,"LOGO(run,node)",31,0.9982046678635548,360,279
+slot-exhaustion,LR,"LOGO(run,node)",40,0.9982486865148862,402,286
+slot-exhaustion,LR,"LOGO(run,node)",42,0.9982300884955753,422,283
+slot-exhaustion,LR,"LOGO(run,node)",43,0.9981981981981982,435,278
+slot-exhaustion,LR,"LOGO(run,node)",56,1.0,438,273
+slot-exhaustion,LR,"LOGO(run,node)",59,0.9982425307557118,444,285
+slot-exhaustion,LR,"LOGO(run,node)",60,1.0,427,283
+slot-exhaustion,LR,"LOGO(run,node)",70,0.998158379373849,429,272
+slot-exhaustion,LR,"LOGO(run,node)",81,0.9982300884955753,447,283
+slot-exhaustion,LR,"LOGO(run,node)",84,0.9981981981981982,448,278
+slot-exhaustion,LR,"LOGO(run,node)",89,0.9981916817359855,438,277
+slot-exhaustion,LR,"LOGO(run,node)",103,0.9982046678635548,411,279
+slot-exhaustion,LR,"LOGO(run,node)",105,1.0,182,30
+slot-exhaustion,LR,"LOGO(run,node)",106,0.9965156794425087,434,288
+slot-exhaustion,LR,"LOGO(run,node)",108,0.998211091234347,418,280
+slot-exhaustion,LR,"LOGO(run,node)",110,0.9967845659163987,360,156
+slot-exhaustion,LR,"LOGO(run,node)",122,0.998236331569665,432,284
+slot-exhaustion,LR,"LOGO(run,node)",123,0.9974025974025974,291,193
+slot-exhaustion,LR,"LOGO(run,node)",126,1.0,402,279
+slot-exhaustion,LR,"LOGO(run,node)",128,1.0,442,287
+slot-exhaustion,LR,"LOGO(run,node)",132,1.0,405,279
+slot-exhaustion,LR,LONO(node id),0,0.9981949458483754,2612,555
+slot-exhaustion,LR,LONO(node id),1,0.998236331569665,2721,568
+slot-exhaustion,LR,LONO(node id),2,0.9806338028169013,2695,559
+slot-exhaustion,LR,LONO(node id),4,1.0,2543,273
+slot-exhaustion,LR,LONO(node id),5,0.9981851179673321,2557,276
+slot-exhaustion,LR,LONO(node id),6,0.9946332737030412,2611,280
+slot-exhaustion,LR,LONO(node id),7,0.9973238180196252,2647,562
+slot-exhaustion,LR,LONO(node id),8,0.9991204925241866,2506,569
+slot-exhaustion,LR,LONO(node id),10,0.9982332155477032,2475,567
+slot-exhaustion,LR,LONO(node id),11,0.997872340425532,2281,471
+slot-exhaustion,LR,LONO(node id),12,1.0,2400,268
+slot-exhaustion,LR,LONO(node id),13,0.9982300884955753,2284,283
+slot-exhaustion,LR,LONO(node id),14,1.0,2533,279
+slot-exhaustion,LR,LONO(node id),16,0.9973142345568488,2389,560
+slot-exhaustion,LR,LONO(node id),17,0.998165137614679,2489,273
+slot-exhaustion,LR,LONO(node id),18,0.9982046678635548,2416,279
+slot-exhaustion,LR,LONO(node id),19,1.0,2442,279
+slot-exhaustion,LR,LONO(node id),20,0.9982046678635548,1197,279
+slot-exhaustion,LR,LONO(node id),22,1.0,999,30
+slot-exhaustion,LR,LONO(node id),23,0.9965156794425087,1140,288
+slot-exhaustion,LR,LONO(node id),25,0.998211091234347,1219,280
+slot-exhaustion,LR,LONO(node id),27,0.9967845659163987,1170,156
+slot-exhaustion,LR,LORO(run),0,0.9978601997146933,8477,1405
+slot-exhaustion,LR,LORO(run),1,0.9978150036416605,8313,1376
+slot-exhaustion,LR,LORO(run),2,0.9985744832501782,8486,1405
+slot-exhaustion,LR,LORO(run),3,0.9978417266187051,12083,1393
+slot-exhaustion,LR,LORO(run),4,0.9966002914035941,12137,1033
+slot-exhaustion,LR,LORO(run),5,0.9947249434815373,12330,1322
+slot-exhaustion,LR,naive StratifiedKFold,0,0.9977924944812362,12366,1587
+slot-exhaustion,LR,naive StratifiedKFold,1,0.9974715549936789,12365,1586
+slot-exhaustion,LR,naive StratifiedKFold,2,0.9971599873777216,12365,1587
+slot-exhaustion,LR,naive StratifiedKFold,3,0.99842321034374,12365,1587
+slot-exhaustion,LR,naive StratifiedKFold,4,0.9984242042231326,12365,1587
+slot-exhaustion,RF,"LOGO(run,node)",10,0.9982300884955753,449,283
+slot-exhaustion,RF,"LOGO(run,node)",13,0.9982425307557118,460,285
+slot-exhaustion,RF,"LOGO(run,node)",14,0.9982174688057042,447,281
+slot-exhaustion,RF,"LOGO(run,node)",17,0.9981851179673321,438,276
+slot-exhaustion,RF,"LOGO(run,node)",18,0.996415770609319,429,280
+slot-exhaustion,RF,"LOGO(run,node)",24,1.0,399,268
+slot-exhaustion,RF,"LOGO(run,node)",25,0.9982300884955753,332,283
+slot-exhaustion,RF,"LOGO(run,node)",28,0.994475138121547,366,273
+slot-exhaustion,RF,"LOGO(run,node)",29,0.998165137614679,415,273
+slot-exhaustion,RF,"LOGO(run,node)",31,0.9982046678635548,360,279
+slot-exhaustion,RF,"LOGO(run,node)",40,0.9982486865148862,402,286
+slot-exhaustion,RF,"LOGO(run,node)",42,0.9982300884955753,422,283
+slot-exhaustion,RF,"LOGO(run,node)",43,0.9981981981981982,435,278
+slot-exhaustion,RF,"LOGO(run,node)",56,1.0,438,273
+slot-exhaustion,RF,"LOGO(run,node)",59,0.9982425307557118,444,285
+slot-exhaustion,RF,"LOGO(run,node)",60,1.0,427,283
+slot-exhaustion,RF,"LOGO(run,node)",70,0.998158379373849,429,272
+slot-exhaustion,RF,"LOGO(run,node)",81,0.9982300884955753,447,283
+slot-exhaustion,RF,"LOGO(run,node)",84,0.9981981981981982,448,278
+slot-exhaustion,RF,"LOGO(run,node)",89,0.9981916817359855,438,277
+slot-exhaustion,RF,"LOGO(run,node)",103,0.9982046678635548,411,279
+slot-exhaustion,RF,"LOGO(run,node)",105,1.0,182,30
+slot-exhaustion,RF,"LOGO(run,node)",106,0.9982608695652174,434,288
+slot-exhaustion,RF,"LOGO(run,node)",108,0.998211091234347,418,280
+slot-exhaustion,RF,"LOGO(run,node)",110,0.9967845659163987,360,156
+slot-exhaustion,RF,"LOGO(run,node)",122,0.998236331569665,432,284
+slot-exhaustion,RF,"LOGO(run,node)",123,0.9974025974025974,291,193
+slot-exhaustion,RF,"LOGO(run,node)",126,1.0,402,279
+slot-exhaustion,RF,"LOGO(run,node)",128,1.0,442,287
+slot-exhaustion,RF,"LOGO(run,node)",132,1.0,405,279
+slot-exhaustion,RF,LONO(node id),0,0.9981949458483754,2612,555
+slot-exhaustion,RF,LONO(node id),1,0.998236331569665,2721,568
+slot-exhaustion,RF,LONO(node id),2,0.9884649511978705,2695,559
+slot-exhaustion,RF,LONO(node id),4,1.0,2543,273
+slot-exhaustion,RF,LONO(node id),5,0.9981851179673321,2557,276
+slot-exhaustion,RF,LONO(node id),6,0.996415770609319,2611,280
+slot-exhaustion,RF,LONO(node id),7,0.9982174688057042,2647,562
+slot-exhaustion,RF,LONO(node id),8,0.9991204925241866,2506,569
+slot-exhaustion,RF,LONO(node id),10,0.9982332155477032,2475,567
+slot-exhaustion,RF,LONO(node id),11,0.997872340425532,2281,471
+slot-exhaustion,RF,LONO(node id),12,1.0,2400,268
+slot-exhaustion,RF,LONO(node id),13,0.9982300884955753,2284,283
+slot-exhaustion,RF,LONO(node id),14,1.0,2533,279
+slot-exhaustion,RF,LONO(node id),16,0.9973142345568488,2389,560
+slot-exhaustion,RF,LONO(node id),17,0.998165137614679,2489,273
+slot-exhaustion,RF,LONO(node id),18,0.9982046678635548,2416,279
+slot-exhaustion,RF,LONO(node id),19,1.0,2442,279
+slot-exhaustion,RF,LONO(node id),20,0.9982046678635548,1197,279
+slot-exhaustion,RF,LONO(node id),22,1.0,999,30
+slot-exhaustion,RF,LONO(node id),23,0.9982608695652174,1140,288
+slot-exhaustion,RF,LONO(node id),25,0.998211091234347,1219,280
+slot-exhaustion,RF,LONO(node id),27,0.9967845659163987,1170,156
+slot-exhaustion,RF,LORO(run),0,0.9978601997146933,8477,1405
+slot-exhaustion,RF,LORO(run),1,0.9978150036416605,8313,1376
+slot-exhaustion,RF,LORO(run),2,0.9985744832501782,8486,1405
+slot-exhaustion,RF,LORO(run),3,0.9985621854780734,12083,1393
+slot-exhaustion,RF,LORO(run),4,0.9970873786407767,12137,1033
+slot-exhaustion,RF,LORO(run),5,0.9950998869204674,12330,1322
+slot-exhaustion,RF,naive StratifiedKFold,0,0.9984222152098454,12366,1587
+slot-exhaustion,RF,naive StratifiedKFold,1,0.9977883096366509,12365,1586
+slot-exhaustion,RF,naive StratifiedKFold,2,0.9977897063467004,12365,1587
+slot-exhaustion,RF,naive StratifiedKFold,3,0.9987381703470031,12365,1587
+slot-exhaustion,RF,naive StratifiedKFold,4,0.9990539262062441,12365,1587
+timekeep,LR,"LOGO(run,node)",10,0.8537074148296593,459,280
+timekeep,LR,"LOGO(run,node)",13,0.8772635814889336,436,273
+timekeep,LR,"LOGO(run,node)",14,0.3492957746478874,455,288
+timekeep,LR,"LOGO(run,node)",17,0.8970588235294118,455,287
+timekeep,LR,"LOGO(run,node)",18,0.8349900596421471,444,279
+timekeep,LR,"LOGO(run,node)",24,0.8542510121457492,405,278
+timekeep,LR,"LOGO(run,node)",25,0.7890295358649789,394,281
+timekeep,LR,"LOGO(run,node)",26,0.549618320610687,422,280
+timekeep,LR,"LOGO(run,node)",29,0.868,406,274
+timekeep,LR,"LOGO(run,node)",32,0.2492401215805471,431,287
+timekeep,LR,"LOGO(run,node)",40,0.911487758945386,441,285
+timekeep,LR,"LOGO(run,node)",42,0.3253012048192771,359,277
+timekeep,LR,"LOGO(run,node)",43,0.908745247148289,432,282
+timekeep,LR,"LOGO(run,node)",56,0.9255898366606171,454,285
+timekeep,LR,"LOGO(run,node)",59,0.8469184890656063,440,282
+timekeep,LR,"LOGO(run,node)",70,0.26347305389221554,448,288
+timekeep,LR,"LOGO(run,node)",84,0.8812260536398469,450,278
+timekeep,LR,"LOGO(run,node)",85,0.6849315068493149,448,280
+timekeep,LR,"LOGO(run,node)",87,0.8733459357277882,432,282
+timekeep,LR,"LOGO(run,node)",89,0.7967145790554415,437,277
+timekeep,LR,"LOGO(run,node)",103,0.9066666666666666,417,275
+timekeep,LR,"LOGO(run,node)",104,0.9056603773584906,412,286
+timekeep,LR,"LOGO(run,node)",105,0.7948717948717949,412,276
+timekeep,LR,"LOGO(run,node)",110,0.8841698841698842,424,279
+timekeep,LR,"LOGO(run,node)",112,0.8660194174757282,422,285
+timekeep,LR,"LOGO(run,node)",122,0.8454376163873369,428,282
+timekeep,LR,"LOGO(run,node)",123,0.8293650793650792,372,279
+timekeep,LR,"LOGO(run,node)",124,0.8179551122194514,335,188
+timekeep,LR,"LOGO(run,node)",131,0.8693693693693694,330,220
+timekeep,LR,"LOGO(run,node)",132,0.7002518891687657,369,255
+timekeep,LR,LONO(node id),0,0.5150048402710552,2682,568
+timekeep,LR,LONO(node id),1,0.35329341317365265,2684,273
+timekeep,LR,LONO(node id),2,0.4354293441514537,2676,566
+timekeep,LR,LONO(node id),3,0.30389363722697055,2644,280
+timekeep,LR,LONO(node id),4,0.49236641221374045,2494,285
+timekeep,LR,LONO(node id),5,0.5698924731182795,2600,569
+timekeep,LR,LONO(node id),6,0.327893175074184,2622,279
+timekeep,LR,LONO(node id),7,0.5673469387755102,2520,559
+timekeep,LR,LONO(node id),8,0.41996557659208256,2448,285
+timekeep,LR,LONO(node id),10,0.4166026133743274,2367,559
+timekeep,LR,LONO(node id),11,0.6372549019607843,2339,561
+timekeep,LR,LONO(node id),12,0.6071713147410359,2348,466
+timekeep,LR,LONO(node id),13,0.42889390519187354,2429,281
+timekeep,LR,LONO(node id),14,0.23728813559322035,2485,280
+timekeep,LR,LONO(node id),17,0.3798118049615055,2497,274
+timekeep,LR,LONO(node id),18,0.3715110683349374,2306,220
+timekeep,LR,LONO(node id),19,0.49830124575311435,2327,542
+timekeep,LR,LONO(node id),20,0.8307155322862129,784,275
+timekeep,LR,LONO(node id),21,0.7079646017699116,1212,286
+timekeep,LR,LONO(node id),22,0.6372881355932203,1185,276
+timekeep,LR,LONO(node id),27,0.6174496644295302,1199,279
+timekeep,LR,LONO(node id),28,0.7147335423197492,1143,285
+timekeep,LR,LORO(run),0,0.4048926610084872,8412,1407
+timekeep,LR,LORO(run),1,0.30984601026598224,8388,1400
+timekeep,LR,LORO(run),2,0.4803804994054697,8423,1411
+timekeep,LR,LORO(run),3,0.21966794380587484,12103,1405
+timekeep,LR,LORO(run),4,0.4066083576287658,12432,1401
+timekeep,LR,LORO(run),5,0.3255517826825127,11591,1224
+timekeep,LR,naive StratifiedKFold,0,0.48067226890756304,12270,1649
+timekeep,LR,naive StratifiedKFold,1,0.48494983277591974,12270,1650
+timekeep,LR,naive StratifiedKFold,2,0.48379239272999813,12270,1650
+timekeep,LR,naive StratifiedKFold,3,0.486866444691084,12270,1650
+timekeep,LR,naive StratifiedKFold,4,0.48168908819133033,12269,1649
+timekeep,RF,"LOGO(run,node)",10,0.0,459,280
+timekeep,RF,"LOGO(run,node)",13,0.8258064516129032,436,273
+timekeep,RF,"LOGO(run,node)",14,0.0,455,288
+timekeep,RF,"LOGO(run,node)",17,0.8576923076923075,455,287
+timekeep,RF,"LOGO(run,node)",18,0.8252631578947368,444,279
+timekeep,RF,"LOGO(run,node)",24,0.7589285714285714,405,278
+timekeep,RF,"LOGO(run,node)",25,0.37572254335260113,394,281
+timekeep,RF,"LOGO(run,node)",26,0.6308068459657702,422,280
+timekeep,RF,"LOGO(run,node)",29,0.0,406,274
+timekeep,RF,"LOGO(run,node)",32,0.0,431,287
+timekeep,RF,"LOGO(run,node)",40,0.9840707964601771,441,285
+timekeep,RF,"LOGO(run,node)",42,0.0,359,277
+timekeep,RF,"LOGO(run,node)",43,0.6277372262773723,432,282
+timekeep,RF,"LOGO(run,node)",56,0.6097560975609756,454,285
+timekeep,RF,"LOGO(run,node)",59,0.8274428274428274,440,282
+timekeep,RF,"LOGO(run,node)",70,0.0,448,288
+timekeep,RF,"LOGO(run,node)",84,0.5786802030456853,450,278
+timekeep,RF,"LOGO(run,node)",85,0.6176470588235294,448,280
+timekeep,RF,"LOGO(run,node)",87,0.7354260089686099,432,282
+timekeep,RF,"LOGO(run,node)",89,0.0,437,277
+timekeep,RF,"LOGO(run,node)",103,0.6040609137055838,417,275
+timekeep,RF,"LOGO(run,node)",104,0.8936170212765957,412,286
+timekeep,RF,"LOGO(run,node)",105,0.4918032786885246,412,276
+timekeep,RF,"LOGO(run,node)",110,0.0,424,279
+timekeep,RF,"LOGO(run,node)",112,0.0,422,285
+timekeep,RF,"LOGO(run,node)",122,0.9121495327102804,428,282
+timekeep,RF,"LOGO(run,node)",123,0.9570093457943926,372,279
+timekeep,RF,"LOGO(run,node)",124,0.9637305699481866,335,188
+timekeep,RF,"LOGO(run,node)",131,0.9433962264150944,330,220
+timekeep,RF,"LOGO(run,node)",132,0.7121212121212122,369,255
+timekeep,RF,LONO(node id),0,0.0,2682,568
+timekeep,RF,LONO(node id),1,0.5156626506024096,2684,273
+timekeep,RF,LONO(node id),2,0.48878394332939784,2676,566
+timekeep,RF,LONO(node id),3,0.3717579250720461,2644,280
+timekeep,RF,LONO(node id),4,0.2753950338600451,2494,285
+timekeep,RF,LONO(node id),5,0.7717287488061126,2600,569
+timekeep,RF,LONO(node id),6,0.7541528239202657,2622,279
+timekeep,RF,LONO(node id),7,0.49721293199554073,2520,559
+timekeep,RF,LONO(node id),8,0.7510094212651414,2448,285
+timekeep,RF,LONO(node id),10,0.5483193277310925,2367,559
+timekeep,RF,LONO(node id),11,0.6182965299684543,2339,561
+timekeep,RF,LONO(node id),12,0.61082910321489,2348,466
+timekeep,RF,LONO(node id),13,0.3563218390804598,2429,281
+timekeep,RF,LONO(node id),14,0.451048951048951,2485,280
+timekeep,RF,LONO(node id),17,0.0,2497,274
+timekeep,RF,LONO(node id),18,0.7595959595959595,2306,220
+timekeep,RF,LONO(node id),19,0.36211699164345407,2327,542
+timekeep,RF,LONO(node id),20,0.5592417061611374,784,275
+timekeep,RF,LONO(node id),21,0.6389261744966444,1212,286
+timekeep,RF,LONO(node id),22,0.4919354838709677,1185,276
+timekeep,RF,LONO(node id),27,0.0,1199,279
+timekeep,RF,LONO(node id),28,0.0,1143,285
+timekeep,RF,LORO(run),0,0.41009681881051174,8412,1407
+timekeep,RF,LORO(run),1,0.27035523420308083,8388,1400
+timekeep,RF,LORO(run),2,0.41146216017634096,8423,1411
+timekeep,RF,LORO(run),3,0.10817120622568091,12103,1405
+timekeep,RF,LORO(run),4,0.23635235732009924,12432,1401
+timekeep,RF,LORO(run),5,0.06664022213407378,11591,1224
+timekeep,RF,naive StratifiedKFold,0,0.8306325143753267,12270,1649
+timekeep,RF,naive StratifiedKFold,1,0.8119834710743801,12270,1650
+timekeep,RF,naive StratifiedKFold,2,0.8174623436303294,12270,1650
+timekeep,RF,naive StratifiedKFold,3,0.8241469816272966,12270,1650
+timekeep,RF,naive StratifiedKFold,4,0.8038716250636779,12269,1649

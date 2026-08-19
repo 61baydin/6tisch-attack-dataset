@@ -54,6 +54,19 @@ def main() -> int:
             f"warning: only {n} mote blocks rewritten (need at least sink + 1 client)\n"
         )
 
+    # --- Cooja radio seed: COOJA_RANDOMSEED overrides <randomseed> if set ---
+    # A single radio seed makes every per-cell score a point estimate, so the
+    # worker sets this variable per run to generate multi-seed replicas.
+    radio_seed = os.environ.get('COOJA_RANDOMSEED')
+    if radio_seed:
+        new_content, ns = re.subn(r'<randomseed>\s*-?\d+\s*</randomseed>',
+                                  f'<randomseed>{int(radio_seed)}</randomseed>',
+                                  new_content)
+        if ns != 1:
+            sys.stderr.write(f"error: <randomseed> replaced {ns} times (expected 1)\n")
+            return 1
+        print(f'[csc] radio seed -> {radio_seed}')
+
     # --- pcap: her variant CSC bir RadioLogger+pcap_file iceriyor olsun ---
     pcap_path = os.environ.get('PCAP_PATH')
     if not pcap_path:

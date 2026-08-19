@@ -1,0 +1,14 @@
+Yerlesim (core/mid/edge) Friedman: chi2=4.10, p=0.1289, blok=41
+  core vs mid: Wilcoxon p=0.1716, ortalama fark=-0.025
+  core vs edge: Wilcoxon p=0.3542, ortalama fark=-0.040
+  mid vs edge: Wilcoxon p=0.7706, ortalama fark=-0.015
+Olcek 21 vs 31: Wilcoxon p=0.5258, ortalama fark=-0.006, esli n=62
+
+Saldiri ailesine gore ortalama hucre-ici std (tohum degiskenligi):
+  Blackhole                0.066
+  Decreased Rank           0.126
+  DIS Flooding             0.015
+  Application Flooding     0.003
+  TSCH Shared Cell         0.107
+  6P Cell Exhaustion       0.058
+  TSCH Desynchronization   0.149

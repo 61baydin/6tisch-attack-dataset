@@ -52,7 +52,7 @@ esac
 
 # Baseline mode: a fully-benign run with ZERO attackers. Reuses the blackhole
 # base CSC (arbitrary) since gen_csc_variant with an empty attacker set marks
-# every mote as a normal client - no mote ever loads attack firmware.
+# every mote as a normal client -- no mote ever loads attack firmware.
 VALIDATE_MODE=""
 if [[ "$ATTACK" == "baseline" ]]; then
   ATKCOUNT=0
@@ -79,10 +79,15 @@ else
   PLACEMENT_TAG="-${PLACEMENT}"
   ATKCOUNT_TAG="-a${ATKCOUNT}"
 fi
-TAG="${ATTACK}-n${TOTAL_NODES}${PLACEMENT_TAG}${ATKCOUNT_TAG}-w${WID}"
+# Radio seed: without RADIO_SEED the default in the CSC (123456) is used.
+# When set it is written into the CSC and appended to the run name as -s<seed>,
+# so the glob patterns of the single-seed chain (*-a5-w*) never match replicas.
+RADIO_SEED="${RADIO_SEED:-}"
+if [[ -n "$RADIO_SEED" ]]; then SEED_TAG="-s${RADIO_SEED}"; else SEED_TAG=""; fi
+TAG="${ATTACK}-n${TOTAL_NODES}${PLACEMENT_TAG}${ATKCOUNT_TAG}${SEED_TAG}-w${WID}"
 COOJA_LOG="cooja_${STAMP}_${TAG}.log"
 RUN_LOG="${STAMP}_${TAG}.log"
-VARIANT_CSC="${BASE_CSC%.csc}-w${WID}.csc"
+VARIANT_CSC="${BASE_CSC%.csc}${SEED_TAG}-w${WID}.csc"
 
 # Per-run pcap path (under repo-root pcaps/ dir, includes worker id)
 mkdir -p pcaps
@@ -90,7 +95,7 @@ PCAP_PATH="$(pwd)/pcaps/${STAMP}_${TAG}.pcap"
 
 echo "[w${WID}] === RUN: ${TAG} | attackers=[${ATTACKER_SET// /,}] ==="
 
-PCAP_PATH="$PCAP_PATH" python3 gen_csc_variant.py "$BASE_CSC" "$VARIANT_CSC" $ATTACKER_SET || {
+PCAP_PATH="$PCAP_PATH" COOJA_RANDOMSEED="$RADIO_SEED" python3 gen_csc_variant.py "$BASE_CSC" "$VARIANT_CSC" $ATTACKER_SET || {
   echo "[w${WID}] CSC gen failed"; exit 1
 }
 
@@ -120,7 +125,7 @@ for s in $(seq 1 120); do
   sleep 1
 done
 if [[ "$port_up" -ne 1 ]]; then
-  echo "[w${WID}] port 60001 never opened - Cooja failed to start"
+  echo "[w${WID}] port 60001 never opened -- Cooja failed to start"
   kill "$COOJA_PID" 2>/dev/null || true
   pkill -9 -f "$CSC_KEY" 2>/dev/null || true
   exit 1
@@ -130,7 +135,7 @@ fi
 # inside the namespace as root (dispatcher did `ip netns exec`), so no external
 # keeper is needed. An external keeper's blind 1s retry loop races with Cooja
 # startup and systematically fails to connect ("Invalid argument"); launching
-# tunslip6 here - after the port is up - is what the working manual test does.
+# tunslip6 here -- after the port is up -- is what the working manual test does.
 # tunslip6 needs net-tools (ifconfig/netstat) to configure tun0. We track the
 # exact PID because every worker's tunslip6 cmdline is identical, so a
 # pkill-by-name would cross namespaces and kill siblings.
@@ -144,7 +149,7 @@ for s in $(seq 1 30); do
   sleep 1
 done
 if ! ip link show tun0 >/dev/null 2>&1; then
-  echo "[w${WID}] tun0 missing - tunslip6 failed to connect/configure (see tunslip_w${WID}.log)"
+  echo "[w${WID}] tun0 missing -- tunslip6 failed to connect/configure (see tunslip_w${WID}.log)"
   kill "$TUNSLIP_PID" 2>/dev/null || true
   kill "$COOJA_PID" 2>/dev/null || true
   pkill -9 -f "$CSC_KEY" 2>/dev/null || true
@@ -153,7 +158,7 @@ fi
 
 # Per-worker UDP listener (binds inside namespace, writes directly to RUN_LOG
 # with a metadata header so the log self-documents the scenario).
-META="attack=${ATTACK} nodes=${TOTAL_NODES} placement=${PLACEMENT} atkcount=${ATKCOUNT} seed=${SEED} worker=${WID} csc=${CSC_VERSION} attackers=${ATTACKER_SET// /,}"
+META="attack=${ATTACK} nodes=${TOTAL_NODES} placement=${PLACEMENT} atkcount=${ATKCOUNT} seed=${SEED} radioseed=${RADIO_SEED:-123456} worker=${WID} csc=${CSC_VERSION} attackers=${ATTACKER_SET// /,}"
 python3 -u udp_listener_ipv6.py "$REPO/$RUN_LOG" "$META" >/dev/null 2>&1 &
 LISTENER_PID=$!
 
@@ -171,6 +176,13 @@ if [[ -s "$REPO/$RUN_LOG" ]]; then
   # Sanity-validate the log; on failure, delete and exit non-zero so the
   # dispatcher will requeue this spec.
   if python3 "$REPO/validate_run_log.py" "$REPO/$RUN_LOG" "$SCALE" "$VALIDATE_MODE"; then
+    sleep 3; exit 0
+  elif [[ "${KEEP_INVALID:-0}" == "1" ]]; then
+    # Recovery mode: under some radio seeds the attack window shifts
+    # deterministically (late start, or no start at all). The log is not corrupt,
+    # only its timing falls outside the expected interval; KEEP_INVALID=1 keeps it
+    # and the analysis reports the case separately.
+    echo "[w${WID}] validation FAILED but KEEP_INVALID=1 -> log saklaniyor: $RUN_LOG"
     sleep 3; exit 0
   else
     echo "[w${WID}] validation FAILED, deleting $RUN_LOG (+pcap) for retry"

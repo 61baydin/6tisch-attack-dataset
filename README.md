@@ -27,16 +27,33 @@ concurrent two-attacker combinations:
 | MAC (TSCH) | TSCH Desynchronization | 7 |
 | n/a | benign (NONE) | 0 |
 
-**122 Cooja runs, ~1.21 M labelled records** (Contiki-NG + custom `4emac` MAC,
+**206 Cooja runs, ~2.08 M labelled records** (Contiki-NG + custom `4emac` MAC,
 emulated `exp5438` motes):
 
 | Chain | Runs | Records | Design |
 |---|---|---|---|
-| `single/` | 86 | ~865 k | 7 attacks × 2 scales (21/31 motes) × 3 placements (core/mid/edge) × 2 densities (1/5 attackers) = 84, + 2 benign baselines |
+| `single/` | 86 | ~881 k | 7 attacks × 2 scales (21/31 motes) × 3 placements (core/mid/edge) × 2 densities (1/5 attackers) = 84, + 2 benign baselines |
 | `multiattack/` | 36 | ~348 k | 6 two-attacker combinations × 3 attacker-selection seeds × 2 scales |
+| `multiseed/` | 84 | ~854 k | the 42 five-attacker placement cells repeated under two further Cooja radio seeds (7331, 9173); with the published seed 123456 this gives 3 replicas per cell |
+
+The `single/` and `multiattack/` chains are the benchmark corpus reported in the
+paper (122 runs, ~1.21 M records). The `multiseed/` chain is the replication
+corpus behind the confidence intervals and the seed-variability analysis: it
+shares the firmware, topology, attacker-selection rule and analysis protocol with
+`single/`, so the only source of variation is the radio realisation. The
+`radio_seed` column of `manifest.csv` identifies the seed of every run.
 
 Every run ships **three files with a shared stem**: raw telemetry `.log`, radio
-capture `.pcap`, and a clean header-prefixed `.csv`.
+capture `.pcap`, and a clean header-prefixed `.csv`. The one exception is the
+`multiseed/` chain, whose 1.4 GB of radio captures are distributed through the
+archived deposit rather than through this repository; its `.log` and `.csv` files
+are here in full.
+
+Two cells of the replication corpus behave differently from the rest and are kept
+deliberately: `flooding-n21-core-a5-s9173` starts its attack at 2438 s instead of
+about 1350 s, and `blackhole-n31-edge-a5-s7331` produces only 11 attacker records
+because the parent-lost watchdog reboots the attacker motes. Both are documented
+in the paper as evidence of seed-dependent firmware behaviour.
 
 ## 2. Record schema
 
@@ -52,7 +69,7 @@ the ML pipeline adds two derived features. Full definitions in
 ├── README.md            this file
 ├── REPRODUCING.md       commands to regenerate every table/figure
 ├── schema.md            20-column + derived-feature schema
-├── manifest.csv         index of all 122 runs
+├── manifest.csv         index of all 206 runs (incl. `radio_seed` column)
 ├── ETHICS.md            responsible-use statement
 ├── LICENSE              code license (MIT)
 ├── DATA-LICENSE.md      data license (CC-BY-4.0)
@@ -66,9 +83,11 @@ the ML pipeline adds two derived features. Full definitions in
 │   ├── capture/         Cooja-headless run generation harness
 │   ├── analysis/        group-aware ML / detection benchmark
 │   └── figures/         figure generators
+├── results/             result tables of the paper as CSV (sweeps, tests, delays)
 └── data/
     ├── single/{logs,pcaps,csv}/       all 86 single-attacker runs
-    └── multiattack/{logs,pcaps,csv}/  all 36 concurrent two-attacker runs
+    ├── multiattack/{logs,pcaps,csv}/  all 36 concurrent two-attacker runs
+    └── multiseed/{logs,csv}/          84 three-seed replication runs (pcaps in the archive)
 ```
 
 Each run's `.log`, `.pcap`, and `.csv` share the same stem (see [`schema.md`](schema.md)).
