@@ -1,0 +1,11 @@
+setting,folds,f1,accuracy
+attacker rows withheld (suppression),42,0.968,0.976
+attacker rows retained (reference),42,0.73,0.798
+liveness only,42,0.865,0.917
+suppressed:blackhole,6,1.0,1.0
+suppressed:decrease,6,0.667,0.833
+suppressed:dis,6,1.0,1.0
+suppressed:flooding,6,0.833,0.917
+suppressed:shared-slot,6,0.444,0.583
+suppressed:slot-exhaustion,6,0.778,0.833
+suppressed:timekeep,6,0.444,0.667

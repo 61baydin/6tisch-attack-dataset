@@ -1,0 +1,14 @@
+### Attack-window detection from benign nodes only (leave-one-run-out) ###
+runs: 42; each contributes one pre-attack vector (600-1200 s) and one attack-window vector (1350-1950 s), equal length
+  attacker rows withheld (suppression)       F1 = 0.968
+  attacker rows retained (reference)         F1 = 0.730
+  liveness only (reporting nodes, rows per node) F1 = 0.865
+
+### Per attack family, attacker rows withheld ###
+  Blackhole                  F1 = 1.000   (runs=6)
+  Decrease                   F1 = 0.667   (runs=6)
+  DIS                        F1 = 1.000   (runs=6)
+  AppFlood                   F1 = 0.833   (runs=6)
+  Shared                     F1 = 0.444   (runs=6)
+  6P                         F1 = 0.778   (runs=6)
+  Desync                     F1 = 0.444   (runs=6)

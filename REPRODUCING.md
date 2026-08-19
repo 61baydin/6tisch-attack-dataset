@@ -115,3 +115,19 @@ single-seed chain. `SKIP_EXISTING=1` (the default) makes the dispatcher resumabl
 after an interruption, and `KEEP_INVALID=1` retains a run whose attack window
 falls outside the validator's expected interval, which is how the two atypical
 cells noted in the README were preserved.
+
+### Analyses added after the first revision round
+
+```bash
+# per-attack Random Forest feature importance, averaged over group-aware folds
+python3 code/analysis/eval_feature_importance.py
+
+# physical-layer interference between simultaneous attacks, measured on the pcaps
+python3 code/analysis/eval_pcap_interference.py
+
+# telemetry-suppression ablation: attacker rows withheld, benign nodes only
+python3 code/analysis/eval_suppression.py
+
+# the two figures these analyses feed
+python3 code/analysis/gen_revision_figures.py figures/
+```

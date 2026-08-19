@@ -1,0 +1,13 @@
+### Enhanced Beacon rate: concurrent runs vs single-attack runs ###
+  concurrent runs containing Desync      n= 12  EB/min =  287.9 +/- 52.4   beacons in EB cell = 0.999
+  single-attack Desync runs              n=  6  EB/min =  302.9 +/- 57.5   beacons in EB cell = 0.998
+  concurrent runs without Desync         n= 24  EB/min =  282.1 +/- 53.6   beacons in EB cell = 0.999
+  all single-attack a5 runs              n= 42  EB/min =  285.3 +/- 53.8   beacons in EB cell = 0.999
+
+### Enhanced Beacon cell integrity ###
+  concurrent runs                        beacons inside the EB cell = 0.9989, other traffic inside it = 0.0760
+  single-attack runs                     beacons inside the EB cell = 0.9986, other traffic inside it = 0.0589
+
+### Co-transmission (slots with 2+ distinct senders) ###
+  concurrent runs                        n= 36  share = 0.0000 +/- 0.0000
+  single-attack runs                     n= 42  share = 0.0000 +/- 0.0000
