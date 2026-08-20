@@ -131,3 +131,14 @@ python3 code/analysis/eval_suppression.py
 # the two figures these analyses feed
 python3 code/analysis/gen_revision_figures.py figures/
 ```
+
+### Detector derived from the benchmark
+
+```bash
+# multi-scale temporal ensemble (binary) and layered attribution (multi-class)
+python3 code/analysis/eval_layered_detector.py
+```
+
+The multi-scale ensemble is reported as a negative result: it does not separate from
+the single-scale network under a Friedman test. The layered detector improves
+multi-class macro-F1 by 0.071 and does so in every fold.

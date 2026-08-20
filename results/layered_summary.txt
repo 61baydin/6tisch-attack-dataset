@@ -1,0 +1,17 @@
+### Multi-scale temporal ensemble, group-aware binary F1 ###
+  1D-CNN W=16      0.769
+  1D-CNN W=64      0.792
+  MSTE             0.781
+
+### per attack ###
+attack       blackhole  decrease    dis  flooding  shared-slot  slot-exhaustion  timekeep
+model                                                                                    
+1D-CNN W=16      0.620     0.778  0.989     0.998        0.244            0.995     0.759
+1D-CNN W=64      0.726     0.792  0.981     0.998        0.234            0.991     0.819
+MSTE             0.742     0.792  0.984     0.998        0.175            0.994     0.781
+
+### Layered attribution, multi-class macro-F1 ###
+  21-mote  flat multi-class LR            macro-F1 = 0.561
+  21-mote  layered (stage A + stage B)    macro-F1 = 0.632
+  31-mote  flat multi-class LR            macro-F1 = 0.500
+  31-mote  layered (stage A + stage B)    macro-F1 = 0.575
