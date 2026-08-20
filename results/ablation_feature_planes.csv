@@ -1,0 +1,36 @@
+attack,plane,n_features,f1
+Blackhole,RPL only,8,0.687
+Blackhole,RPL + application,10,0.676
+Blackhole,RPL + application + energy/PHY,13,0.668
+Blackhole,full (adds TSCH/6P MAC),17,0.67
+Blackhole,full minus MAC,13,0.668
+Decrease,RPL only,8,0.918
+Decrease,RPL + application,10,0.929
+Decrease,RPL + application + energy/PHY,13,0.928
+Decrease,full (adds TSCH/6P MAC),17,0.921
+Decrease,full minus MAC,13,0.928
+DIS,RPL only,8,0.984
+DIS,RPL + application,10,0.985
+DIS,RPL + application + energy/PHY,13,0.985
+DIS,full (adds TSCH/6P MAC),17,0.99
+DIS,full minus MAC,13,0.985
+AppFlood,RPL only,8,0.624
+AppFlood,RPL + application,10,0.999
+AppFlood,RPL + application + energy/PHY,13,0.999
+AppFlood,full (adds TSCH/6P MAC),17,0.999
+AppFlood,full minus MAC,13,0.999
+Shared,RPL only,8,0.278
+Shared,RPL + application,10,0.255
+Shared,RPL + application + energy/PHY,13,0.314
+Shared,full (adds TSCH/6P MAC),17,0.314
+Shared,full minus MAC,13,0.314
+6P,RPL only,8,0.733
+6P,RPL + application,10,0.823
+6P,RPL + application + energy/PHY,13,0.822
+6P,full (adds TSCH/6P MAC),17,0.998
+6P,full minus MAC,13,0.822
+Desync,RPL only,8,0.706
+Desync,RPL + application,10,0.695
+Desync,RPL + application + energy/PHY,13,0.66
+Desync,full (adds TSCH/6P MAC),17,0.765
+Desync,full minus MAC,13,0.66

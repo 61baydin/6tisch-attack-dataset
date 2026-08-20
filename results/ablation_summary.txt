@@ -1,0 +1,30 @@
+### A. Feature-plane ablation (per-record LR, LeaveOneGroupOut) ###
+plane      RPL only  RPL + application  RPL + application + energy/PHY  full (adds TSCH/6P MAC)  full minus MAC
+attack                                                                                                         
+6P            0.733              0.823                           0.822                    0.998           0.822
+AppFlood      0.624              0.999                           0.999                    0.999           0.999
+Blackhole     0.687              0.676                           0.668                    0.670           0.668
+DIS           0.984              0.985                           0.985                    0.990           0.985
+Decrease      0.918              0.929                           0.928                    0.921           0.928
+Desync        0.706              0.695                           0.660                    0.765           0.660
+Shared        0.278              0.255                           0.314                    0.314           0.314
+MEAN          0.704              0.766                           0.768                    0.808           0.768
+
+  RPL only                         mean F1 = 0.704   difference to full = -0.104
+  RPL + application                mean F1 = 0.766   difference to full = -0.042
+  RPL + application + energy/PHY   mean F1 = 0.768   difference to full = -0.040
+  full (adds TSCH/6P MAC)          mean F1 = 0.808   difference to full = +0.000
+  full minus MAC                   mean F1 = 0.768   difference to full = -0.040
+
+### B. Layered component ablation (multi-class macro-F1) ###
+  flat LR          0.517
+  flat RF          0.625
+  layered LR+LR    0.565
+  layered LR+RF    0.588
+  layered RF+LR    0.624
+  layered RF+RF    0.634
+  layered RF+RF vs flat RF: paired p = 0.4316, mean difference = +0.009, wins 7/10
+  layered LR+RF vs flat RF: paired p = 0.0371, mean difference = -0.036, wins 3/10
+  layered LR+LR vs flat LR: paired p = 0.0020, mean difference = +0.048, wins 10/10
+  flat RF vs flat LR: paired p = 0.0020, mean difference = +0.108, wins 10/10
+  layered RF+RF vs layered LR+RF: paired p = 0.0195, mean difference = +0.046, wins 8/10

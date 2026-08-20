@@ -142,3 +142,14 @@ python3 code/analysis/eval_layered_detector.py
 The multi-scale ensemble is reported as a negative result: it does not separate from
 the single-scale network under a Friedman test. The layered detector improves
 multi-class macro-F1 by 0.071 and does so in every fold.
+
+### Ablations
+
+```bash
+# feature-plane ablation and the component ablation of the layered detector
+python3 code/analysis/eval_ablations.py
+```
+
+The component ablation is the control the layered design requires: layering is
+compared against a flat classifier of the same model class, which shows that most of
+the apparent gain over a linear baseline is the model class rather than the layering.
