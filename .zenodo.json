@@ -1,0 +1,49 @@
+{
+  "upload_type": "dataset",
+  "title": "6TiSCHSet-2026: A Multi-Layer 6TiSCH Attack Dataset and Leakage-Aware IDS Benchmark",
+  "creators": [
+    {
+      "name": "Aydin, Burak",
+      "affiliation": "Karadeniz Technical University, Trabzon, Turkiye"
+    },
+    {
+      "name": "Aydin, Hakan",
+      "affiliation": "Karadeniz Technical University, Trabzon, Turkiye"
+    },
+    {
+      "name": "Jin, Yichao",
+      "affiliation": "Hangzhou Dianzi University, Hangzhou, China"
+    },
+    {
+      "name": "Gormus, Sedat",
+      "affiliation": "Karadeniz Technical University, Trabzon, Turkiye"
+    }
+  ],
+  "description": "<p>6TiSCHSet-2026 is an open, labelled attack dataset for IETF 6TiSCH networks, together with the evaluation protocol and the analysis code used in the companion paper.</p><p><strong>Contents.</strong> 206 Contiki-NG / Cooja runs and 2,083,168 labelled telemetry records: 84 single-attacker placement runs and 2 attacker-free baseline runs (<code>data/single/</code>), 36 concurrent two-attacker runs (<code>data/multiattack/</code>), and an 84-run replication of the placement design over three radio seeds (<code>data/multiseed/</code>). Every run ships three files with a shared stem: raw telemetry <code>.log</code>, radio capture <code>.pcap</code>, and a clean header-prefixed <code>.csv</code>. <code>manifest.csv</code> records the scale, placement, attacker density, attacker-selection seed, radio seed, record and attacker-row counts, and attacker mote IDs of every run.</p><p><strong>Attacks.</strong> Seven families across five planes of the 6TiSCH stack: Blackhole (data), Decreased Rank (routing), DIS Flooding (control), Application Flooding (application), and three MAC-plane families, TSCH Shared Cell Contention, 6P Cell Allocation Exhaustion and TSCH Desynchronization.</p><p><strong>Schema.</strong> Each record is 20 integers: 3 identifiers, 15 behavioural features drawn from the RPL, TSCH, 6P, application, energy and PHY planes, and 2 ground-truth labels. See <code>schema.md</code>.</p><p><strong>Evaluation protocol.</strong> The release fixes a group-aware protocol with group key (run_id, node_id) as part of the specification rather than leaving it to each user. <code>code/analysis/eval_core_tables.py</code> regenerates the paper's core tables cell by cell from the released logs; <code>REPRODUCING.md</code> lists the command for every table and figure.</p><p><strong>Scope.</strong> All runs use the customised 4emac TSCH implementation with a 15 ms timeslot, so the release should be read as a 4emac/6TiSCH dataset; the MAC-plane conclusions are stated with that boundary in the paper.</p>",
+  "access_right": "open",
+  "license": "cc-by-4.0",
+  "keywords": [
+    "6TiSCH",
+    "TSCH",
+    "6P",
+    "RPL",
+    "IIoT",
+    "intrusion detection",
+    "attack dataset",
+    "machine learning",
+    "data leakage",
+    "group-aware evaluation",
+    "Contiki-NG",
+    "Cooja"
+  ],
+  "language": "eng",
+  "version": "1.0.0",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/61baydin/6tisch-attack-dataset",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "notes": "Supported by Karadeniz Technical University Scientific Research Projects Unit (KTUBAP) under Project 18267. The customised Contiki-NG used in the implementation was provided by Mavi Alp Information Technologies."
+}
