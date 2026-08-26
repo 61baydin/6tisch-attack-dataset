@@ -1,5 +1,7 @@
 # 6TiSCHSet-2026: A Multi-Layer 6TiSCH Attack Dataset and Leakage-Aware IDS Benchmark
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22113021.svg)](https://doi.org/10.5281/zenodo.22113021)
+
 Companion artefact for the paper **"6TiSCHSet-2026: A Multi-Layer Attack Dataset and
 Leakage-Aware Intrusion-Detection Benchmark for IETF 6TiSCH Networks"** (Burak Aydin, Hakan Aydin, Yichao Jin, Sedat Gormus, 2026).
 
@@ -128,6 +130,20 @@ external download is required: clone the repository and the full pipeline runs.
   author  = {Aydin, Burak and Aydin, Hakan and Jin, Yichao and Gormus, Sedat},
   journal = {IEEE Access (submitted)},
   year    = {2026}
+}
+```
+
+If you use the dataset itself, please also cite the archived deposit:
+
+```bibtex
+@misc{sixtischset2026dataset,
+  author       = {Aydin, Burak and Aydin, Hakan and Jin, Yichao and Gormus, Sedat},
+  title        = {{6TiSCHSet-2026}: A Multi-Layer {6TiSCH} Attack Dataset and
+                  Leakage-Aware {IDS} Benchmark},
+  year         = {2026},
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.22113021},
+  note         = {[Online]. Available: \url{https://doi.org/10.5281/zenodo.22113021}}
 }
 ```
 
