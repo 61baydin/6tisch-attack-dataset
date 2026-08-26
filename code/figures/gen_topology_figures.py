@@ -124,7 +124,7 @@ def draw_topology(pos, placement, title, out_path, attacker_ids=None,
         ax.scatter(x, y, c=colour, marker=marker, s=size,
                    edgecolors=edgecolor, linewidths=linewidth, zorder=3)
         ax.text(x, y - 5.5, str(mid), ha='center', va='top',
-                fontsize=8, zorder=4)
+                fontsize=10.5, zorder=4)
 
     # Legend
     handles = [
@@ -144,18 +144,18 @@ def draw_topology(pos, placement, title, out_path, attacker_ids=None,
                        label='Attacker (this run)')
         )
     ax.legend(handles=handles, loc='upper left',
-              bbox_to_anchor=(1.02, 1), fontsize=9, frameon=True)
+              bbox_to_anchor=(1.02, 1), fontsize=11, frameon=True)
 
     ax.set_xlabel('x (m)')
     ax.set_ylabel('y (m)')
-    ax.set_title(title, fontsize=11)
+    ax.set_title(title, fontsize=12.5)
 
     plt.tight_layout()
     out_path.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(out_path, dpi=140, bbox_inches='tight')
     plt.savefig(out_path.with_suffix('.pdf'), bbox_inches='tight')
     plt.close()
-    print(f'Wrote {out_path.with_suffix(".pdf")} + .png')
+    print(f'Wrote {out_path.with_suffix(".pdf")}')
 
 
 def main():
@@ -190,15 +190,16 @@ def main():
             linewidth = 2.5 if is_attacker else 0.6
             ax.scatter(x, y, c=colour, marker=marker, s=size,
                        edgecolors=edgecolor, linewidths=linewidth, zorder=3)
-            ax.text(x, y - 5.5, str(mid), ha='center', va='top', fontsize=7)
-        ax.set_title(f'21-mote {placement} (a5) attackers: {atk_ids}', fontsize=10)
+            ax.text(x, y - 5.5, str(mid), ha='center', va='top', fontsize=10)
+        ax.set_title(f'21-mote {placement} (a5) attackers: {atk_ids}', fontsize=11.5)
         ax.set_xlabel('x (m)')
         ax.set_ylabel('y (m)')
     plt.tight_layout()
-    plt.savefig(out_dir / 'topology_21mote_a5_placement.png', dpi=140, bbox_inches='tight')
+    # PNG output disabled (paper uses PDF only)
+    # plt.savefig(out_dir / 'topology_21mote_a5_placement.png', dpi=140, bbox_inches='tight')
     plt.savefig(out_dir / 'topology_21mote_a5_placement.pdf', bbox_inches='tight')
     plt.close()
-    print(f"Wrote {out_dir / 'topology_21mote_a5_placement.pdf'} + .png")
+    print(f"Wrote {out_dir / 'topology_21mote_a5_placement.pdf'}")
 
     # 30-mote a5 placement attackers
     fig, axes = plt.subplots(1, 3, figsize=(18, 5.5))
@@ -219,15 +220,16 @@ def main():
             linewidth = 2.5 if is_attacker else 0.6
             ax.scatter(x, y, c=colour, marker=marker, s=size,
                        edgecolors=edgecolor, linewidths=linewidth, zorder=3)
-            ax.text(x, y - 5.5, str(mid), ha='center', va='top', fontsize=7)
-        ax.set_title(f'31-mote {placement} (a5) attackers: {atk_ids}', fontsize=10)
+            ax.text(x, y - 5.5, str(mid), ha='center', va='top', fontsize=10)
+        ax.set_title(f'31-mote {placement} (a5) attackers: {atk_ids}', fontsize=11.5)
         ax.set_xlabel('x (m)')
         ax.set_ylabel('y (m)')
     plt.tight_layout()
-    plt.savefig(out_dir / 'topology_31mote_a5_placement.png', dpi=140, bbox_inches='tight')
+    # PNG output disabled (paper uses PDF only)
+    # plt.savefig(out_dir / 'topology_31mote_a5_placement.png', dpi=140, bbox_inches='tight')
     plt.savefig(out_dir / 'topology_31mote_a5_placement.pdf', bbox_inches='tight')
     plt.close()
-    print(f"Wrote {out_dir / 'topology_31mote_a5_placement.pdf'} + .png")
+    print(f"Wrote {out_dir / 'topology_31mote_a5_placement.pdf'}")
 
 
 if __name__ == '__main__':

@@ -1,68 +1,50 @@
 #!/usr/bin/env python3
-"""a1 (1-attacker) naive row-level RF F1 heatmap by (attack, placement).
+"""a1 (tek saldirganli) naif satir-duzeyi RF F1 isi haritasi, (saldiri x yerlesim).
 
-Parallel to the a5 group-aware placement_heatmap, but for the 1-attacker
-density: group-aware is infeasible at a1 (3 groups/attack), so this shows
-the naive (row-level, StratifiedKFold) RF F1 -- which saturates near 1.0
-everywhere, the visual proof of the leakage the thesis warns about.
+a5 grup-farkinda placement_heatmap'in karsiligi: a1'de grup-farkinda tahmin
+anlamli degil (saldiri basina 3 grup), bu yuzden naif (satir-duzeyi,
+StratifiedKFold) RF F1 gosterilir; her yerde 1.0'a doygun cikmasi makalenin
+uyardigi sizintiinin gorsel kanitidir.
 
-Values pulled from new_placement_f1.csv (density=1, rf_naive).
+Girdi : core_a1_naive.csv  (eval_a1_naive.py ile uretilir)
+Cikti : paper/figures/a1_placement_heatmap.pdf
 """
+import sys
 from pathlib import Path
-import matplotlib
-matplotlib.use('Agg')
+import numpy as np, pandas as pd
+import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import numpy as np
 
-OUT = Path('paper/figures')
+SRC = Path(sys.argv[1]) if len(sys.argv) > 1 else Path('core_a1_naive.csv')
+OUT = Path(sys.argv[2]) if len(sys.argv) > 2 else Path('paper/figures')
 OUT.mkdir(parents=True, exist_ok=True)
 
 attacks = ['Blackhole', 'Decreased Rank', 'DIS Flooding', 'App Flooding',
            'Shared Cell', '6P Cell Exh.', 'TSCH Desync.']
+SRCNAME = {'Blackhole': 'Blackhole', 'Decreased Rank': 'Decrease', 'DIS Flooding': 'DIS',
+           'App Flooding': 'AppFlood', 'Shared Cell': 'Shared', '6P Cell Exh.': '6P',
+           'TSCH Desync.': 'Desync'}
 placements = ['core', 'mid', 'edge']
 
-# a1 naive (row-level) Random Forest F1, per (attack, placement)
-f1_21 = [
-    [1.000, 0.998, 0.996],
-    [1.000, 0.998, 0.998],
-    [0.998, 0.998, 0.996],
-    [1.000, 0.998, 1.000],
-    [0.986, 0.972, 0.995],
-    [0.998, 0.998, 0.996],
-    [1.000, 1.000, 0.998],
-]
-f1_31 = [
-    [0.998, 0.852, 1.000],
-    [1.000, 0.990, 1.000],
-    [0.998, 0.997, 0.998],
-    [0.998, 1.000, 1.000],
-    [0.938, 0.967, 0.996],
-    [1.000, 0.998, 0.996],
-    [0.996, 0.996, 0.998],
-]
-
-fig, axes = plt.subplots(1, 2, figsize=(13, 6))
-titles = ['21-mote (1 attacker)', '31-mote (1 attacker)']
-for ax, data, title in zip(axes, [f1_21, f1_31], titles):
-    arr = np.array(data)
-    im = ax.imshow(arr, cmap='RdYlGn', vmin=0, vmax=1.0, aspect='auto')
-    ax.set_xticks(range(3))
-    ax.set_xticklabels(placements, fontsize=11)
+d = pd.read_csv(SRC)
+fig, axes = plt.subplots(1, 2, figsize=(11, 6))
+for ax, scale in zip(axes, [21, 31]):
+    arr = np.array([[d[(d.scale == scale) & (d.attack == SRCNAME[a]) &
+                       (d.placement == p)].RF_naive.iloc[0] for p in placements]
+                    for a in attacks])
+    im = ax.imshow(arr, cmap='RdYlGn', vmin=0, vmax=1, aspect='auto')
+    ax.set_xticks(range(3)); ax.set_xticklabels(placements, fontsize=11)
     ax.set_yticks(range(len(attacks)))
-    ax.set_yticklabels(attacks, fontsize=10)
-    ax.set_title(title, fontsize=12)
+    ax.set_yticklabels(attacks if scale == 21 else [], fontsize=10)
+    ax.set_title(f'{scale}-mote (1 attacker)', fontsize=12, fontweight='bold')
     for i in range(len(attacks)):
         for j in range(3):
             v = arr[i, j]
-            col = 'white' if v < 0.4 or v > 0.85 else 'black'
-            ax.text(j, i, f'{v:.2f}', ha='center', va='center',
-                    color=col, fontsize=10, fontweight='bold')
-    plt.colorbar(im, ax=ax, fraction=0.046, pad=0.04, label='RF naive (row-level) F1')
-plt.suptitle('1-attacker naive row-level RF F1: attack x placement '
-             '(StratifiedKFold k=5; group-aware infeasible at a1)', fontsize=13)
-plt.tight_layout()
-out_png = OUT / 'a1_placement_heatmap.png'
-plt.savefig(out_png, dpi=140, bbox_inches='tight')
-plt.savefig(out_png.with_suffix('.pdf'), bbox_inches='tight')
-plt.close()
-print(f'Wrote {out_png.with_suffix(".pdf")} + .png')
+            ax.text(j, i, '%.2f' % v, ha='center', va='center',
+                    color='white' if (v < 0.35 or v > 0.85) else 'black',
+                    fontsize=10, fontweight='bold')
+plt.suptitle('1-attacker naive row-level RF F1: attack x placement\n'
+             '(StratifiedKFold k=5; group-aware infeasible at a1)', fontsize=12)
+fig.colorbar(im, ax=axes, fraction=0.025, pad=0.04, label='RF naive (row-level) F1')
+plt.savefig(OUT / 'a1_placement_heatmap.pdf', bbox_inches='tight')
+print('Wrote', OUT / 'a1_placement_heatmap.pdf')

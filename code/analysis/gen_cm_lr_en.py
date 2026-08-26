@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Multi-class confusion matrices for the 21- and 31-mote five-attacker chains.
+"""Sekil 17 ve 18: cok-sinifli karmasa matrisi (LR, grup-farkinda), 21- ve
+31-mote a5 zincirleri. Eksen ve baslik metinleri Ingilizce, yazi puntolari buyutulmus
+(IEEE Access hakem maddeleri R3-8 ve R4-I35).
 
-Identical pipeline to gen_cm_new.py; the only differences are English axis and title
-text and larger fonts (reviewer items R3-8 and R4-I35).
-
-Usage:  python3 gen_cm_lr_en.py [output_dir]
+Kullanim:  python3 gen_cm_lr_en.py [cikti_dizini]
 """
 import re, sys, glob, warnings, collections
 from pathlib import Path
@@ -95,6 +94,11 @@ def run(scale, out_stem, title_scale):
     per = f1_score(y, yp, labels=labels, average=None)
     print(f'[n{scale}] rows={len(df)} MACRO-F1={macro:.3f} ACC={acc:.2f}')
     print('   per-class F1: ' + ', '.join(f'{n}={v:.2f}' for n, v in zip(names, per)))
+    # Metrikleri de yaz: makaledeki cok-sinifli sayilar boylece kaynakli olur.
+    pd.DataFrame([dict(scale=int(scale), rows=len(df), macro_f1=round(macro, 4),
+                       accuracy=round(acc, 4),
+                       **{f'f1_{n}': round(float(v), 4) for n, v in zip(names, per)})]) \
+      .to_csv(f'core_multiclass_{scale}.csv', index=False)
 
     cm = confusion_matrix(y, yp, labels=labels).astype(float)
     rs = cm.sum(1, keepdims=True); cmn = np.where(rs > 0, cm / rs * 100, 0)
@@ -120,7 +124,8 @@ def run(scale, out_stem, title_scale):
     plt.tight_layout()
     OUTDIR.mkdir(parents=True, exist_ok=True)
     plt.savefig(OUTDIR / f'{out_stem}.pdf', bbox_inches='tight')
-    plt.savefig(OUTDIR / f'{out_stem}.png', dpi=140, bbox_inches='tight')
+    # PNG output disabled (paper uses PDF only)
+    # plt.savefig(OUTDIR / f'{out_stem}.png', dpi=140, bbox_inches='tight')
     plt.close(fig)
     print('   wrote', OUTDIR / f'{out_stem}.pdf')
 

@@ -34,13 +34,19 @@ The ML feature set is the 15 raw features (4–18) plus the 2 derived features
 (17 features total); the 3 identifiers are excluded to prevent identity leakage.
 
 ## Labelling
-Labels turn on only while an attack is actually active (after the per-attacker
-warm-up/onset). In `multiattack/` runs a single log contains more than one
+Labels turn on at the per-attacker onset and stay on for the rest of the run.
+For Blackhole, whose attack loop alternates active and passive windows, this
+means some attacker-labelled rows were produced while the node forwarded
+normally; the paper discusses the effect on per-record recall. In `multiattack/` runs a single log contains more than one
 `attack_type` (each attacker reports its own type, on disjoint mote sets).
 
 ## File naming
-- single: `<time>_<attack>-n<NN>-<placement>-a<density>-w<id>.{log,pcap,csv}`
-- multi:  `<time>_multi-<A>+<B>-n<NN>-s<seed>-w<id>.{log,pcap,csv}`
+- single:    `<time>_<attack>-n<NN>-<placement>-a<density>-w<id>.{log,pcap,csv}`
+- baseline:  `<time>_baseline-n<NN>-w<id>.{log,pcap,csv}` (attacker-free reference run)
+- multiattack: `<time>_multi-<A>+<B>-n<NN>-s<seed>-w<id>.{log,pcap,csv}`
+- multiseed: `<time>_<attack>-n<NN>-<placement>-a5-s<radio_seed>-w<id>.{log,pcap,csv}`
+  where `<radio_seed>` is 7331 or 9173; the published-seed (123456) runs carry no
+  `-s` tag and live in `single/`.
 
 The `.log`, `.pcap`, and `.csv` of a run share the same stem; the `.log` opens with a
 `# run_metadata:` line documenting the scenario.

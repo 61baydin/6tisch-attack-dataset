@@ -56,7 +56,7 @@ def fig_stack():
                               facecolor=color, edgecolor='black', linewidth=1.0)
         ax.add_patch(box)
         ax.text(4.6, y - 0.46, label, ha='center', va='center',
-                fontsize=11)
+                fontsize=12.5)
         # Attack annotation on the right
         if atk:
             color_a = '#a00' if 'out of scope' not in atk else 'black'
@@ -65,24 +65,25 @@ def fig_stack():
                                    color=color_a, linewidth=1.3)
             ax.add_patch(arr)
             ax.text(9.7, y - 0.46, atk, ha='left', va='center',
-                    fontsize=9, color=color_a,
+                    fontsize=11, color=color_a,
                     style='italic' if 'out of scope' in atk else 'normal',
                     fontweight='bold' if 'out of scope' not in atk else 'normal')
         y -= 1
 
     ax.text(7.0, -0.15,
             'left: layered protocol stack | right: attack families addressed in this paper, by plane',
-            ha='center', va='top', fontsize=9, style='italic', color='black')
+            ha='center', va='top', fontsize=11, style='italic', color='black')
 
     ax.set_title('6TiSCH protocol stack and attack surface',
-                 fontsize=14, fontweight='bold', pad=12)
+                 fontsize=15, fontweight='bold', pad=12)
 
     plt.tight_layout()
     out_png = OUT / 'stack_6tisch.png'
-    fig.savefig(out_png, dpi=140, bbox_inches='tight')
+    # PNG output disabled (paper uses PDF only)
+    # fig.savefig(out_png, dpi=140, bbox_inches='tight')
     fig.savefig(out_png.with_suffix('.pdf'), bbox_inches='tight')
     plt.close(fig)
-    print(f'Wrote {out_png.with_suffix(".pdf")} + .png')
+    print(f'Wrote {out_png.with_suffix(".pdf")}')
 
 
 # ---------------------------------------------------------------------
@@ -147,17 +148,17 @@ def fig_slotframe():
                          edgecolor='black', linewidth=1.0, alpha=0.92)
         ax.add_patch(rect)
         ax.text(s + 0.5, c + 0.5, label, ha='center', va='center',
-                fontsize=7, fontweight='bold',
+                fontsize=8, fontweight='bold',
                 color='white' if kind != 'rx' else 'black')
 
     ax.set_xticks(np.arange(n_slots) + 0.5)
-    ax.set_xticklabels(range(n_slots), fontsize=9)
+    ax.set_xticklabels(range(n_slots), fontsize=11)
     ax.set_yticks(np.arange(n_channels) + 0.5)
-    ax.set_yticklabels([f'{11 + c}' for c in range(n_channels)], fontsize=9)
-    ax.set_xlabel('slot offset within slotframe (length $L=21$)', fontsize=11)
-    ax.set_ylabel('IEEE 802.15.4 channel (2.4 GHz)', fontsize=11)
+    ax.set_yticklabels([f'{11 + c}' for c in range(n_channels)], fontsize=11)
+    ax.set_xlabel('slot offset within slotframe (length $L=21$)', fontsize=12.5)
+    ax.set_ylabel('IEEE 802.15.4 channel (2.4 GHz)', fontsize=12.5)
     ax.set_title('TSCH slotframe annotated with sender$\\rightarrow$receiver mote pairs',
-                 fontsize=12, fontweight='bold')
+                 fontsize=13, fontweight='bold')
 
     # Right-side margin: explanatory boxes (legend + formula + topology).
     box_x = n_slots + 0.6
@@ -168,7 +169,7 @@ def fig_slotframe():
             'sink: mote 1\n'
             'children: 2, 3, 4\n'
             'multi-hop: 5 $\\rightarrow$ 3 $\\rightarrow$ 1',
-            fontsize=9, va='top', ha='left',
+            fontsize=11, va='top', ha='left',
             bbox=dict(boxstyle='round,pad=0.4', facecolor='#eef4ff',
                       edgecolor='black'))
 
@@ -176,7 +177,7 @@ def fig_slotframe():
     ax.text(box_x, n_channels - 6.0,
             'channel hopping:\n'
             r'$f = H[(\mathrm{ASN} + c_\mathrm{off}) \, \mathrm{mod} \, L]$',
-            fontsize=9, va='top', ha='left',
+            fontsize=11, va='top', ha='left',
             bbox=dict(boxstyle='round,pad=0.4', facecolor='#fff7e6',
                       edgecolor='black'))
 
@@ -205,7 +206,7 @@ def fig_slotframe():
     )
     ax.add_patch(legend_bg)
     ax.text(legend_x, legend_top - 0.45, 'cell types:',
-            fontsize=10, va='top', fontweight='bold', zorder=2)
+            fontsize=11.5, va='top', fontweight='bold', zorder=2)
     swatch_x = legend_x + 0.1
     label_x  = swatch_x + 0.95
     first_y = legend_top - title_h - 0.35 - swatch_h
@@ -216,14 +217,15 @@ def fig_slotframe():
                          linewidth=0.8, alpha=0.92, zorder=2)
         ax.add_patch(rect)
         ax.text(label_x, sy + swatch_h / 2.0, name,
-                fontsize=9, va='center', ha='left', zorder=2)
+                fontsize=11, va='center', ha='left', zorder=2)
 
     plt.tight_layout()
     out_png = OUT / 'tsch_slotframe.png'
-    fig.savefig(out_png, dpi=140, bbox_inches='tight')
+    # PNG output disabled (paper uses PDF only)
+    # fig.savefig(out_png, dpi=140, bbox_inches='tight')
     fig.savefig(out_png.with_suffix('.pdf'), bbox_inches='tight')
     plt.close(fig)
-    print(f'Wrote {out_png.with_suffix(".pdf")} + .png')
+    print(f'Wrote {out_png.with_suffix(".pdf")}')
 
 
 # ---------------------------------------------------------------------
@@ -241,11 +243,11 @@ def fig_6p_handshake():
     # Lifelines (kept at the same positions; the wider canvas just adds margin)
     a_x, b_x = 2.2, 8.5
     ax.text(a_x, 7.6, 'Requester A\n(child node)', ha='center', va='center',
-            fontsize=12, fontweight='bold',
+            fontsize=13, fontweight='bold',
             bbox=dict(boxstyle='round,pad=0.35', facecolor='#cde4f9',
                       edgecolor='black'))
     ax.text(b_x, 7.6, 'Responder B\n(RPL parent)', ha='center', va='center',
-            fontsize=12, fontweight='bold',
+            fontsize=13, fontweight='bold',
             bbox=dict(boxstyle='round,pad=0.35', facecolor='#b8e3c0',
                       edgecolor='black'))
     # Vertical timelines
@@ -258,7 +260,7 @@ def fig_6p_handshake():
                               color=color, linewidth=1.5)
         ax.add_patch(arr)
         ax.text((from_x + to_x) / 2, y + 0.18, text, ha='center', va='bottom',
-                fontsize=10, color=color, fontweight='bold')
+                fontsize=11.5, color=color, fontweight='bold')
 
     # Step 1: ADD request
     arrow(5.7, a_x, b_x,
@@ -266,9 +268,9 @@ def fig_6p_handshake():
           color='#d62728')
 
     ax.text(a_x - 0.2, 5.95, 'SeqNum = N', ha='right', va='center',
-            fontsize=8, style='italic', color='black')
+            fontsize=10.5, style='italic', color='black')
 
-    # B processing - sits to the right of B's timeline so it does not
+    # B processing — sits to the right of B's timeline so it does not
     # cover the dashed line. Box stays fully inside the canvas
     # (right edge 10.7 < xlim 11.5).
     proc_x = b_x + 0.5
@@ -278,7 +280,7 @@ def fig_6p_handshake():
                           facecolor='#fff3cd', edgecolor='black')
     ax.add_patch(proc)
     ax.text(proc_x + proc_w / 2, 4.52, 'SF on B picks\ncells, updates\nschedule',
-            ha='center', va='center', fontsize=9)
+            ha='center', va='center', fontsize=11)
     # Connector from B's timeline to the processing box
     ax.plot([b_x, proc_x], [4.52, 4.52], color='black', linestyle=':',
             linewidth=0.8, zorder=1)
@@ -288,9 +290,9 @@ def fig_6p_handshake():
           '6P ADD Response (Code=RC_SUCCESS, CellList)',
           color='#2ca02c')
     ax.text(b_x + 0.2, 3.25, 'SeqNum = N', ha='left', va='center',
-            fontsize=8, style='italic', color='black')
+            fontsize=10.5, style='italic', color='black')
 
-    # A processing - sits to the left of A's timeline. With xlim=-1.0,
+    # A processing — sits to the left of A's timeline. With xlim=-1.0,
     # left edge 0.0 is fully inside the canvas.
     proc2_w, proc2_h = 1.7, 0.95
     proc2_x = a_x - 0.5 - proc2_w
@@ -299,25 +301,26 @@ def fig_6p_handshake():
                            facecolor='#fff3cd', edgecolor='black')
     ax.add_patch(proc2)
     ax.text(proc2_x + proc2_w / 2, 1.82, 'A installs\nallocated\ncells',
-            ha='center', va='center', fontsize=9)
+            ha='center', va='center', fontsize=11)
     ax.plot([proc2_x + proc2_w, a_x], [1.82, 1.82], color='black',
             linestyle=':', linewidth=0.8, zorder=1)
 
     ax.text(5.25, 0.25, '6P transaction = one ADD request + one matching response\n'
                        'attacker (e.g. cell-allocation exhaustion) issues repeated ADD\n'
                        'requests to exhaust the schedule on B',
-            ha='center', va='center', fontsize=9, style='italic',
+            ha='center', va='center', fontsize=11, style='italic',
             color='black')
 
     ax.set_title('6P ADD two-step handshake (RFC 8480)',
-                 fontsize=13, fontweight='bold')
+                 fontsize=14, fontweight='bold')
 
     plt.tight_layout()
     out_png = OUT / 'sixp_handshake.png'
-    fig.savefig(out_png, dpi=140, bbox_inches='tight')
+    # PNG output disabled (paper uses PDF only)
+    # fig.savefig(out_png, dpi=140, bbox_inches='tight')
     fig.savefig(out_png.with_suffix('.pdf'), bbox_inches='tight')
     plt.close(fig)
-    print(f'Wrote {out_png.with_suffix(".pdf")} + .png')
+    print(f'Wrote {out_png.with_suffix(".pdf")}')
 
 
 def main():

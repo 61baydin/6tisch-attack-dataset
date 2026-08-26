@@ -1,0 +1,15 @@
+scale,attack,group_f1,n_attacker_groups
+21,Blackhole,0.0,3
+21,Decrease,0.0,3
+21,DIS,0.4684,3
+21,AppFlood,0.8614,3
+21,Shared,0.0,3
+21,6P,0.5204,3
+21,Desync,0.0,3
+31,Blackhole,0.0,3
+31,Decrease,0.1026,3
+31,DIS,0.3246,3
+31,AppFlood,0.324,3
+31,Shared,0.0,3
+31,6P,0.0,3
+31,Desync,0.0,3

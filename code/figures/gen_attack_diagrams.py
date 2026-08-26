@@ -52,32 +52,32 @@ def draw_base(ax, attacker_id=None, attacker_label=None, label_pos=None):
             ax.scatter(x, y, c='#1f77b4', marker='s', s=600,
                        edgecolors='black', linewidths=1.4, zorder=3)
             ax.text(x, y, 'SINK', ha='center', va='center',
-                    fontsize=10, fontweight='bold', color='white', zorder=4)
+                    fontsize=9, fontweight='bold', color='white', zorder=4)
         elif mote == attacker_id:
             ax.scatter(x, y, c='#d62728', marker='X', s=520,
                        edgecolors='black', linewidths=2.0, zorder=3)
             ax.text(x, y + 0.32, mote, ha='center', va='bottom',
-                    fontsize=12, fontweight='bold', color='black', zorder=4)
+                    fontsize=13, fontweight='bold', color='black', zorder=4)
         else:
             ax.scatter(x, y, c='#999', marker='o', s=360,
                        edgecolors='black', linewidths=0.8, zorder=3)
             ax.text(x, y, mote, ha='center', va='center',
-                    fontsize=11, zorder=4)
+                    fontsize=12.5, zorder=4)
 
     if attacker_label and attacker_id and label_pos:
         ax_x, ax_y = REF_POS[attacker_id]
         if label_pos == 'above':
             ax.text(ax_x, ax_y + 0.85, attacker_label, ha='center', va='bottom',
-                    fontsize=10, color='#a00', style='italic', zorder=4)
+                    fontsize=11.5, color='#a00', style='italic', zorder=4)
         elif label_pos == 'below':
             ax.text(ax_x, ax_y - 0.40, attacker_label, ha='center', va='top',
-                    fontsize=10, color='#a00', style='italic', zorder=4)
+                    fontsize=11.5, color='#a00', style='italic', zorder=4)
         elif label_pos == 'left':
             ax.text(ax_x - 0.45, ax_y, attacker_label, ha='right', va='center',
-                    fontsize=10, color='#a00', style='italic', zorder=4)
+                    fontsize=11.5, color='#a00', style='italic', zorder=4)
         elif label_pos == 'right':
             ax.text(ax_x + 0.45, ax_y, attacker_label, ha='left', va='center',
-                    fontsize=10, color='#a00', style='italic', zorder=4)
+                    fontsize=11.5, color='#a00', style='italic', zorder=4)
 
     ax.set_xlim(-0.9, 5.7)
     ax.set_ylim(-1.1, 4.2)
@@ -113,7 +113,7 @@ def panel_blackhole(ax):
     mid_y = (REF_POS['A'][1] + REF_POS['S'][1]) / 2 + 0.10
     add_cross(ax, mid_x, mid_y, size=0.22)
     ax.text(mid_x - 0.05, mid_y - 0.45, 'DROP',
-            color='#d62728', fontsize=11, fontweight='bold')
+            color='#d62728', fontsize=12.5, fontweight='bold')
 
 
 def panel_decrease_rank(ax):
@@ -122,7 +122,7 @@ def panel_decrease_rank(ax):
     add_arrow(ax, 'D', 'F', color='#ff7f0e', linewidth=2.0, linestyle='--')
     add_arrow(ax, 'G', 'F', color='#ff7f0e', linewidth=2.0, linestyle='--')
     ax.text(2.25, 3.85, 'F advertises low rank',
-            fontsize=10, color='#a00', fontweight='bold', ha='center')
+            fontsize=11.5, color='#a00', fontweight='bold', ha='center')
 
 
 def panel_dis_flooding(ax):
@@ -131,11 +131,11 @@ def panel_dis_flooding(ax):
     for tgt in ['S', 'E', 'D']:
         add_arrow(ax, 'B', tgt, color='#9467bd', linewidth=1.6)
     ax.text(2.6, -0.75, 'DIS flood',
-            fontsize=10, color='#7030a0', fontweight='bold', ha='center')
+            fontsize=11.5, color='#7030a0', fontweight='bold', ha='center')
     add_arrow(ax, 'S', 'A', color='#888', linewidth=1.0, linestyle=':')
     add_arrow(ax, 'A', 'C', color='#888', linewidth=1.0, linestyle=':')
     ax.text(2.6, 3.85, 'DIO cascade',
-            fontsize=9, color='#555', ha='center', style='italic')
+            fontsize=11, color='#555', ha='center', style='italic')
 
 
 def panel_app_flooding(ax):
@@ -150,7 +150,7 @@ def panel_app_flooding(ax):
                               color='#e377c2', linewidth=1.5)
         ax.add_patch(arr)
     ax.text(1.5, 3.6, '15x app rate (D → SINK)',
-            fontsize=11, color='#a0006e', fontweight='bold', ha='center')
+            fontsize=12.5, color='#a0006e', fontweight='bold', ha='center')
 
 
 def panel_shared_slot(ax):
@@ -168,7 +168,7 @@ def panel_shared_slot(ax):
         ax.add_patch(arr)
     # Place Attacker E label well clear of the radial arrows.
     ax.text(4.7, -0.8, 'Attacker E:\nmonopolises shared slot',
-            fontsize=10, color='#7a7a00', fontweight='bold',
+            fontsize=11.5, color='#7a7a00', fontweight='bold',
             ha='center', va='top')
 
 
@@ -184,7 +184,7 @@ def panel_slot_exhaustion(ax):
                               color='#17becf', linewidth=1.5)
         ax.add_patch(arr)
     ax.text(2.25, 3.85, '6P ADD x N',
-            fontsize=10, color='#006e6e', fontweight='bold', ha='center')
+            fontsize=11.5, color='#006e6e', fontweight='bold', ha='center')
 
 
 def panel_timekeep(ax):
@@ -192,7 +192,7 @@ def panel_timekeep(ax):
               label_pos='right')
     add_arrow(ax, 'G', 'E', color='#8c564b', linewidth=2.0)
     ax.text(3.75, -0.85, 'corrupted EB -> E loses sync',
-            fontsize=10, color='#6b3a2c', fontweight='bold', ha='center')
+            fontsize=11.5, color='#6b3a2c', fontweight='bold', ha='center')
 
 
 PANELS = [
@@ -210,23 +210,23 @@ def main():
     out = Path('paper/figures')
     out.mkdir(parents=True, exist_ok=True)
 
-    # Stand-alone .pdf (vector, IEEE paper) + .png (raster, Word report).
+    # Stand-alone .pdf (vector, IEEE paper) (raster, Word report).
     for title, fname, panel_fn in PANELS:
         fig, ax = plt.subplots(figsize=(8, 5))
         panel_fn(ax)
-        ax.set_title(title, fontsize=13, fontweight='bold')
+        ax.set_title(title, fontsize=14, fontweight='bold')
         png_path = out / fname
         pdf_path = png_path.with_suffix('.pdf')
         fig.savefig(png_path, dpi=140, bbox_inches='tight')
         fig.savefig(pdf_path, bbox_inches='tight')
         plt.close(fig)
-        print(f'Wrote {pdf_path} + .png')
+        print(f'Wrote {pdf_path}')
 
     # 2 x 4 composite for the IEEE paper.  Larger panels, larger fonts.
     fig, axes = plt.subplots(2, 4, figsize=(16, 8))
     for ax, (title, _, panel_fn) in zip(axes.flat[:7], PANELS):
         panel_fn(ax)
-        ax.set_title(title, fontsize=14, fontweight='bold')
+        ax.set_title(title, fontsize=15, fontweight='bold')
 
     # 8th cell: legend explaining symbols
     leg_ax = axes.flat[7]
@@ -235,22 +235,23 @@ def main():
     leg_ax.set_ylim(0, 1)
     leg_ax.scatter(0.18, 0.78, c='#1f77b4', marker='s', s=520,
                    edgecolors='black', linewidths=1.4)
-    leg_ax.text(0.34, 0.78, 'Sink (border router)', va='center', fontsize=12)
+    leg_ax.text(0.34, 0.78, 'Sink (border router)', va='center', fontsize=13)
     leg_ax.scatter(0.18, 0.58, c='#999', marker='o', s=320,
                    edgecolors='black', linewidths=0.8)
-    leg_ax.text(0.34, 0.58, 'Normal mote', va='center', fontsize=12)
+    leg_ax.text(0.34, 0.58, 'Normal mote', va='center', fontsize=13)
     leg_ax.scatter(0.18, 0.38, c='#d62728', marker='X', s=460,
                    edgecolors='black', linewidths=2.0)
-    leg_ax.text(0.34, 0.38, 'Attacker', va='center', fontsize=12)
+    leg_ax.text(0.34, 0.38, 'Attacker', va='center', fontsize=13)
     leg_ax.plot([0.10, 0.26], [0.20, 0.20], color='#bbb', linewidth=1.5)
-    leg_ax.text(0.34, 0.20, 'RPL parent link', va='center', fontsize=12)
-    leg_ax.set_title('Legend', fontsize=14, fontweight='bold')
+    leg_ax.text(0.34, 0.20, 'RPL parent link', va='center', fontsize=13)
+    leg_ax.set_title('Legend', fontsize=15, fontweight='bold')
 
     plt.tight_layout()
-    fig.savefig(out / 'attack_grid.png', dpi=150, bbox_inches='tight')
+    # PNG output disabled (paper uses PDF only)
+    # fig.savefig(out / 'attack_grid.png', dpi=150, bbox_inches='tight')
     fig.savefig(out / 'attack_grid.pdf', bbox_inches='tight')
     plt.close(fig)
-    print(f"Wrote {out / 'attack_grid.pdf'} + .png")
+    print(f"Wrote {out / 'attack_grid.pdf'}")
 
 
 if __name__ == '__main__':

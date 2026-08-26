@@ -1,0 +1,8 @@
+attack,base_group,base_naive,id_group,id_naive
+Blackhole,0.39,0.95,0.39,0.97
+Decrease,0.93,1.0,0.93,1.0
+DIS,0.99,0.99,0.91,0.99
+AppFlood,1.0,1.0,1.0,1.0
+Shared,0.28,0.8,0.12,0.91
+6P,1.0,1.0,1.0,1.0
+Desync,0.28,0.93,0.24,0.96

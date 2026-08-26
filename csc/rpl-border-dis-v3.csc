@@ -61,9 +61,9 @@
       org.contikios.cooja.mspmote.Exp5438MoteType
       <identifier>exp5438#3</identifier>
       <description>Exp5438 Mote Type exp5438#3</description>
-      <source EXPORT="discard">[CONTIKI_DIR]/examples/tsch/rpl-udp/decrease-rank-attack-client/decrease-rank-attack-client.c</source>
-      <commands EXPORT="discard">make decrease-rank-attack-client.exp5438 TARGET=exp5438</commands>
-      <firmware EXPORT="copy">[CONTIKI_DIR]/examples/tsch/rpl-udp/decrease-rank-attack-client/decrease-rank-attack-client.exp5438</firmware>
+      <source EXPORT="discard">[CONTIKI_DIR]/examples/tsch/rpl-udp/dis-attack-client/dis-attack-client.c</source>
+      <commands EXPORT="discard">make dis-attack-client.exp5438 TARGET=exp5438</commands>
+      <firmware EXPORT="copy">[CONTIKI_DIR]/examples/tsch/rpl-udp/dis-attack-client/dis-attack-client.exp5438</firmware>
       <moteinterface>org.contikios.cooja.interfaces.Position</moteinterface>
       <moteinterface>org.contikios.cooja.interfaces.RimeAddress</moteinterface>
       <moteinterface>org.contikios.cooja.interfaces.IPAddress</moteinterface>
@@ -440,8 +440,8 @@
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>40.160910985834605</x>
-        <y>39.848396627835726</y>
+        <x>100.0</x>
+        <y>75.0</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -556,8 +556,8 @@
   <plugin>
     org.contikios.cooja.plugins.ScriptRunner
     <plugin_config>
-      <script>TIMEOUT(1800000); /* 30 minutes — 1 hour = 3600000 ms */
-log.log("Headless run start (decrease-rank-v2)\n");
+      <script>TIMEOUT(3600000); /* 60 min run; attack starts random in [20,25] min */
+log.log("Headless run start (dis-v2)\n");
 while(true) { YIELD(); }</script>
       <active>true</active>
     </plugin_config>

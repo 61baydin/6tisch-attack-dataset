@@ -5,7 +5,7 @@ Leakage-Aware Intrusion-Detection Benchmark for IETF 6TiSCH Networks"** (Burak A
 
 This repository is **self-contained**: it carries the **code** (capture/generation
 harness, ML and figure pipeline), the **firmware sources and Cooja scenarios**, the
-**documentation** (schema, run manifest), and the **full dataset for all 122 runs**:
+**documentation** (schema, run manifest), and the **full dataset for all 206 runs**:
 labelled telemetry (`.log`), per-run radio captures (`.pcap`), and clean `.csv`
 (~2.3 GB total).
 
@@ -37,7 +37,7 @@ emulated `exp5438` motes):
 | `multiseed/` | 84 | ~854 k | the 42 five-attacker placement cells repeated under two further Cooja radio seeds (7331, 9173); with the published seed 123456 this gives 3 replicas per cell |
 
 The `single/` and `multiattack/` chains are the benchmark corpus reported in the
-paper (122 runs, ~1.21 M records). The `multiseed/` chain is the replication
+paper (122 runs, ~1.23 M records, of which ~1.21 M come from the attacked runs). The `multiseed/` chain is the replication
 corpus behind the confidence intervals and the seed-variability analysis: it
 shares the firmware, topology, attacker-selection rule and analysis protocol with
 `single/`, so the only source of variation is the radio realisation. The
@@ -76,7 +76,7 @@ the ML pipeline adds two derived features. Full definitions in
 │   │                     the seventh is flooding-client/
 │   ├── client/           regular node firmware; server/  sink/border-router
 │   └── attacker-analyzer/ telemetry module that emits the labelled records
-├── csc/                 Cooja scenario files (rpl-border-<attack>-v2.csc)
+├── csc/                 Cooja scenario files (rpl-border-<attack>-v3.csc, -v3-30.csc)
 ├── code/
 │   ├── capture/         Cooja-headless run generation harness
 │   ├── analysis/        group-aware ML / detection benchmark
@@ -115,7 +115,7 @@ for regenerating the dataset from firmware with the capture harness.
 
 ## 6. Data availability
 
-The complete dataset for all 122 runs, labelled telemetry (`.log`), radio captures
+The complete dataset for all 206 runs, labelled telemetry (`.log`), radio captures
 (`.pcap`), and clean `.csv` (~2.3 GB total), is in this repository under `data/`. No
 external download is required: clone the repository and the full pipeline runs.
 

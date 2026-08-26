@@ -7,6 +7,7 @@
   <project EXPORT="discard">[APPS_DIR]/powertracker</project>
   <simulation>
     <title>My simulation</title>
+    <speedlimit>2.0</speedlimit>
     <randomseed>123456</randomseed>
     <motedelay_us>1000000</motedelay_us>
     <radiomedium>
@@ -14,7 +15,7 @@
       <transmitting_range>50.0</transmitting_range>
       <interference_range>100.0</interference_range>
       <success_ratio_tx>1.0</success_ratio_tx>
-      <success_ratio_rx>1.0</success_ratio_rx>
+      <success_ratio_rx>0.7</success_ratio_rx>
     </radiomedium>
     <events>
       <logoutput>1000000</logoutput>
@@ -61,9 +62,9 @@
       org.contikios.cooja.mspmote.Exp5438MoteType
       <identifier>exp5438#3</identifier>
       <description>Exp5438 Mote Type exp5438#3</description>
-      <source EXPORT="discard">[CONTIKI_DIR]/examples/tsch/rpl-udp/dis-attack-client/dis-attack-client.c</source>
-      <commands EXPORT="discard">make dis-attack-client.exp5438 TARGET=exp5438</commands>
-      <firmware EXPORT="copy">[CONTIKI_DIR]/examples/tsch/rpl-udp/dis-attack-client/dis-attack-client.exp5438</firmware>
+      <source EXPORT="discard">[CONTIKI_DIR]/examples/tsch/rpl-udp/blackhole-attack-client/blackhole-attack-client.c</source>
+      <commands EXPORT="discard">make blackhole-attack-client.exp5438 TARGET=exp5438</commands>
+      <firmware EXPORT="copy">[CONTIKI_DIR]/examples/tsch/rpl-udp/blackhole-attack-client/blackhole-attack-client.exp5438</firmware>
       <moteinterface>org.contikios.cooja.interfaces.Position</moteinterface>
       <moteinterface>org.contikios.cooja.interfaces.RimeAddress</moteinterface>
       <moteinterface>org.contikios.cooja.interfaces.IPAddress</moteinterface>
@@ -440,8 +441,8 @@
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>40.160910985834605</x>
-        <y>39.848396627835726</y>
+        <x>100.0</x>
+        <y>75.0</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -458,7 +459,7 @@
   <plugin>
     org.contikios.cooja.plugins.SimControl
     <width>280</width>
-    <z>0</z>
+    <z>2</z>
     <height>160</height>
     <location_x>400</location_x>
     <location_y>0</location_y>
@@ -471,10 +472,10 @@
       <skin>org.contikios.cooja.plugins.skins.GridVisualizerSkin</skin>
       <skin>org.contikios.cooja.plugins.skins.UDGMVisualizerSkin</skin>
       <skin>org.contikios.cooja.plugins.skins.MoteTypeVisualizerSkin</skin>
-      <viewport>1.884041554759894 0.0 0.0 1.884041554759894 127.62953473725689 121.29369793364395</viewport>
+      <viewport>2.260849865711873 0.0 0.0 2.260849865711873 112.45968551186881 103.71864122407635</viewport>
     </plugin_config>
     <width>400</width>
-    <z>1</z>
+    <z>3</z>
     <height>400</height>
     <location_x>1</location_x>
     <location_y>1</location_y>
@@ -521,12 +522,11 @@
       <showRadioChannels />
       <zoomfactor>500.0</zoomfactor>
     </plugin_config>
-    <width>894</width>
-    <z>-1</z>
-    <height>505</height>
+    <width>1813</width>
+    <z>4</z>
+    <height>433</height>
     <location_x>28</location_x>
     <location_y>417</location_y>
-    <minimized>true</minimized>
   </plugin>
   <plugin>
     org.contikios.cooja.plugins.Notes
@@ -535,7 +535,7 @@
       <decorations>true</decorations>
     </plugin_config>
     <width>1240</width>
-    <z>3</z>
+    <z>6</z>
     <height>160</height>
     <location_x>680</location_x>
     <location_y>0</location_y>
@@ -548,7 +548,7 @@
       <bound>true</bound>
     </plugin_config>
     <width>362</width>
-    <z>2</z>
+    <z>5</z>
     <height>126</height>
     <location_x>413</location_x>
     <location_y>172</location_y>
@@ -556,8 +556,8 @@
   <plugin>
     org.contikios.cooja.plugins.ScriptRunner
     <plugin_config>
-      <script>TIMEOUT(1800000); /* 30 minutes — 1 hour = 3600000 ms */
-log.log("Headless run start (dis-v2)\n");
+      <script>TIMEOUT(3600000); /* 60 min run; attack starts random in [20,25] min */
+log.log("Headless run start (blackhole-v2)\n");
 while(true) { YIELD(); }</script>
       <active>true</active>
     </plugin_config>
