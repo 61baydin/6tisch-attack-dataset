@@ -123,6 +123,10 @@ external download is required: clone the repository and the full pipeline runs.
 
 ## 7. Citation
 
+If you use this dataset, the evaluation protocol or the analysis code, please cite
+the companion paper. If you use the dataset itself, please also cite the archived
+deposit, so that the exact snapshot you worked with is identifiable.
+
 ```bibtex
 @article{aydin2026sixtischset,
   title   = {{6TiSCHSet-2026}: A Multi-Layer Attack Dataset and Leakage-Aware
@@ -132,8 +136,6 @@ external download is required: clone the repository and the full pipeline runs.
   year    = {2026}
 }
 ```
-
-If you use the dataset itself, please also cite the archived deposit:
 
 ```bibtex
 @misc{sixtischset2026dataset,
@@ -146,6 +148,10 @@ If you use the dataset itself, please also cite the archived deposit:
   note         = {[Online]. Available: \url{https://doi.org/10.5281/zenodo.22113021}}
 }
 ```
+
+The DOI above is the *concept* DOI and always resolves to the latest version. Use the
+version DOI of a specific release if you need to pin the exact snapshot. This README
+will be updated with the article DOI once the paper is published.
 
 ## 8. License
 
