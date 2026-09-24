@@ -129,11 +129,15 @@ deposit, so that the exact snapshot you worked with is identifiable.
 
 ```bibtex
 @article{aydin2026sixtischset,
-  title   = {{6TiSCHSet-2026}: A Multi-Layer Attack Dataset and Leakage-Aware
-             Intrusion-Detection Benchmark for IETF 6TiSCH Networks},
-  author  = {Aydin, Burak and Aydin, Hakan and Jin, Yichao and Gormus, Sedat},
-  journal = {IEEE Access (submitted)},
-  year    = {2026}
+  author={Aydin, Burak and Aydin, Hakan and Jin, Yichao and Gormus, Sedat},
+  journal={IEEE Access}, 
+  title={6TiSCHSet-2026: A Multi-Layer Attack Dataset and Leakage-Aware Intrusion-Detection Benchmark for IETF 6TiSCH Networks}, 
+  year={2026},
+  volume={},
+  number={},
+  pages={1-1},
+  keywords={Modeling;Radio access networks;Regional area networks;Cells (biology);Recording;Ranking (statistics);Labeling;Internet of Things;Windows;Protocols;6TiSCH;IIoT;intrusion detection;attack dataset;machine learning},
+  doi={10.1109/ACCESS.2026.3736663}}
 }
 ```
 
