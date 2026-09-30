@@ -2,8 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22113021.svg)](https://doi.org/10.5281/zenodo.22113021)
 
-Companion artefact for the paper **"6TiSCHSet-2026: A Multi-Layer Attack Dataset and
-Leakage-Aware Intrusion-Detection Benchmark for IETF 6TiSCH Networks"** (Burak Aydin, Hakan Aydin, Yichao Jin, Sedat Gormus, 2026).
+Companion artefact for the paper B. Aydin, H. Aydin, Y. Jin and S. Gormus, "6TiSCHSet-2026: A Multi-Layer Attack Dataset and Leakage-Aware Intrusion-Detection Benchmark for IETF 6TiSCH Networks," in IEEE Access, vol. 14, pp. 147867-147900, 2026, doi: 10.1109/ACCESS.2026.3736663.
 
 This repository is **self-contained**: it carries the **code** (capture/generation
 harness, ML and figure pipeline), the **firmware sources and Cooja scenarios**, the
