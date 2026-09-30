@@ -146,8 +146,8 @@ deposit, so that the exact snapshot you worked with is identifiable.
                   Leakage-Aware {IDS} Benchmark},
   year         = {2026},
   publisher    = {Zenodo},
-  doi          = {10.5281/zenodo.22113021},
-  note         = {[Online]. Available: \url{https://doi.org/10.5281/zenodo.22113021}}
+  doi          = {10.5281/zenodo.22113022},
+  note         = {[Online]. Available: \url{https://doi.org/10.5281/zenodo.22113022}}
 }
 ```
 
