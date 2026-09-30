@@ -128,17 +128,15 @@ the companion paper. If you use the dataset itself, please also cite the archive
 deposit, so that the exact snapshot you worked with is identifiable.
 
 ```bibtex
-@article{aydin2026sixtischset,
+@ARTICLE{11703443,
   author={Aydin, Burak and Aydin, Hakan and Jin, Yichao and Gormus, Sedat},
   journal={IEEE Access}, 
   title={6TiSCHSet-2026: A Multi-Layer Attack Dataset and Leakage-Aware Intrusion-Detection Benchmark for IETF 6TiSCH Networks}, 
   year={2026},
-  volume={},
+  volume={14},
   number={},
-  pages={1-1},
-  keywords={Modeling;Radio access networks;Regional area networks;Cells (biology);Recording;Ranking (statistics);Labeling;Internet of Things;Windows;Protocols;6TiSCH;IIoT;intrusion detection;attack dataset;machine learning},
+  pages={147867-147900},
   doi={10.1109/ACCESS.2026.3736663}}
-}
 ```
 
 ```bibtex
